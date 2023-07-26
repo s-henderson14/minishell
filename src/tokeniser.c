@@ -66,12 +66,20 @@ t_token **tokeniser(char *input)
 
 	start = 0;
 	tkn_list = ft_calloc(1, sizeof(t_token *));
-	split_input = ft_split(input, ' ');
-	if (split_input[start] == NULL)
+	if (!tkn_list)
 		return (NULL);
+	split_input = ft_split(input, ' ');
+	if(!split_input)
+		return (free(tkn_list), NULL);
 	while (split_input[start])
 	{	
 		tkn = ft_calloc(1, sizeof(t_token));
+		if (!tkn)
+		{
+			//clean split()
+			//free list()
+			//return(NULL);
+		}
 		if(ft_isalpha(split_input[start][0]) || split_input[start][0] == 45)
 		{	
 			tkn->type = LITERAL;	
