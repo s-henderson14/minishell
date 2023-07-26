@@ -37,6 +37,20 @@ void	add_token_back(t_token **tkn_lst, t_token *new_tkn)
 	tmp->next = new_tkn;
 }
 
+void	assign_token_type(t_token *tkn, char *str)
+{
+	if (str == GREAT_GREAT)
+		tkn->type =  GREAT_GREAT;
+	else if (str == LESS_LESS)
+		tkn->type = LESS_LESS;
+	else if (str == GREAT)
+		tkn->type = GREAT;
+	else if (str == LESS)
+		tkn->type = LESS;
+	else if (str == PIPE)
+		tkn->type = PIPE;
+}
+
 t_token **tokeniser(char *input)
 {
 	t_token	**tkn_list;
@@ -52,21 +66,18 @@ t_token **tokeniser(char *input)
 	while (split_input[start])
 	{	
 		tkn = ft_calloc(1, sizeof(t_token));
-		if(split_input[start][0] > 97 && split_input[start][0] < 122)
+		if(ft_isprint(split_input[start][0]))
 		{	
 			tkn->type = LITERAL;	
 			tkn->content = get_literal_token(split_input[start]);
 			add_token_back(tkn_list, tkn);
 			start++;
 		}
-		else if (split_input[start] == GREAT_GREAT || GREAT || LESS || LESS_LESS || PIPE)
-		{	
-			tkn->type =  
-			add_token_back(tkn_list, tkn);
-			start++;
-		} 
-	
-	}
+		else
+			assign_token_type(tkn, split_input[start]);
+		add_token_back(tkn_list, tkn);
+		start++;
+	} 
 	return (tkn_list);
 }
 
