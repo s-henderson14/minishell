@@ -1,8 +1,14 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
-#endif
 
 # include "../libft/libft.h"
+
+# include <stdlib.h>
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <unistd.h>
+# include <limits.h>
 
 extern int glob_exit_status; //with extern, we declare glob_exit_status without defining
 //we ll define it later in the program
@@ -59,3 +65,21 @@ typedef struct s_env_node
     char            *value;
 }   t_env_node;
 
+
+//env.c
+t_env_node *init_env_linked_list(char **env);
+t_env_node *env_node_create(char *key, char *value);
+char *get_key_from_env_arr(char *env_str);
+char *get_value_from_env_arr(char *env_str);
+void change_value_of_env_key(char *new_value, t_env_node *env_list);
+
+
+//env_utils.c
+void env_list_print(t_env_node *env_list);
+int env_list_size(t_env_node *env_list);
+void env_node_add_back(t_env_node *new_node, t_env_node *env_list);
+void env_node_free(t_env_node *node);
+void env_list_free(t_env_node *env_list);
+
+
+#endif

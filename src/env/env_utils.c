@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 /*
 	It will used to debug environment list

@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../include/minishell.h"
 
 // typedef struct s_tools
 // {
@@ -11,7 +11,9 @@
 
 // }t_tool;
 
-static t_tools *init_tools(char **env);
+int glob_exit_status = 0;
+
+static t_tools *init_tools(char **env)
 {
 	t_tools *tools;
 
@@ -26,7 +28,7 @@ static t_tools *init_tools(char **env);
 	tools->number_of_pipes = 0;
 	return (tools);
 }
-
+/*
 static void shell_loop(t_tools *tools)
 {
 	char *line;
@@ -42,16 +44,17 @@ static void shell_loop(t_tools *tools)
 		//check if input full with " ">> goes to history (PARSING PART??)
 		//if parsing == succes
 		//		execute
-		add_history(input);
+		add_history(tools->input);
 		free(tools->input);
 		tools->input = NULL;
 		//free things.
 	}
 	exit(glob_exit_status);
 }
-
+*/
 int main(int argc, char **argv, char **env)
 {
+	(void)argv;
 	t_tools *tools;
 	if (argc != 1)
 	{
@@ -60,6 +63,7 @@ int main(int argc, char **argv, char **env)
 	}	
 	tools = init_tools(env);
 	//handle signals();
-	init_env_linked_list();
-	shell_loop(tools);
+	tools->env_list = init_env_linked_list(env);
+	env_list_print(tools->env_list);
+	//shell_loop(tools);
 }
