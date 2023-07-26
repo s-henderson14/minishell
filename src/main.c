@@ -21,8 +21,8 @@ static t_tools *init_tools(char **env);
 		return (NULL);
 	tools->input = NULL;
 	tools->env = env;
-	tools->env_linked_list = NULL;
-	tools->command = NULL;
+	tools->env_list = NULL;
+	tools->command_list= NULL;
 	tools->number_of_pipes = 0;
 	return (tools);
 }
