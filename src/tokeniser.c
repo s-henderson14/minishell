@@ -39,16 +39,22 @@ void	add_token_back(t_token **tkn_lst, t_token *new_tkn)
 
 void	assign_token_type(t_token *tkn, char *str)
 {
-	if (str == GREAT_GREAT)
-		tkn->type =  GREAT_GREAT;
-	else if (str == LESS_LESS)
-		tkn->type = LESS_LESS;
-	else if (str == GREAT)
-		tkn->type = GREAT;
-	else if (str == LESS)
-		tkn->type = LESS;
-	else if (str == PIPE)
-		tkn->type = PIPE;
+	if (ft_strlen(str) == 2)
+	{	
+		if (str[0] == '>')
+			tkn->type =  GREAT_GREAT;
+		else if (str[0] == '<')
+			tkn->type = LESS_LESS;
+	}
+	if (ft_strlen(str) == 1)
+	{	
+		if (str[0] == '>')
+			tkn->type = GREAT;
+		if (str[0] == '<')
+			tkn->type = LESS;
+		if (str[0] == '|')
+			tkn->type = PIPE;
+	}
 }
 
 t_token **tokeniser(char *input)
@@ -66,7 +72,7 @@ t_token **tokeniser(char *input)
 	while (split_input[start])
 	{	
 		tkn = ft_calloc(1, sizeof(t_token));
-		if(ft_isprint(split_input[start][0]))
+		if(ft_isalpha(split_input[start][0]) || split_input[start][0] == 45)
 		{	
 			tkn->type = LITERAL;	
 			tkn->content = get_literal_token(split_input[start]);
@@ -74,16 +80,27 @@ t_token **tokeniser(char *input)
 			start++;
 		}
 		else
+		{	
 			assign_token_type(tkn, split_input[start]);
-		add_token_back(tkn_list, tkn);
-		start++;
-	} 
+			add_token_back(tkn_list, tkn);
+			start++;
+		}
+	}
 	return (tkn_list);
 }
 
 int	main(int argc, char **argv)
 {
+	t_token	**token_list;
+	t_token	*tmp;
+
 	(void)argc;
-	tokeniser(argv[1]);
+	token_list = tokeniser(argv[1]);
+	tmp = *token_list;
+	while (tmp != NULL)
+	{
+		printf("Token ID: %d\n", tmp->type);
+		tmp = tmp->next;
+	}
 	return (0);
 }
