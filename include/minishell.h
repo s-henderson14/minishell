@@ -67,6 +67,13 @@ typedef struct s_env_node
     char            *value;
 }   t_env_node;
 
+t_token **tokeniser(char *input);
+
+int count_tokens(t_token **tkn_list);
+
+char	*convert_tkn_id(int tkn_id);
+
+t_command   *create_cmds(t_token **tkn_list);
 /*
 ALSO WE ARE ALLOWED TO USE ONE SINGLE GLOBAL VARIABLE
 Maybe we could use a int glob_exit_status
