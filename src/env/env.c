@@ -1,9 +1,18 @@
 #include "../../include/minishell.h"
 
+/*
+**	Creates a linked list from environment variables array (char **env)
+**	An example node of env_linked_list is: 
+**	typedef struct s_env_node
+**	{
+**	    struct s_env_node    *next;
+**	    char            *key;
+**	    char            *value;
+**	}   t_env_node;
+*/
 t_env_node *init_env_linked_list(char **env)
 {
 	t_env_node	*env_list;
-	//t_env_node	*new_node;
 	char	*key;
 	char	*value;
 	int		i;
@@ -30,8 +39,8 @@ t_env_node *init_env_linked_list(char **env)
 }
 
 /*
-	Creates a new node for env list,
-	Memory for key is already ALLOCATED in get_key_from_env_arr()
+**	Creates a new node for env list,
+**	Memory for key is already ALLOCATED in get_key_from_env_arr()
 */
 t_env_node *env_node_create(char *key, char *value)
 {
@@ -53,8 +62,8 @@ t_env_node *env_node_create(char *key, char *value)
 
 //check create_node() AGAIN!!!
 /*
-	param 'char *env_str' --> "KEY=VALUE" single string in env array
-	This funtion extracts key from "KEY=VALUE" single string in env array
+**	param 'char *env_str' --> "KEY=VALUE" single string in env array
+**	This funtion extracts key from "KEY=VALUE" single string in env array
 */
 char *get_key_from_env_arr(char *env_str)
 {
@@ -70,7 +79,7 @@ char *get_key_from_env_arr(char *env_str)
 		if (env_str[i] == '=')
 		{
 			len_key = i;
-			key = ft_substr(env_str, start, len_key); //MALLOC
+			key = ft_substr(env_str, start, len_key); //MALLOCcc
 			return (key);
 		}
 		i++;
@@ -96,20 +105,27 @@ char *get_value_from_env_arr(char *env_str)
 	}
 	start = i + 1;
 	len_value = len_env_str - i - 1;
-	value = ft_substr(env_str, start, len_value);
+	value = ft_substr(env_str, start, len_value); //MALLOCCC
 	return value;
 	/*value = ft_strchr(env_str, '=') + 1;
 	if (value == NULL)
 		return NULL;
 	return (value);*/
 }
-/*
-void change_value_of_env_key(char *new_value, t_env_node *env_list)
-{
 
+/*
+**	Replaces the old_value of a key with the new_value in env_node.
+*/
+void change_value_of_env_key(char *new_value, char *key, t_env_node *env_list)
+{
+	while (env_list != NULL && ft_strsame(env_list->key, key) == 0)
+	{
+		env_list = env_list->next;
+	}
+	free(env_list->value);
+	env_list->value = ft_strdup(new_value); //MALLOC!!!!!
 }
 
-*/
 
 
 

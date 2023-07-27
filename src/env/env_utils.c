@@ -1,7 +1,7 @@
 #include "../../include/minishell.h"
 
 /*
-	It will used to debug environment list
+**	It will used to debug environment list
 */
 void env_list_print(t_env_node *env_list)
 {
@@ -13,7 +13,7 @@ void env_list_print(t_env_node *env_list)
 }
 
 /*
-	It gives size of environment list
+**	It gives size of environment list
 */
 int env_list_size(t_env_node *env_list)
 {
@@ -29,7 +29,7 @@ int env_list_size(t_env_node *env_list)
 }
 
 /*
-	Adds given new node to the end of the env list
+**	Adds given new node to the end of the env list
 */
 void env_node_add_back(t_env_node *new_node, t_env_node *env_list)
 {
@@ -54,7 +54,7 @@ void env_node_add_back(t_env_node *new_node, t_env_node *env_list)
 }
 
 /*
-	Frees the single node, by using if statement it protects the node from double free
+**	Frees the single node, by using if statement it protects the node from double free
 */
 void env_node_free(t_env_node *node)
 {
@@ -73,7 +73,7 @@ void env_node_free(t_env_node *node)
 }
 
 /*
-	Frees entire list of env
+**	Frees entire list of env
 */
 void env_list_free(t_env_node *env_list)
 {
