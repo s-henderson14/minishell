@@ -53,9 +53,11 @@ t_env_node *env_node_create(char *key, char *value)
 	new_node = (t_env_node *)malloc(sizeof(t_env_node));
 	if (new_node == NULL)
 		return (NULL);
-
 	new_node->key = ft_strdup(key);
-	new_node->value = ft_strdup(value);
+	if (value != NULL)
+		new_node->value = ft_strdup(value);
+	else
+		new_node->value = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -106,6 +108,8 @@ char *get_value_from_env_arr(char *env_str)
 	start = i + 1;
 	len_value = len_env_str - i - 1;
 	value = ft_substr(env_str, start, len_value); //MALLOCCC
+	if (value == NULL)
+		return NULL;
 	return value;
 	/*value = ft_strchr(env_str, '=') + 1;
 	if (value == NULL)

@@ -1,13 +1,14 @@
 #include "../../include/minishell.h"
 
 /*
-**	It will used to debug environment list
+**	It will used in builtin funtions and to debug environment list
 */
 void env_list_print(t_env_node *env_list)
 {
 	while (env_list != NULL)
 	{
-		printf("%s ## %s\n", env_list->key, env_list->value);
+		if (env_list->value != NULL)
+			printf("%s ## %s\n", env_list->key, env_list->value);
 		env_list = env_list->next;
 	}
 }
