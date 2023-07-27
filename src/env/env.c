@@ -3,50 +3,50 @@
 t_env_node *init_env_linked_list(char **env)
 {
 	t_env_node	*env_list;
-	t_env_node	*new_node;
+	//t_env_node	*new_node;
 	char	*key;
 	char	*value;
 	int		i;
-	
+
 	env_list = NULL;
 	i = 0;
 	while (env[i] != NULL)
 	{
 		key = get_key_from_env_arr(env[i]); //MALLOC
-		value = get_value_from_env_arr(env[i]); //----
-		new_node = env_node_create(key, value);
-		if (new_node == NULL)
+		value = get_value_from_env_arr(env[i]); //MALLOC
+		if (env_list == NULL)
 		{
-			return NULL;
+			env_list = env_node_create(key, value);
+			if (env_list == NULL)
+				return NULL;
 		}
-		if (env_list != NULL)	
-			env_node_add_back(new_node, env_list);
+		if (env_list != NULL)
+			env_node_add_back(env_node_create(key, value), env_list);
 		free(key);
-		//free(value);
-		free(new_node);
+		free(value);
 		i++;
 	}
 	return env_list;
 }
 
 /*
-	Creates a new node for env list, 
+	Creates a new node for env list,
 	Memory for key is already ALLOCATED in get_key_from_env_arr()
 */
 t_env_node *env_node_create(char *key, char *value)
 {
 	t_env_node *new_node;
-
 	if (key == NULL)
 	{
-		//free(value);
+		free(value);
 		return (NULL);
 	}
 	new_node = (t_env_node *)malloc(sizeof(t_env_node));
 	if (new_node == NULL)
 		return (NULL);
-	new_node->key = key;
-	new_node->value = value;
+
+	new_node->key = ft_strdup(key);
+	new_node->value = ft_strdup(value);
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -60,12 +60,10 @@ char *get_key_from_env_arr(char *env_str)
 {
 	char *key;
 	int i;
-	int len_env_str;
 	int start;
 	int len_key;
 
 	start = 0;
-	len_env_str = ft_strlen(env_str);
 	i = 0;
 	while (env_str[i] != '\0')
 	{

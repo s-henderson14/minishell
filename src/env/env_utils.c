@@ -7,7 +7,7 @@ void env_list_print(t_env_node *env_list)
 {
 	while (env_list != NULL)
 	{
-		printf("%s = %s\n", env_list->key, env_list->value);
+		printf("%s ## %s\n", env_list->key, env_list->value);
 		env_list = env_list->next;
 	}
 }

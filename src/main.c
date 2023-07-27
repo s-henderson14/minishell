@@ -60,10 +60,11 @@ int main(int argc, char **argv, char **env)
 	{
 		printf("ERROR");
 		exit(1);
-	}	
+	}
 	tools = init_tools(env);
 	//handle signals();
 	tools->env_list = init_env_linked_list(env);
 	env_list_print(tools->env_list);
+
 	//shell_loop(tools);
 }
