@@ -97,18 +97,18 @@ t_token **tokeniser(char *input)
 	return (tkn_list);
 }
 
-int	main(int argc, char **argv)
-{
-	t_token	**token_list;
-	t_token	*tmp;
+// int	main(int argc, char **argv)
+// {
+// 	t_token	**tkn_list;
+// 	t_token	*tmp;
 
-	(void)argc;
-	token_list = tokeniser(argv[1]);
-	tmp = *token_list;
-	while (tmp != NULL)
-	{
-		printf("Token ID: %d\n", tmp->type);
-		tmp = tmp->next;
-	}
-	return (0);
-}
+// 	(void)argc;
+// 	tkn_list = tokeniser(argv[1]);
+// 	tmp = *tkn_list;
+// 	while (tmp != NULL)
+// 	{
+// 		printf("Token Content: %s Token ID: %d\n",tmp->content, tmp->type);
+// 		tmp = tmp->next;
+// 	}
+// 	return (0);
+// }
