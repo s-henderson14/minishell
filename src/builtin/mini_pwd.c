@@ -9,7 +9,7 @@ int mini_pwd(t_tools *tools)
 {
 	char	*cwd;
 
-	cwd = getcwd(NULL, 0);
+	cwd = getcwd(NULL, 0); //if this one fails, do i have to check value of PWDin env_list?
 	if (cwd == NULL)
 	{
 		ft_putendl_fd("pwd: command fails\n", STDOUT_ERROR);
