@@ -2,7 +2,7 @@
 
 /*
 **	Creates a linked list from environment variables array (char **env)
-**	An example node of env_linked_list is: 
+**	An example node of env_linked_list is:
 **	typedef struct s_env_node
 **	{
 **	    struct s_env_node    *next;

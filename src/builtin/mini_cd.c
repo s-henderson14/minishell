@@ -4,7 +4,7 @@
 
 void	store_oldpwd(t_tools *tools)
 {
-	char	
+	char
 	t_env_node	*env_list;
 
 	env_list = tools->env_list;
@@ -18,6 +18,10 @@ int mini_cd(t_tools *tools, t_command *command)
 	t_env_node	*env_list;
 
 	env_list = tools->env_list;
+	if (command->args[2] != NULL) //normally, if second arg is valid, then it ignores 3rd
+	{
+		error_exit("cd: too many arguments\n");
+	}
 	if (command->args[1] == NULL)
 	{
 		target = get_value_from_env_arr(env_list); //MALLOC

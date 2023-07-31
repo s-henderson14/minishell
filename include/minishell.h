@@ -81,5 +81,8 @@ void env_node_add_back(t_env_node *new_node, t_env_node *env_list);
 void env_node_free(t_env_node *node);
 void env_list_free(t_env_node *env_list);
 
+//utils.c
+void error_exit(char *s);
+
 
 #endif
