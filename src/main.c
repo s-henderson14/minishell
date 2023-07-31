@@ -66,5 +66,7 @@ int main(int argc, char **argv, char **env)
 	tools->env_list = init_env_linked_list(env);
 	env_list_print(tools->env_list);
 
+	//define a command here to test built-ins.
+
 	//shell_loop(tools);
 }
