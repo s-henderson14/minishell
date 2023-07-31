@@ -83,6 +83,8 @@ void env_list_free(t_env_node *env_list);
 
 //utils.c
 void error_exit(char *s);
+void protect(void *arg);
+
 
 
 #endif

@@ -9,3 +9,13 @@ int error_exit(char *s)
 	write(fd, "\n", 1);
 	return (glob_exit_status);
 }
+
+void protect(void *arg)
+{
+	if (arg == NULL)
+	{
+		perror("Error"); // so that the error message based on errno will be printed
+		glob_exit_status = 1;
+		exit(1);
+	}
+}

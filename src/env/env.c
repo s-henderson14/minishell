@@ -57,7 +57,7 @@ t_env_node *env_node_create(char *key, char *value)
 	if (value != NULL)
 		new_node->value = ft_strdup(value);
 	else
-		new_node->value = NULL;
+		new_node->value = NULL; // not sure
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -122,12 +122,16 @@ char *get_value_from_env_arr(char *env_str)
 */
 void change_value_of_env_key(char *new_value, char *key, t_env_node *env_list)
 {
-	while (env_list != NULL && ft_strsame(env_list->key, key) == 0)
+	while (env_list != NULL)
 	{
+		if (ft_strsame(env_list->key, key) == 1)
+		{
+			free(env_list->value);
+			env_list->value = ft_strdup(new_value); //MALLOC!!!!!
+			return ;
+		}
 		env_list = env_list->next;
 	}
-	free(env_list->value);
-	env_list->value = ft_strdup(new_value); //MALLOC!!!!!
 }
 
 
