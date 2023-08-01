@@ -26,8 +26,15 @@ LIBS	:= -lreadline
 LIBFT	:= libft/libft.a
 HEADERS := -I libft -I include 
 SRCS 	:=	src/main.c \
+			src/test.c \
 			src/env/env.c \
 			src/env/env_utils.c \
+			src/env/env_utils_2.c \
+			src/builtin/mini_cd.c \
+			src/builtin/mini_echo.c \
+			src/builtin/mini_pwd.c \
+			src/builtin/mini_env.c \
+			src/utils/utils.c
 
 #SRCS	:= ${SRCS:%=./src/%}
 OBJS	:= ${SRCS:.c=.o}

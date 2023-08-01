@@ -52,8 +52,7 @@ typedef struct s_tools
     char **env;
     struct s_env_node *env_list;
     t_command *command_list;
-   // t_token *history;
-    int number_of_pipes;
+    int number_of_pipes; //this +1 will give us number of command we have in command_list
 
 }t_tools;
 
@@ -65,13 +64,17 @@ typedef struct s_env_node
     char            *value;
 }   t_env_node;
 
+//test.c
+void    init_command_structure(char **argv, t_tools *tools);
+void    malloc_command_list_structure(t_tools *tools);
+void choose_builtin(char **argv, t_tools *tools);
 
 //env.c
 t_env_node *init_env_linked_list(char **env);
 t_env_node *env_node_create(char *key, char *value);
 char *get_key_from_env_arr(char *env_str);
 char *get_value_from_env_arr(char *env_str);
-void change_value_of_env_key(char *new_value, t_env_node *env_list);
+void change_value_of_env_key(char *new_value, char *key, t_env_node *env_list);
 
 
 //env_utils.c
@@ -81,10 +84,35 @@ void env_node_add_back(t_env_node *new_node, t_env_node *env_list);
 void env_node_free(t_env_node *node);
 void env_list_free(t_env_node *env_list);
 
-//utils.c
-void error_exit(char *s);
-void protect(void *arg);
+//env_utils_2.c
+void print_value(char *key, t_tools *tools);
+int check_key_exist(char *key, t_env_node *env_list);
 
+
+//utils.c
+int error_exit(char *s);
+char *protect(char *arg);
+void    ft_lstadd_back_command(t_command *command_list, t_command *command);
+t_command   *ft_lstnew_command(void *content);
+
+
+
+//BUILTINS
+//mini_cd.c
+void    initiate_oldpwd(char *value_to_oldpwd, t_env_node *env_list);
+void set_pwd_update_oldpwd(char *new_path, t_env_node *env_list);
+char  *get_value_from_env_node(char *key, t_env_node *env_list);
+int mini_cd(t_tools *tools, t_command *command);
+
+//mini_echo.c
+void print_arguments(int i, t_tools *tools, t_command *command);
+int mini_echo(t_tools *tools, t_command *command);
+
+//mini_pwd.c
+int mini_pwd(t_tools *tools);
+
+//mini_env.c
+int mini_env(t_tools *tools, t_command *command);
 
 
 #endif

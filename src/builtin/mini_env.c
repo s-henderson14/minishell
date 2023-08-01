@@ -14,10 +14,10 @@ int mini_env(t_tools *tools, t_command *command)
 		return glob_exit_status;
 	if (command->args[0] != NULL && command->args[1] != NULL)
 	{
-		ft_putendl_fd("env:  too many arguments\n", STDOUT_ERROR);
-		glob_exit_status = 1;
-		return glob_exit_status;
+		ft_putendl_fd("env:  too many arguments\n", STDERR_FILENO);
+		glob_exit_status = 127;
+		return (glob_exit_status);
 	}
 	env_list_print(env_list);
-	return glob_exit_status;
+	return (glob_exit_status);
 }

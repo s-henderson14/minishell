@@ -1,28 +1,19 @@
 #include "../../include/minishell.h"
 
-void print_home(char *home, t_tools *tools)
-{
-	t_env_node *env_list;
-	char *home_value;
-
-	env_list = tools->env_list;
-	home_value = get_value_from_env_node(home, env_list); //NOT NECESSARY AT ALL!!!
-	printf("%s");
-}
-
 /*
 **	Prints strings of char **args array
 **	param i : starting index of the strings array for printing
 */
-void print_arguments(int i, t_command *command)
+void print_arguments(int i, t_tools *tools, t_command *command)
 {
+
 	char **args;
 
 	args = command->args;
 	while (args[i] != NULL)
 	{
 		if (ft_strsame(args[i], "~") == 1)
-			print_home("HOME", tools);
+			print_value("HOME", tools);
 		else
 			printf("%s", args[i]);
 		if (args[i + 1] != NULL)
@@ -35,10 +26,12 @@ int mini_echo(t_tools *tools, t_command *command)
 {
 	char **args;
 	int i;
+	int j;
 	int print_newline;
 
+	(void)tools;
 	args = command->args;
-	i = 1
+	i = 1;
 	print_newline = 1;
 	while (args[i] != NULL && args[i][0] == '-' && args[i][1] == 'n')
 	{
@@ -54,7 +47,8 @@ int mini_echo(t_tools *tools, t_command *command)
 		}
 		i++;
 	}
-	print_arguments(i, command);
+	print_arguments(i, tools, command);
 	if (print_newline == 1)
 		printf("\n");
+	return (glob_exit_status);
 }

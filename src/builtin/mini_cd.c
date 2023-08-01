@@ -1,18 +1,5 @@
 #include "../../include/minishell.h"
 
-//void change_value_of_env_key(char *new_value, char *key, t_env_node *env_list)
-
-int check_key_exist(char *key, t_env_node *env_list)
-{
-	while (env_list != NULL)
-	{
-		if (ft_strsame(key, env_list->key) == 1)
-			return (1);
-		env_list = env_list->next;
-	}
-	return (0);
-}
-
 void	initiate_oldpwd(char *value_to_oldpwd, t_env_node *env_list)
 {
 	t_env_node *oldpwd;
@@ -31,7 +18,7 @@ void set_pwd_update_oldpwd(char *new_path, t_env_node *env_list)
 
 	if (check_key_exist("OLDPWD", env_list) == 0)
 		initiate_oldpwd("", env_list);
-	current_pwd = protect(getpwd(NULL, 0));						//get current_pwd
+	current_pwd = protect(getcwd(NULL, 0));				//get current_pwd
 	if (chdir(new_path) == -1)
 	{
 		free(current_pwd); // i ll call exit anyways
@@ -46,11 +33,11 @@ void set_pwd_update_oldpwd(char *new_path, t_env_node *env_list)
 **	tries to find the key element equal to char *key,
 **	if finds, return its value
 */
-t_env_node	*get_value_from_env_node(char *key, t_env_node *env_list)
+char	*get_value_from_env_node(char *key, t_env_node *env_list)
 {
 	char *value;
 
-	if (check_key_exist(key) == 0)
+	if (check_key_exist(key, env_list) == 0)
 		return (NULL);
 	while (env_list != NULL)
 	{
@@ -67,7 +54,6 @@ t_env_node	*get_value_from_env_node(char *key, t_env_node *env_list)
 int mini_cd(t_tools *tools, t_command *command)
 {
 	char	*target;
-	char	*current_pwd;
 	t_env_node	*env_list;
 
 	env_list = tools->env_list;
