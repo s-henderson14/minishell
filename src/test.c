@@ -31,35 +31,17 @@
 // 	temp = NULL;
 // }
 
-void	init_command_structure(char **argv, t_tools *tools)
-{
-	t_command *command;
-	char *content;
-	int i;
-	int j;
+void	init_command_structure(char **argv, int argc, t_tools *tools)
+{	
+	char **args;
 
-	i = 1;
-	command = tools->command_list;
-	while (command != NULL)
-	{
-		j = 0;
-		while (argv[i] != NULL)
-		{
-			if (ft_strsame(argv[i], "|") == 1)
-			{
-				i++;
-				break ;
-			}
-			content = ft_strdup(argv[i]);
-			command = ft_lstnew_command(content);
-			ft_lstadd_back_command(tools->command_list, command); //MALLOCC
-			i++;
-			j++;
-		}
-		command = command->next;
-	}
+	args = argv_duplicate_without_program_name(argv, argc); //MALLOCss!
+	printf("%s %s\n", args[0], args[1]);
+	tools->command_list = ft_lstnew_command(args);
+	//ft_lstadd_back_command(tools->command_list, command); //MALLOCC
 }
 
+//TEST 
 void choose_builtin(char **argv, t_tools *tools)
 {
 	t_command *command;

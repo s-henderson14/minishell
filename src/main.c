@@ -55,17 +55,19 @@ static void shell_loop(t_tools *tools)
 int main(int argc, char **argv, char **env)
 {
 	t_tools *tools;
-	if (argc == 1)
-	{
-		printf("ERROR, argc = 1");
-	}
+	// (void)argv;
+	// (void)argc;
+		// if (argc == 1)
+	// {
+	// 	printf("ERROR, argc = 1");
+	// }
 	tools = init_tools(env);
 	//handle signals();
 	tools->env_list = init_env_linked_list(env);
-	//env_list_print(tools->env_list);
+	//env_list_print(tools->env_list); //works until here
 	//malloc_command_list_structure(tools);
-	init_command_structure(argv, tools);
-	printf("%s\n", tools->command_list->args[0]);
+	init_command_structure(argv, argc, tools); ---segggy here
+	//printf("%s\n", tools->command_list->args[0]);
 	//choose_builtin(argv, tools);
 	//define a command here to test built-ins.
 

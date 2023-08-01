@@ -28,7 +28,7 @@ t_command	*ft_lstnew_command(void *content)
 	command = (t_command *)malloc(sizeof(t_command));
 	if (command == NULL)
 		return (NULL);
-	command -> content = content;
+	command -> args = content;
 	command->redirection = NULL;
 	command -> next = NULL;
 	return (command);
@@ -53,3 +53,29 @@ void	ft_lstadd_back_command(t_command *command_list, t_command *command)
 	}
 	temp->next = command;
 }
+
+char **argv_duplicate_without_program_name(char **argv, int argc)
+{
+	char **dup;
+	int i;
+
+	i = 0;
+	dup = (char **)malloc(sizeof(char *) * argc);
+	if (dup == NULL)
+		error_exit("Malloc failed\n");
+	while (i < argc - 1)
+	{
+		dup[i] = ft_strdup(argv[i + 1]);
+		if (dup[i] == NULL)
+			error_exit("Malloc failed\n");
+		i++;
+	}
+	dup[i] = NULL;
+	return (dup);
+}
+
+
+
+
+
+

@@ -65,7 +65,7 @@ typedef struct s_env_node
 }   t_env_node;
 
 //test.c
-void    init_command_structure(char **argv, t_tools *tools);
+void    init_command_structure(char **argv, int argc, t_tools *tools);
 void    malloc_command_list_structure(t_tools *tools);
 void choose_builtin(char **argv, t_tools *tools);
 
@@ -94,6 +94,8 @@ int error_exit(char *s);
 char *protect(char *arg);
 void    ft_lstadd_back_command(t_command *command_list, t_command *command);
 t_command   *ft_lstnew_command(void *content);
+char **argv_duplicate_without_program_name(char **argv, int argc);
+
 
 
 
