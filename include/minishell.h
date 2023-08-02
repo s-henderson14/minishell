@@ -92,8 +92,6 @@ int check_key_exist(char *key, t_env_node *env_list);
 //utils.c
 int error_exit(char *s);
 char *protect(char *arg);
-void    ft_lstadd_back_command(t_command *command_list, t_command *command);
-t_command   *ft_lstnew_command(char **dup);
 char **argv_duplicate_without_program_name(char **argv, int argc);
 
 
@@ -119,6 +117,13 @@ int mini_env(t_tools *tools, t_command *command);
 int check_arg_digit(char *arg);
 int mini_exit(t_tools *tools, t_command *command);
 
+//mini_unset.c
+void find_node_in_list_remove(char *key, t_env_node *env_list);
+int mini_unset(t_tools *tools, t_command *command);
+
+//builtin_utils.c
+void    ft_lstadd_back_command(t_command *command_list, t_command *command);
+t_command   *ft_lstnew_command(char **dup);
 
 
 #endif

@@ -62,6 +62,8 @@ void choose_builtin(char **argv, t_tools *tools)
 		mini_env(tools, command);
 	if (ft_strsame(command->args[0], "exit") == 1)
 		mini_exit(tools, command);
+	if (ft_strsame(command->args[0], "unset") == 1)
+		mini_unset(tools, command);
 	else
 		return ;
 }
