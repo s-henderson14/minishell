@@ -66,9 +66,9 @@ int main(int argc, char **argv, char **env)
 	tools->env_list = init_env_linked_list(env);
 	//env_list_print(tools->env_list); //works until here
 	//malloc_command_list_structure(tools);
-	init_command_structure(argv, argc, tools); ---segggy here
+	init_command_structure(argv, argc, tools);
 	//printf("%s\n", tools->command_list->args[0]);
-	//choose_builtin(argv, tools);
+	choose_builtin(argv, tools);
 	//define a command here to test built-ins.
 
 	//shell_loop(tools);

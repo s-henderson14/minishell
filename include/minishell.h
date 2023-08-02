@@ -93,9 +93,8 @@ int check_key_exist(char *key, t_env_node *env_list);
 int error_exit(char *s);
 char *protect(char *arg);
 void    ft_lstadd_back_command(t_command *command_list, t_command *command);
-t_command   *ft_lstnew_command(void *content);
+t_command   *ft_lstnew_command(char **dup);
 char **argv_duplicate_without_program_name(char **argv, int argc);
-
 
 
 

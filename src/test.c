@@ -36,7 +36,7 @@ void	init_command_structure(char **argv, int argc, t_tools *tools)
 	char **args;
 
 	args = argv_duplicate_without_program_name(argv, argc); //MALLOCss!
-	printf("%s %s\n", args[0], args[1]);
+	//printf("%s %s\n", args[0], args[1]);
 	tools->command_list = ft_lstnew_command(args);
 	//ft_lstadd_back_command(tools->command_list, command); //MALLOCC
 }

@@ -19,12 +19,17 @@ void set_pwd_update_oldpwd(char *new_path, t_env_node *env_list)
 	if (check_key_exist("OLDPWD", env_list) == 0)
 		initiate_oldpwd("", env_list);
 	current_pwd = protect(getcwd(NULL, 0));				//get current_pwd
+	printf("new_path = %s\n", new_path);
 	if (chdir(new_path) == -1)
 	{
-		free(current_pwd); // i ll call exit anyways
+		free(new_path); // i ll call exit anyways
 		error_exit("cd: No such a file or directory\n");
 	}									//pwd SET
 	change_value_of_env_key(current_pwd, "OLDPWD", env_list);	//oldpwd SET
+	//change_value_of_env_key(new_path, "PWD", env_list);	//if i set this line, PWD changes
+	//printf("oldpwd = %s\n", current_pwd);
+	//printf("pwd = %s\n", new_path);
+	//env_list_print(env_list);
 	free(current_pwd);
 }
 
@@ -43,7 +48,7 @@ char	*get_value_from_env_node(char *key, t_env_node *env_list)
 	{
 		if (ft_strsame(key, env_list->key) == 1)
 		{
-			value = env_list->value;
+			value = ft_strdup(env_list->value);
 			return (value);
 		}
 		env_list = env_list->next;
@@ -57,12 +62,13 @@ int mini_cd(t_tools *tools, t_command *command)
 	t_env_node	*env_list;
 
 	env_list = tools->env_list;
-	if (command->args[2] != NULL) //normally, if second arg is valid, then it ignores 3rd
-		error_exit("cd: too many arguments\n");
+	//if (command->args[2] != NULL) //normally, if second arg is valid, then it ignores 3rd
+	//	error_exit("cd: too many arguments\n");
 	if (command->args[1] == NULL
 		|| ft_strsame(command->args[1], "~") == 1)
 	{
 		target = get_value_from_env_node("HOME", env_list); //PROTECT
+		//printf("target = %s\n", target);
 	}
 	else if (ft_strsame(command->args[1], "-") == 1) // ----OLDPWD
 	{

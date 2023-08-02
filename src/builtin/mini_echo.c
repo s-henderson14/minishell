@@ -35,7 +35,7 @@ int mini_echo(t_tools *tools, t_command *command)
 	print_newline = 1;
 	while (args[i] != NULL && args[i][0] == '-' && args[i][1] == 'n')
 	{
-		j = 1;
+		j = 2;
 		if (args[i][j] != '\0' && args[i][j] != 'n')
 			break ;
 		while (args[i][j] != '\0' && args[i][j] == 'n') // -nnnnnn
@@ -43,6 +43,7 @@ int mini_echo(t_tools *tools, t_command *command)
 		if (args[i][j] == '\0')
 		{
 			print_newline = 0;
+			i++;
 			break ;
 		}
 		i++;

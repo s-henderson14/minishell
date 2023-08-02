@@ -21,14 +21,14 @@ char *protect(char *arg)
 	return (arg);
 }
 
-t_command	*ft_lstnew_command(void *content)
+t_command	*ft_lstnew_command(char **dup)
 {
 	t_command	*command;
 
 	command = (t_command *)malloc(sizeof(t_command));
 	if (command == NULL)
 		return (NULL);
-	command -> args = content;
+	command -> args = dup;
 	command->redirection = NULL;
 	command -> next = NULL;
 	return (command);
