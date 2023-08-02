@@ -115,5 +115,10 @@ int mini_pwd(t_tools *tools);
 //mini_env.c
 int mini_env(t_tools *tools, t_command *command);
 
+//mini_exit.c
+int check_arg_digit(char *arg);
+int mini_exit(t_tools *tools, t_command *command);
+
+
 
 #endif

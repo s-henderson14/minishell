@@ -34,6 +34,7 @@ SRCS 	:=	src/main.c \
 			src/builtin/mini_echo.c \
 			src/builtin/mini_pwd.c \
 			src/builtin/mini_env.c \
+			src/builtin/mini_exit.c \
 			src/utils/utils.c
 
 #SRCS	:= ${SRCS:%=./src/%}
