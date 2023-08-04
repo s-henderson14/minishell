@@ -1,8 +1,8 @@
 #include "../../include/minishell.h"
 
-int error_exit(char *s)
+int error_exit(char *s, int exit_status)
 {
-	glob_exit_status = 1;
+	glob_exit_status = exit_status;
 	if (s == NULL)
 		return (glob_exit_status);
 	ft_putstr_fd(s, STDERR_FILENO);
@@ -29,12 +29,12 @@ char **argv_duplicate_without_program_name(char **argv, int argc)
 	i = 0;
 	dup = (char **)malloc(sizeof(char *) * argc);
 	if (dup == NULL)
-		error_exit("Malloc failed\n");
+		error_exit("Malloc failed\n", 1);
 	while (i < argc - 1)
 	{
 		dup[i] = ft_strdup(argv[i + 1]);
 		if (dup[i] == NULL)
-			error_exit("Malloc failed\n");
+			error_exit("Malloc failed\n", 1);
 		i++;
 	}
 	dup[i] = NULL;

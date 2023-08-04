@@ -35,7 +35,7 @@ t_env_node *init_env_linked_list(char **env)
 		free(value);
 		i++;
 	}
-	return env_list;
+	return (env_list);
 }
 
 /*

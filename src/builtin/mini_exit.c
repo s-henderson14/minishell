@@ -1,18 +1,5 @@
 #include "../../include/minishell.h"
 
-int check_arg_digit(char *arg)
-{
-	if (arg == NULL)
-		return (0);
-	while (*arg != '\0')
-	{
-		if (ft_isdigit(*arg) != 1)
-			return (0);
-		arg++;
-	}
-	return (1);
-}
-
 int mini_exit(t_tools *tools, t_command *command)
 {
 	int exit_code;

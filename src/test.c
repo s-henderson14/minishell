@@ -64,6 +64,8 @@ void choose_builtin(char **argv, t_tools *tools)
 		mini_exit(tools, command);
 	if (ft_strsame(command->args[0], "unset") == 1)
 		mini_unset(tools, command);
+	if (ft_strsame(command->args[0], "export") == 1)
+		mini_export(tools, command);
 	else
 		return ;
 }

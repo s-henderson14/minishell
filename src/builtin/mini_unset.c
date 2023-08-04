@@ -13,6 +13,7 @@ void find_node_in_list_remove(char *key, t_env_node *env_list)
 			target = temp->next;
 			temp->next = temp->next->next;
 			env_node_free(target);
+			return ;
 		}
 		temp = temp->next;
 	}
@@ -23,6 +24,7 @@ int mini_unset(t_tools *tools, t_command *command)
 	t_env_node *env_list;
 
 	env_list = tools->env_list;
+	// env_list_print(env_list);
 	if (command->args[1] == NULL || check_key_exist(command->args[1], env_list) == 0) //if it doesnt take any argument, "unset"
 	{
 		return (0);
@@ -30,7 +32,7 @@ int mini_unset(t_tools *tools, t_command *command)
 	if (check_key_exist(command->args[1], env_list) == 1)
 	{
 		find_node_in_list_remove(command->args[1], env_list);
-		return (0);
 	}
+	//env_list_print(env_list);
 	return (0);
 }

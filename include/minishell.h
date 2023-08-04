@@ -90,7 +90,7 @@ int check_key_exist(char *key, t_env_node *env_list);
 
 
 //utils.c
-int error_exit(char *s);
+int error_exit(char *s, int exit_status);
 char *protect(char *arg);
 char **argv_duplicate_without_program_name(char **argv, int argc);
 
@@ -114,16 +114,23 @@ int mini_pwd(t_tools *tools);
 int mini_env(t_tools *tools, t_command *command);
 
 //mini_exit.c
-int check_arg_digit(char *arg);
 int mini_exit(t_tools *tools, t_command *command);
 
 //mini_unset.c
 void find_node_in_list_remove(char *key, t_env_node *env_list);
 int mini_unset(t_tools *tools, t_command *command);
 
+//mini_export.c
+t_env_node *split_arg_and_create_node(char *arg);
+int mini_export(t_tools *tools, t_command *command);
+void    print_env_for_export(t_env_node *env_list);
+
 //builtin_utils.c
 void    ft_lstadd_back_command(t_command *command_list, t_command *command);
 t_command   *ft_lstnew_command(char **dup);
+int find_equal_sign(char *arg);
+int check_arg_digit(char *arg);
+
 
 
 #endif

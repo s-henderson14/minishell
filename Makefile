@@ -36,6 +36,7 @@ SRCS 	:=	src/main.c \
 			src/builtin/mini_env.c \
 			src/builtin/mini_exit.c \
 			src/builtin/mini_unset.c \
+			src/builtin/mini_export.c \
 			src/builtin/builtin_utils.c \
 			src/utils/utils.c
 
