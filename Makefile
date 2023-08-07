@@ -38,6 +38,8 @@ SRCS 	:=	src/main.c \
 			src/builtin/mini_unset.c \
 			src/builtin/mini_export.c \
 			src/builtin/builtin_utils.c \
+			src/execution/redirections.c \
+			src/execution/heredoc.c \
 			src/utils/utils.c
 
 #SRCS	:= ${SRCS:%=./src/%}

@@ -33,15 +33,17 @@ typedef struct s_token
 
 typedef struct s_redirection
 {
-    char            *file_name; //if it s <<, heredoc, call heredoc f()
-    t_token_type    type;
-    struct s_redirection *next;
+    char            *file_name; 
+    t_token_type    type; //if it s <<, heredoc, call heredoc f()
+    struct s_redirection *next; //ls > output.txt < input.txt
+                                //just like above, we might have multiple redir. in a command,
+                                //thats why we have a pointer to redirection.
 }t_redirection;
 
 typedef struct s_command
 {
     char **args;
-    t_redirection *redirection;
+    t_redirection *redirection;   
     struct s_command *next;
 }t_command;
 
