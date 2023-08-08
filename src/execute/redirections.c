@@ -51,12 +51,12 @@ int redirection(t_command *command)
 		}
 		else if (redirection->type == LESS)
 		{
-			if (input_redirection(redirection->file_name) == 1)
+			if (input_redirection(redirection) == 1)
 				return (EXIT_FAILURE);
 		}
 		else if (redirection->type == LESS_LESS)
 		{
-			if (input_redirection(heredoc_file) == 1)
+			if (here_document(redirection) == 1)
 				return (EXIT_FAILURE);
 		}
 		redirection = redirection->next;

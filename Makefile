@@ -24,7 +24,7 @@ NAME	:= minishell
 CFLAGS	:= -g -Wall -Wextra -Werror
 LIBS	:= -lreadline
 LIBFT	:= libft/libft.a
-HEADERS := -I libft -I include 
+HEADERS := -I libft -I include
 SRCS 	:=	src/main.c \
 			src/test.c \
 			src/env/env.c \

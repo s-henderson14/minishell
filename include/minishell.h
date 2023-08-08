@@ -33,7 +33,7 @@ typedef struct s_token
 
 typedef struct s_redirection
 {
-    char            *file_name; 
+    char            *file_name;
     t_token_type    type; //if it s <<, heredoc, call heredoc f()
     struct s_redirection *next; //ls > output.txt < input.txt
                                 //just like above, we might have multiple redir. in a command,
@@ -43,7 +43,7 @@ typedef struct s_redirection
 typedef struct s_command
 {
     char **args;
-    t_redirection *redirection;   
+    t_redirection *redirection;
     struct s_command *next;
 }t_command;
 
@@ -133,6 +133,14 @@ t_command   *ft_lstnew_command(char **dup);
 int find_equal_sign(char *arg);
 int check_arg_digit(char *arg);
 
+//redirections.c
+void protected_dup2(int old_fd, int new_fd);
+int input_redirection(t_redirection *redirection);
+int output_redirection(t_redirection *redirection);
+int redirection(t_command *command);
+
+//heredoc.c
+int here_document(t_redirection *redirection);
 
 
 #endif
