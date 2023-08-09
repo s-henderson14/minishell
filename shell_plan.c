@@ -74,20 +74,60 @@
 		+ >>  -----------> A GREAT_GREAT token with a token_id for an output redirection.
 		+ output.txt ----> A LITERAL token which be used to name a new file or identify an exisitng file to be overwritten.
 	
-	
-	
-	tkn_list = tokeniser(shell->input)
+	We need to store all of these tokens with their own space in a data structure. We will choose to store them in a linked list. A
+	linked list(simply put) is a series of nodes which in this implmentation will each hold:
 		
-		+ tokeniser() creates a linked list of tokens from the char* input and stores it in the variable tkn_list.
+		+ The content of the node as a string or null
+		+ The token_id as an int
+		+ A t_token pointer to the next node of the token_list
 	
-	This list of t_token struct nodes have:
-	 
-		+ Each node has content either a string or null
-		+ All nodes have a token_id
-		+ All nodes have a pointer to the next or last node of the list.	
+	---------------------------------------------------------TOKENISER------------------------------------------------------------------
 	
-	Now we would like to pass each of those tokens to a t_command struct and store each of the tokens in our array of arguments.	
+	t_token **tokeniser(char *input, t_tool *shell)
 	
+	eg. "ls -la | cat >> output.txt"
+	
+	We will pass to the tokeniser our user's input as a string and a pointer to our shell structure
+	
+	Firstly we will divide our string of arguments using ft_split with " " as the delimiter producing an array of strings:
+	
+			|1|	   |2| |3|  |4|  |5|     |6| 
+			 |      |   |    |    |       |
+			"ls" "-la" "|" "cat" ">>" "output.txt"
+			
+	If we initialise a linked list of tokens we can begin adding nodes from the back of the list.
+	Adding nodes, involves allocating memory for each node which is a t_token struct.
+	
+	We then can begin to check what sort of information we have in the node. If we have alphabetical characters or a "-" then we 
+	can say that we are dealing with a LITERAL token. LITERAL tokens can be commands, flags, arguments and file/or directory names.
+	They also have a token_id of 2.
+	
+	Now to add the first token:
+	
+		+ Intialise our t_token	**tkn_list
+		+ Intialise a t_token *tkn
+		+ Initialise a char **array_of_strings
+		+ Initialise an int i for indexing
+	
+	We can allocate memory for our tkn_list and for our tkn. ft_split will allocate memory for our array_of_strings.
+	Iterating through our array_of_strings using i we can say:
+	
+		+ If (ft_isalpha(array_of_strings[i][0]) || array_of_strings[i][0] == '-' )
+			
+			tkn->content = function_to_copy(array_of_strings[i] into content member of struct)
+			tkn->type = 2 
+		  
+		  Else
+		  	
+		  	We have a non literal token which is | or > or >> or < or << 
+		  	We have a function to assign the function type by reading the symbols.
+		  	If the symbol is a PIPE then we should add 1 to the shell->number_of_pipes
+	
+	Now that we have all of these tokens stored in a list, we have all of the information needed to build our t_command struct(s).
+	
+------------------------------------------------------------CREATE_COMMANDS-------------------------------------------------------------
+	
+	  t
 	  
 	* Create a pointer to a t_token node and call it tmp;
 		
@@ -159,7 +199,9 @@
 		
 		
 		
+		QUESTIONS
 		
+		+	Why do we create a command_list? Is this only for when we have a PIPE?
 		
 		
 		
