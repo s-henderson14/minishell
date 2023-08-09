@@ -1,5 +1,5 @@
-	
-	typedef enum s_token_type
+
+typedef enum s_token_type
 	{
     	PIPE = 1,
     	LITERAL,
@@ -45,10 +45,10 @@
 	We begin with our t_tool struct, this can be considered the main struct representing our shell program. It will be responsible for
 	storing the following information:
 		
-		+ The user's input which will direct our programs behaviour.
-		+ An array of strings which imports environment variables from the current user's system.
+		+ The users input which will direct our programs behaviour.
+		+ An array of strings which imports environment variables from the current users system.
 		+ A data structure for the type t_command which stores command information needed by the executor to run commands.
-		+ The number of pipes found in the user's input to inform the executor how the command should be run. 
+		+ The number of pipes found in the users input to inform the executor how the command should be run. 
 		
 	Initialising space for the t_tool struct will involve memory allocation for:
 	
@@ -77,7 +77,7 @@
 	We need to store all of these tokens with their own space in a data structure. We will choose to store them in a linked list. A
 	linked list(simply put) is a series of nodes which in this implmentation will each hold:
 		
-		+ The content of the node as a string or null
+		+ The content of the node as a string or NULL
 		+ The token_id as an int
 		+ A t_token pointer to the next node of the token_list
 	
@@ -87,7 +87,7 @@
 	
 	eg. "ls -la | cat >> output.txt"
 	
-	We will pass to the tokeniser our user's input as a string and a pointer to our shell structure
+	We will pass to the tokeniser our users input as a string and a pointer to our shell structure
 	
 	Firstly we will divide our string of arguments using ft_split with " " as the delimiter producing an array of strings:
 	
@@ -98,9 +98,9 @@
 	If we initialise a linked list of tokens we can begin adding nodes from the back of the list.
 	Adding nodes, involves allocating memory for each node which is a t_token struct.
 	
-	We then can begin to check what sort of information we have in the node. If we have alphabetical characters or a "-" then we 
-	can say that we are dealing with a LITERAL token. LITERAL tokens can be commands, flags, arguments and file/or directory names.
-	They also have a token_id of 2.
+	We then can begin to check what sort of information we have in the node. If we have alphabetical characters or a "-" 
+	(the beginning of a flag) then we can say that we are dealing with a LITERAL token. LITERAL tokens can be commands,
+	flags, arguments and file/or directory names.They also have a token_id of 2.
 	
 	Now to add the first token:
 	
@@ -112,22 +112,50 @@
 	We can allocate memory for our tkn_list and for our tkn. ft_split will allocate memory for our array_of_strings.
 	Iterating through our array_of_strings using i we can say:
 	
-		+ If (ft_isalpha(array_of_strings[i][0]) || array_of_strings[i][0] == '-' )
+		+ if (ft_isalpha(array_of_strings[i][0]) || array_of_strings[i][0] == '-' )
 			
-			tkn->content = function_to_copy(array_of_strings[i] into content member of struct)
-			tkn->type = 2 
+			tkn->content = use a function which will allocate space for a char * and then copy it from array_of_string[i][0];
+			tkn->type = 2; 
 		  
-		  Else
-		  	
-		  	We have a non literal token which is | or > or >> or < or << 
-		  	We have a function to assign the function type by reading the symbols.
-		  	If the symbol is a PIPE then we should add 1 to the shell->number_of_pipes
+		  else if (array_of_strings[i][0] == '|' || '>' || '>>' || '<' || '<<')
+		  {	 
+		  	Use assign_token_type(t_token tkn, char * array_of_strings[i]) which takes users input and assigns the corresponding
+		  	ENUM value as the token_id 
+
+		  	if (the symbol is a PIPE)
+
+		  		shell->number_of_pipes += 1;
+		  }
+
 	
-	Now that we have all of these tokens stored in a list, we have all of the information needed to build our t_command struct(s).
+	Now that all tokens stored in a list, we have the means necessary to build our t_command struct(s).
 	
 ------------------------------------------------------------CREATE_COMMANDS-------------------------------------------------------------
 	
-	  t
+	typedef struct	s_command
+	{
+		char				**args;
+		t_redirection		*redirection;
+		struct s_command	*next;
+	}	t_command;
+	
+	typedef struct s_redirection
+	{
+    	char					*file_name;
+    	t_token_type			type;
+    	struct s_redirection	*next;
+	}	t_redirection;
+
+
+	t_command nodes will consist of an array of strings (**args) which contains its arguments. 
+
+	RULES ABOUT **args
+
+		+ args[0] will always be our command name 
+		+ any argument which follows a PIPE will be a command name
+		+ any argument after ">" must alphanumeric, i.e to assign or relate a file name
+		+ any argument after ">>" must be alphanumeric, i.e to assign or relate a file name
+		+ any argument after "<" must alphanumeric && an existing file in the current directory. 
 	  
 	* Create a pointer to a t_token node and call it tmp;
 		
@@ -163,7 +191,7 @@
 				
 				+ Next argument is expected to be a string. New or existing filename.
 				+ If file exists, input is appended to file.
-				+ If file doesn't exist, new file is created.
+				+ If file doesnt exist, new file is created.
 				
 		* If token_id == 5
 		
@@ -178,7 +206,7 @@
 						-	X_OK: Check for execute permission.
 					+ returns 0 if the requested access is allowed, and -1 otherwise.
 						
-				+ If the filename doesn't exist. Error
+				+ If the filename doesnt exist. Error
 		
 		* If token_id == 6
 		
