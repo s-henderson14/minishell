@@ -57,21 +57,21 @@ void	assign_token_type(t_token *tkn, char *str)
 	}
 }
 
-t_token **tokeniser(char *input)
+t_token **tokeniser(char *input, t_tool *shell)
 {
 	t_token	**tkn_list;
 	t_token	*tkn;
 	char	**split_input;
-	int		start;
+	int		i;
 
-	start = 0;
-	tkn_list = ft_calloc(1, sizeof(t_token *));
+	i = 0;
+	tkn_list = ft_calloc(1, sizeof(t_token *)); 
 	if (!tkn_list)
 		return (NULL);
 	split_input = ft_split(input, ' ');
 	if(!split_input)
 		return (free(tkn_list), NULL);
-	while (split_input[start])
+	while (split_input[i])
 	{	
 		tkn = ft_calloc(1, sizeof(t_token));
 		if (!tkn)
@@ -80,18 +80,20 @@ t_token **tokeniser(char *input)
 			//free list()
 			//return(NULL);
 		}
-		if(ft_isalpha(split_input[start][0]) || split_input[start][0] == 45)
+		if(ft_isalpha(split_input[i][0]) || split_input[i][0] == 45)
 		{	
 			tkn->type = LITERAL;	
-			tkn->content = get_literal_token(split_input[start]);
+			tkn->content = get_literal_token(split_input[i]);
 			add_token_back(tkn_list, tkn);
-			start++;
+			i++;
 		}
 		else
 		{	
-			assign_token_type(tkn, split_input[start]);
+			assign_token_type(tkn, split_input[i]);
+			if (tkn->type == PIPE)
+				shell->number_of_pipes += 1;
 			add_token_back(tkn_list, tkn);
-			start++;
+			i++;
 		}
 	}
 	return (tkn_list);
@@ -104,6 +106,7 @@ t_token **tokeniser(char *input)
 
 // 	(void)argc;
 // 	tkn_list = tokeniser(argv[1]);
+
 // 	tmp = *tkn_list;
 // 	while (tmp != NULL)
 // 	{

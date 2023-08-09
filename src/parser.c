@@ -1,13 +1,13 @@
 #include "../include/minishell.h"
 
-t_command	*parser(char *shell) //NOTE: The correct parameter for parser() is t_tool *shell. The use of char * was only for the purposes of testing.
+t_command	*parser(t_tool *shell)
 {
     t_token		**tkn_list;
     t_command	*cmd;
 	int			i;
 
 	tkn_list = tokeniser(shell);
-	cmd = create_cmds(tkn_list); //NOTE: create_cmds() may take an extra parameter of t_tool *shell. Not yet decided
+	cmd = create_cmds(tkn_list, shell); //NOTE: create_cmds() may take an extra parameter of t_tool *shell. Not yet decided
 	i = 0;
 	while (i < count_tokens(tkn_list))
 	{
