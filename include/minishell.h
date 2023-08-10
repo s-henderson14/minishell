@@ -5,6 +5,7 @@
 
 # include <stdlib.h>
 # include <stdio.h>
+#include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
@@ -66,10 +67,15 @@ typedef struct s_env_node
     char            *value;
 }   t_env_node;
 
-//test.c
+//test_builtin.c
 void    init_command_structure(char **argv, int argc, t_tools *tools);
 void    malloc_command_list_structure(t_tools *tools);
 void choose_builtin(char **argv, t_tools *tools);
+
+//test_redirection.c
+//t_token_type choose_token_type(t_redirection *redirection, t_command *command, int index_token);
+//t_redirection *init_redirection(t_tools *tools, t_command *command);
+
 
 //env.c
 t_env_node *init_env_linked_list(char **env);

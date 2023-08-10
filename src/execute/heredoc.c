@@ -23,7 +23,6 @@ int here_document(t_redirection *redirection)
 		}
 	}
 	protected_dup2(fd_pipe[0], STDIN_FILENO);
-	close(fd_pipe[0]);
 	close(fd_pipe[1]);
-	return (EXIT_SUCCES);
+	return (EXIT_SUCCESS);
 }

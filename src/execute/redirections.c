@@ -14,13 +14,14 @@ int input_redirection(t_redirection *redirection)
 	if (fd < 1)
 		error_exit("open(): failed", 1);
 	protected_dup2(fd, STDIN_FILENO);
-	return (EXIT_SUCCES);
+	return (EXIT_SUCCESS);
 }
 
 int output_redirection(t_redirection *redirection)
 {
 	int fd;
 
+	fd = 0;
 	if (redirection->type == GREAT)
 	{
 		fd = open(redirection->file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
@@ -34,7 +35,7 @@ int output_redirection(t_redirection *redirection)
 			error_exit("open(): failed", 1);
 	}
 	protected_dup2(fd, STDOUT_FILENO);
-	return (EXIT_SUCCES);
+	return (EXIT_SUCCESS);
 }
 
 int redirection(t_command *command)
@@ -61,5 +62,5 @@ int redirection(t_command *command)
 		}
 		redirection = redirection->next;
 	}
-	return (EXIT_SUCCES);
+	return (EXIT_SUCCESS);
 }

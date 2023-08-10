@@ -26,7 +26,8 @@ LIBS	:= -lreadline
 LIBFT	:= libft/libft.a
 HEADERS := -I libft -I include
 SRCS 	:=	src/main.c \
-			src/test.c \
+			src/test_builtin.c \
+			src/test_redirection.c \
 			src/env/env.c \
 			src/env/env_utils.c \
 			src/env/env_utils_2.c \
@@ -38,8 +39,8 @@ SRCS 	:=	src/main.c \
 			src/builtin/mini_unset.c \
 			src/builtin/mini_export.c \
 			src/builtin/builtin_utils.c \
-			src/execution/redirections.c \
-			src/execution/heredoc.c \
+			src/execute/redirections.c \
+			src/execute/heredoc.c \
 			src/utils/utils.c
 
 #SRCS	:= ${SRCS:%=./src/%}
