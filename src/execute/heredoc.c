@@ -21,6 +21,7 @@ int here_document(t_redirection *redirection)
 		{
 			write(fd_pipe[1], line, ft_strlen(line));
 		}
+		free(line);
 	}
 	protected_dup2(fd_pipe[0], STDIN_FILENO);
 	close(fd_pipe[1]);

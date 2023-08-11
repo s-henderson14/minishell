@@ -39,17 +39,18 @@ void decide_redirection_type(t_command *command)
         redirection->type = LESS_LESS;
 }
 
+//This func can misleads you if you have this:
+//./minishell echo <<den ----- that means you have command->args[0] and command->args[0].
+//So command->file_name is a part of command->args[0], this line *** gives you segfault
 t_redirection *init_redirection(t_command *command)
 {
 	t_redirection *redirection;
 
-    if (command->args[2] == NULL && command->args[3] == NULL)
-        return (NULL);
 	redirection = (t_redirection *)malloc(sizeof(t_redirection));
 	if (redirection == NULL)
 		return (NULL);
-	redirection->file_name = ft_strdup(command->args[3]);
-    redirection->token_name = ft_strdup(command->args[4]);
+	redirection->file_name = ft_strdup(command->args[2]); //***
+    redirection->token_name = ft_strdup(command->args[1]);
 	decide_redirection_type(command);
 	redirection->next = NULL;
 	return (redirection);
