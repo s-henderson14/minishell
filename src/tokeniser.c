@@ -80,9 +80,9 @@ t_token **tokeniser(char *input, t_tool *shell)
 			//free list()
 			//return(NULL);
 		}
-		if(ft_isalpha(split_input[i][0]) || split_input[i][0] == 45)
+		if(ft_isalpha(split_input[i][0]) || ft_isdigit(split_input[i][0]) || split_input[i][0] == 45)
 		{	
-			tkn->type = LITERAL;	
+			tkn->type = LITERAL;
 			tkn->content = get_literal_token(split_input[i]);
 			add_token_back(tkn_list, tkn);
 			i++;
@@ -92,6 +92,8 @@ t_token **tokeniser(char *input, t_tool *shell)
 			assign_token_type(tkn, split_input[i]);
 			if (tkn->type == PIPE)
 				shell->number_of_pipes += 1;
+			else if (tkn->type > 2)
+				shell->number_of_redir += 1;
 			add_token_back(tkn_list, tkn);
 			i++;
 		}
@@ -99,19 +101,25 @@ t_token **tokeniser(char *input, t_tool *shell)
 	return (tkn_list);
 }
 
-// int	main(int argc, char **argv)
+// int	main()
 // {
 // 	t_token	**tkn_list;
 // 	t_token	*tmp;
+// 	t_tool	*shell;
+// 	char	*str;
 
-// 	(void)argc;
-// 	tkn_list = tokeniser(argv[1]);
+// 	str = "ls -la < out";
+// 	shell = ft_calloc(1, sizeof(t_tool));
+// 	tkn_list = tokeniser(str, shell);
 
 // 	tmp = *tkn_list;
 // 	while (tmp != NULL)
 // 	{
-// 		printf("Token Content: %s Token ID: %d\n",tmp->content, tmp->type);
+// 		printf("Token Content: %s\nToken ID: %d\n",tmp->content, tmp->type);
 // 		tmp = tmp->next;
 // 	}
+// 	printf("No. of Pipes: %d\nNo. of Redirections: %d\n", shell->number_of_pipes, shell->number_of_redir);
+// 	free(tkn_list);
+// 	free(shell);
 // 	return (0);
 // }
