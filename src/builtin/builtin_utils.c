@@ -8,7 +8,10 @@ t_command	*ft_lstnew_command(char **dup)
 	if (command == NULL)
 		return (NULL);
 	command -> args = dup;
-	command->redirection = NULL;
+	if (command->args[2] == NULL && command->args[3] == NULL)
+        command->redirection = NULL;
+    else
+    	command->redirection = init_redirection(command);
 	command -> next = NULL;
 	return (command);
 }

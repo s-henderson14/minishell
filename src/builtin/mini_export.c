@@ -3,11 +3,12 @@
 t_env_node *split_arg_and_create_node(char *arg)
 {
 	t_env_node *new_node;
-	int equal_sign_index;
+	//int equal_sign_index;
 	char *key;
 	char *value;
 
-	equal_sign_index = find_equal_sign(arg);
+
+	//equal_sign_index = find_equal_sign(arg);
 	key = get_key_from_env_arr(arg);
 	value = get_value_from_env_arr(arg);
 	new_node = env_node_create(key, value);

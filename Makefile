@@ -26,7 +26,7 @@ LIBS	:= -lreadline
 LIBFT	:= libft/libft.a
 HEADERS := -I libft -I include
 SRCS 	:=	src/main.c \
-			src/test_builtin.c \
+			src/test.c \
 			src/test_redirection.c \
 			src/env/env.c \
 			src/env/env_utils.c \

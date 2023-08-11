@@ -35,6 +35,7 @@ typedef struct s_token
 typedef struct s_redirection
 {
     char            *file_name;
+    char    *token_name;
     t_token_type    type; //if it s <<, heredoc, call heredoc f()
     struct s_redirection *next; //ls > output.txt < input.txt
                                 //just like above, we might have multiple redir. in a command,
@@ -73,8 +74,8 @@ void    malloc_command_list_structure(t_tools *tools);
 void choose_builtin(char **argv, t_tools *tools);
 
 //test_redirection.c
-//t_token_type choose_token_type(t_redirection *redirection, t_command *command, int index_token);
-//t_redirection *init_redirection(t_tools *tools, t_command *command);
+void decide_redirection_type(t_command *command);
+t_redirection *init_redirection(t_command *command);
 
 
 //env.c

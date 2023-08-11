@@ -32,7 +32,7 @@
 // }
 
 void	init_command_structure(char **argv, int argc, t_tools *tools)
-{	
+{
 	char **args;
 
 	args = argv_duplicate_without_program_name(argv, argc); //MALLOCss!
