@@ -41,6 +41,7 @@ SRCS 	:=	src/main.c \
 			src/builtin/builtin_utils.c \
 			src/execute/redirections.c \
 			src/execute/heredoc.c \
+			src/execute/execute.c \
 			src/utils/utils.c
 
 #SRCS	:= ${SRCS:%=./src/%}
