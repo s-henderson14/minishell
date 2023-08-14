@@ -7,11 +7,10 @@ t_command	*ft_lstnew_command(char **dup)
 	command = (t_command *)malloc(sizeof(t_command));
 	if (command == NULL)
 		return (NULL);
-	command->args = dup;
-	if (command->args[1] == NULL)
-        command->redirection = NULL;
-    else
-    	command->redirection = init_redirection(command);
+	command->args = array_dup(dup); //MALLOC
+	if (command->args == NULL)
+		return NULL;
+    command->redirection = init_redirection(command);
 	command -> next = NULL;
 	return (command);
 }

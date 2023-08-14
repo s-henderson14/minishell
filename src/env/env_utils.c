@@ -29,6 +29,22 @@ int env_list_size(t_env_node *env_list)
 	return (size);
 }
 
+
+/*
+** It returns size of env string array
+*/
+int env_str_arr_size(char **env)
+{
+	int i;
+
+	i = 0;
+	while (env[i] != NULL)
+	{
+		i++;
+	}
+	return (i);
+}
+
 /*
 **	Adds given new node to the end of the env list
 */

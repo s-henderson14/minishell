@@ -13,22 +13,24 @@
 
 int glob_exit_status = 0;
 
-static t_tools *init_tools(char **env)
+static t_tools *init_tools(int argc, char **argv, char **env)
 {
 	t_tools *tools;
+	(void)argv;
+	(void)argc;
 
 	glob_exit_status = 0;
 	tools = (t_tools *)malloc(sizeof(t_tools));
 	if (tools == NULL)
 		return (NULL);
 	tools->input = NULL;
-	tools->env = env;
-	tools->env_list = NULL;
-	tools->command_list= NULL;
+	tools->env = array_dup(env); //MALLOC
+	tools->env_list = init_env_linked_list(env);
+	//init_command_structure(argc, argv, tools);
 	tools->number_of_pipes = 0;
 	return (tools);
 }
-/*
+
 static void shell_loop(t_tools *tools)
 {
 	char *line;
@@ -38,20 +40,27 @@ static void shell_loop(t_tools *tools)
 		line = readline("minishell: "); //caller must free it when finished
 		//check if input == NULL>> doesnt go to history
 		if (line == NULL) // means it encounters EOF, ctrl-D
-			exit(glob_exit_status);
-		tools->input = line;
-		//maybe add a condition which terminates the program immidiately??
-		//check if input full with " ">> goes to history (PARSING PART??)
-		//if parsing == succes
-		//		execute
-		add_history(tools->input);
-		free(tools->input);
-		tools->input = NULL;
-		//free things.
+		{
+			free(line);
+			error_exit("bad user input", 1); //??
+		}	
+		else if (line[0] != '\0')
+		{
+			tools->input = line;
+			add_history(tools->input);
+			//check if input full with " ">> goes to history (PARSING PART??)
+			//IF PARSING == SUCCESS
+			//		EXECUTE
+			tools->command_list = init_command_list(line, tools);
+			//printf("%s\n", tools->command_list->args[0]);
+			choose_builtin(tools);
+			free(tools->input);
+			tools->input = NULL;
+			//free things.
+		}
 	}
-	exit(glob_exit_status);
 }
-*/
+
 int main(int argc, char **argv, char **env)
 {
 	t_tools *tools;
@@ -61,15 +70,14 @@ int main(int argc, char **argv, char **env)
 	// {
 	// 	printf("ERROR, argc = 1");
 	// }
-	tools = init_tools(env);
+	tools = init_tools(argc, argv, env);
 	//handle signals();
-	tools->env_list = init_env_linked_list(env);
+	//tools->env_list = init_env_linked_list(env);
 	//env_list_print(tools->env_list); //works until here
-	//malloc_command_list_structure(tools);
-	init_command_structure(argv, argc, tools);
+	//init_command_structure(argv, argc, tools);
 	//printf("%s\n", tools->command_list->args[0]);
-	choose_builtin(argv, tools);
+	//choose_builtin(argv, tools);
 	//define a command here to test built-ins.
 
-	//shell_loop(tools);
+	shell_loop(tools);
 }

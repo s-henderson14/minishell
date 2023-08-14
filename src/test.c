@@ -31,7 +31,7 @@
 // 	temp = NULL;
 // }
 
-void	init_command_structure(char **argv, int argc, t_tools *tools)
+void	init_command_structure(int argc, char **argv, t_tools *tools)
 {
 	char **args;
 
@@ -41,17 +41,29 @@ void	init_command_structure(char **argv, int argc, t_tools *tools)
 	//ft_lstadd_back_command(tools->command_list, command); //MALLOCC
 }
 
+t_command *init_command_list(char *line, t_tools *tools)
+{
+	t_command *command_list;
+	char **split_line;
+
+	command_list = tools->command_list;
+	split_line = ft_split(line, ' ');
+	//printf("%s\n%s\n", split_line[0], split_line[1]);
+	// for (int i = 0; i < 2; i++)
+	// {
+	// 	printf("%s\n", split_line[i]);
+	// }
+	command_list = ft_lstnew_command(split_line);
+	//printf("%s\n", command_list->args[0]);
+	return (command_list);
+}
+
 //TEST 
-void choose_builtin(char **argv, t_tools *tools)
+void choose_builtin(t_tools *tools)
 {
 	t_command *command;
 
 	command = tools->command_list;
-	if (argv[1] == NULL)
-	{
-		printf("Enter a command to run builtin test\n");
-		return ;
-	}
 	if (ft_strsame(command->args[0], "cd") == 1)
 		mini_cd(tools, command);
 	if (ft_strsame(command->args[0], "pwd") == 1)

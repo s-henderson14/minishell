@@ -68,10 +68,14 @@ typedef struct s_env_node
     char            *value;
 }   t_env_node;
 
+//main.c
+
+
 //test_builtin.c
-void    init_command_structure(char **argv, int argc, t_tools *tools);
+void    init_command_structure(int argc, char **argv, t_tools *tools);
+t_command *init_command_list(char *line, t_tools *tools);
 void    malloc_command_list_structure(t_tools *tools);
-void choose_builtin(char **argv, t_tools *tools);
+void choose_builtin(t_tools *tools);
 
 //test_redirection.c
 void decide_redirection_type(t_command *command);
@@ -89,6 +93,7 @@ void change_value_of_env_key(char *new_value, char *key, t_env_node *env_list);
 //env_utils.c
 void env_list_print(t_env_node *env_list);
 int env_list_size(t_env_node *env_list);
+int env_str_arr_size(char **env);
 void env_node_add_back(t_env_node *new_node, t_env_node *env_list);
 void env_node_free(t_env_node *node);
 void env_list_free(t_env_node *env_list);
@@ -102,6 +107,7 @@ int check_key_exist(char *key, t_env_node *env_list);
 int error_exit(char *s, int exit_status);
 char *protect(char *arg);
 char **argv_duplicate_without_program_name(char **argv, int argc);
+char **array_dup(char **env);
 
 
 

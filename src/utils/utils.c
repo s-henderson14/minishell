@@ -41,6 +41,28 @@ char **argv_duplicate_without_program_name(char **argv, int argc)
 	return (dup);
 }
 
+char **array_dup(char **env)
+{
+	char **dup;
+	int env_len;
+	int i;
+
+	env_len = env_str_arr_size(env);
+	i = 0;
+	dup = (char **)malloc(sizeof(char *) * (env_len + 1));
+	if (dup == NULL)
+		error_exit("Malloc failed\n", 1);
+	while (i < env_len)
+	{
+		dup[i] = ft_strdup(env[i]);
+		if (dup[i] == NULL)
+			error_exit("Malloc failed\n", 1);
+		i++;
+	}
+	dup[i] = NULL;
+	return (dup);
+}
+
 
 
 
