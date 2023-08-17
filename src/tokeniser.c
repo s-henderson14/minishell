@@ -3,14 +3,19 @@
 char	*get_literal_token(char *input)
 {
 	int		i;
+	int		j;
 	char	*literal;
 
 	i = 0;
+	j = 0;
 	literal = malloc(ft_strlen(input) + 1);
-	while (input[i])
+	while (input[j])
 	{	
-		literal[i] = input[i];
+		while (input[j] == 34 || input[j] == 39)
+			j++;	
+		literal[i] = input[j];
 		i++;
+		j++;
 	}
 	literal[i] = '\0';
 	return (literal);
@@ -80,23 +85,22 @@ t_token **tokeniser(char *input, t_tool *shell)
 			//free list()
 			//return(NULL);
 		}
-		if(ft_isalpha(split_input[i][0]) || ft_isdigit(split_input[i][0]) || split_input[i][0] == 45)
+		if(ft_isalpha(split_input[i][0]) || ft_isdigit(split_input[i][0]) || split_input[i][0] == 45 || split_input[i][0] == '$')
 		{	
 			tkn->type = LITERAL;
 			tkn->content = get_literal_token(split_input[i]);
-			add_token_back(tkn_list, tkn);
-			i++;
 		}
 		else
 		{	
 			assign_token_type(tkn, split_input[i]);
-			if (tkn->type == PIPE)
-				shell->number_of_pipes += 1;
-			else if (tkn->type > 2)
-				shell->number_of_redir += 1;
-			add_token_back(tkn_list, tkn);
-			i++;
+			tkn->content = get_literal_token(split_input[i]);
 		}
+		if (tkn->type == PIPE)
+			shell->number_of_pipes += 1;
+		if (tkn->type > 2)
+			shell->number_of_redir += 1;
+		add_token_back(tkn_list, tkn);
+		i++;
 	}
 	return (tkn_list);
 }
@@ -123,3 +127,23 @@ t_token **tokeniser(char *input, t_tool *shell)
 // 	free(shell);
 // 	return (0);
 // }
+
+int	main(int argc, char **argv) //Testing skip quotation marks in args
+{
+	t_tool	*shell;
+	t_token	**tkn_list;
+	t_token	*tkn;
+
+	if (argc < 2)
+		exit(1);
+	shell = ft_calloc(1, sizeof(t_tool));
+	tkn_list = tokeniser(argv[1], shell);
+	tkn = *tkn_list;
+	while (tkn != NULL)
+	{
+		printf("Tokens content is %s\nTokens_id is %d\n", tkn->content, tkn->type);
+		tkn = tkn->next;
+	}
+	return (0);
+
+}
