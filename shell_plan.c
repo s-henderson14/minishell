@@ -146,8 +146,18 @@ typedef enum s_token_type
     	struct s_redirection	*next;
 	}	t_redirection;
 
+	t_command   **create_cmds(t_token **tkn_list, t_tool *shell)
 
-	t_command nodes will consist of an array of strings (**args) which contains its arguments. 
+	create_cmds() will return a list of t_command structs and takes a list of tokens and a pointer to a t_tool struct
+
+	If shell->number_of_pipes == 0 there will be just one command and thus a list but just one node long.
+	If shell->number_of_pipes > 0 there will be a list of t_commands with more than one node
+
+	Each t_command node will have:
+
+		+ char 			**args - An array of strings to hold the arguments
+		+ t_redirection	*redirection - A pointer to a redirection structure.txt
+		+ A pointer to the next or last node in the command list 
 
 	RULES ABOUT **args
 
@@ -155,25 +165,54 @@ typedef enum s_token_type
 		+ any argument which follows a PIPE will be a command name
 		+ any argument after ">" must alphanumeric, i.e to assign or relate a file name
 		+ any argument after ">>" must be alphanumeric, i.e to assign or relate a file name
-		+ any argument after "<" must alphanumeric && an existing file in the current directory. 
-	  
-	* Create a pointer to a t_token node and call it tmp;
-		
-		t_token	*tmp;
-		
-	* Set it equal to the first node of the tkn_list;
+		+ any argument after "<" must alphanumeric && an existing file in the current directory.
 
-		tmp = *tkn_list;
+	In order to pass information from our tkn_list into a t_command struct we require:
+
+		+ Pointer to a t_token which we can use to iterate through our tkn_list *tmp
+		+ A list of t_command structs **cmd_list
+		+ A pointer to a t_command struct *cmd
+		+ An int i for indexing
+	  
 	
-	* While we are not at the end of our tkn_list
+	Then the following steps:
+
+
+		* Allocate memory for cmd_list;
+
+			cmd_list = ft_calloc(shell->number_of_pipes + 1, sizeof(t_command *));
+
+		
+		* Create a pointer to a t_token node and call it tmp;
+		
+			t_token	*tmp;
+		
+		
+		* Set it equal to the first node of the tkn_list, which we passed as a parameter to create_cmds();
+
+			tmp = *tkn_list;
 	
-		while (tmp != NULL)
+		
+		* While we are not at the end of our tkn_list
+	
+			while (tmp != NULL)
+
+		
+		* Allocate memory for a t_command struct 
+
+			cmd = ft_calloc(1, sizeof(t_command));
+
+		
+		* If tkn->content is not NULL, add token->content to cmd->args.
+
+
+			if (tkn->content != NULL)
+			{
+
+			}
 	
 	
-	* If tkn->content is not NULL, add this string to the t_command array of args. Note: ARG[0] will be the first command.
-	
-	
-	* If there is no content, then we have a redirection.
+		* If there is no content, then we have a redirection.
 	
 		* If the token_id == 1.
 			
@@ -229,15 +268,13 @@ typedef enum s_token_type
 		
 		QUESTIONS
 		
-		+	Why do we create a command_list? Is this only for when we have a PIPE?
+		
+		+	Should create_cmds return a t_command **cmd_list? 
 		
 		
 		
-		
-		
-		
-		
-		
+		creating a command which has pipe(s)
+
 		
 		
 		
