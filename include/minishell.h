@@ -56,6 +56,7 @@ typedef struct s_tools
     struct t_command *command_list;
    // t_token *history;
     int number_of_pipes;
+	int	number_of_redir;
 
 }	t_tool;
 
@@ -67,22 +68,36 @@ typedef struct s_env_node
     char            *value;
 }   t_env_node;
 
-t_token **tokeniser(char *input);
+//**PARSER**//
 
-int count_tokens(t_token **tkn_list);
+t_command	**parser(t_tool *shell);
 
-char	*convert_tkn_id(int tkn_id);
+//**TOKENISER**//
 
-t_command   *create_cmds(t_token **tkn_list);
-/*
-ALSO WE ARE ALLOWED TO USE ONE SINGLE GLOBAL VARIABLE
-Maybe we could use a int glob_exit_status
-it makes implementing expansion of $? easier.
+t_token 	**tokeniser(char *input, t_tool *shell);
 
-our function to be called is: my_func()
-Imagine that we store the exit status of my_func() in glob_exit_status,
-after the execution of my_func(), we have the shell prompt back,
-when we call $? in shell, 
-we reach the exit status of most recent function call which is 'glob_exit_status'
+int 		count_tokens(t_token **tkn_list);
 
-*/
+char		*convert_tkn_id(int tkn_id);
+
+//**CREATE COMMANDS**//
+
+t_command	**create_simple_cmd(t_token **tkn_list, t_tool *shell);
+
+t_command	**create_adv_cmd(t_token **tkn_list, t_tool *shell);
+
+//**REDIRECTIONS**//
+
+void		redir_init(t_command *cmd, t_token *tkn, int *index);
+
+//**EXPANSION**//
+
+int			meta_found(char *str);
+
+int 		dollar_sign_found(char *string);
+
+int 		check_key_exists(char *key, t_env_node *env_list);
+
+int			ft_strsame(const char *s1, const char *s2);
+
+char		*get_value_from_env_node(char *key, t_env_node *env_list);
