@@ -21,11 +21,10 @@ int	main() // Tests the use of tokeniser, create_cmds.count_tokens, convert_toke
 	char		*str;
 	int			i;
 
-	str = "ls wc -l";
+	str = "ls | wc -l";
 	i = 0;
 	shell = ft_calloc(1, sizeof(t_tool));
-	shell->input = ft_calloc(ft_strlen(str)  + 1, sizeof(char));
-	ft_strlcpy(shell->input, str, ft_strlen(str) + 1);
+	shell->input = ft_strdup(str);
 	cmd = parser(shell);
 	tmp = *cmd;
 	while (tmp != NULL)
@@ -41,7 +40,7 @@ int	main() // Tests the use of tokeniser, create_cmds.count_tokens, convert_toke
 		}
 		tmp = tmp->next;
 		if (tmp)
-			printf("Second Command");
+			printf("Next Command\n");
 		i = 0;
 	}
 	return (0);
