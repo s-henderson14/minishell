@@ -52,24 +52,25 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tool *shell)
 	i = 0;
 	cmd_list = ft_calloc(1, sizeof(t_command *));
 	cmd = ft_calloc(1, sizeof(t_command));
-	cmd->args = ft_calloc(count_tokens(tkn_list), sizeof(char *));
+	cmd->args = ft_calloc(count_tokens(tkn_list) + 1, sizeof(char *));
 	if (shell->number_of_redir >= 1)
 			cmd->redirection = ft_calloc(1, sizeof(t_redirection *));
 	tkn = *tkn_list;
 	while (tkn != NULL)
 	{
 		if (meta_found(tkn->content) && dollar_sign_found(tkn->content))
-			
-			
-		if (tkn->content != NULL)
+		{	
+			if(get_value_from_env_node(tkn->content, shell->env_list) != NULL)
+				cmd->args[i] = get_value_from_env_node(tkn->content, shell->env_list);
+		}	
+		else if (tkn->content != NULL)
 			cmd->args[i] = tkn->content;
-
 		else
 			redir_init(cmd, tkn, &i);
 		i++;
 		tkn = tkn->next;
 	}
-	cmd->args[i] = NULL;
+	cmd->args[i] = '\0';
 	add_cmd_front(cmd_list, cmd);
 	return (cmd_list);
 }
@@ -82,24 +83,32 @@ t_command	**create_adv_cmd(t_token **tkn_list, t_tool *shell)
 	t_command	*cmd;
 	t_token		*tkn;
 	int			i;
+	int			j;
 
 	i = 0;
-	cmd_list = ft_calloc(shell->number_of_pipes + 1, sizeof(t_command *));
-	pipe_split = ft_split(shell->input, '|');
-	while(i <= shell->number_of_pipes)
+	j = 0;
+	cmd_list = ft_calloc(shell->number_of_pipes + 1, sizeof(t_command *)); //allocate memory for a list of commands structs
+	pipe_split = ft_split(shell->input, '|');                              // split the user input based on pipes "ls | wc -l" becomes "ls" "wc -l"
+	tkn = *tkn_list;                 									   // make our tmp token equal to the head of our token_list. In this example head tkn = "ls"
+	while (j <= shell->number_of_pipes)                                    // 1 pipe present equals 2 commands and if i starts at 0 then we run our while loop for two rounds
 	{
-		cmd = ft_calloc(1, sizeof(t_command));
-		cmd->args = ft_calloc(word_counter(pipe_split[i], ' '), sizeof(char *));
-		if (shell->number_of_redir > 0)
-			cmd->redirection = ft_calloc(shell->number_of_redir, sizeof(t_redirection));
-		tkn = *tkn_list;
-		while (tkn != NULL)
+		cmd = ft_calloc(1, sizeof(t_command));                             // allocate space for a command struct
+		cmd->args = ft_calloc(word_counter(pipe_split[j], ' ') + 1, sizeof(char *)); // allocate space for command arguments
+		if (shell->number_of_redir > 0)                                              // if we have redirections logged 
+			cmd->redirection = ft_calloc(shell->number_of_redir, sizeof(t_redirection));  // allocate space for redirection
+		while (tkn != NULL)              // while we are not at the end of our list
 		{
-			if (tkn->content != NULL)
-				cmd->args[i] = tkn->content;
-			else if(tkn->type == 1)
+			if (meta_found(tkn->content) && dollar_sign_found(tkn->content)) // if we find double quotes and a $
+			{	
+				if(get_value_from_env_node(tkn->content, shell->env_list) != NULL) // if we find a value in our env list which matches
+					cmd->args[i] = get_value_from_env_node(tkn->content, shell->env_list); // assign this found value to our args
+			}	
+			else if (tkn->content != NULL && tkn->type == 2)    // if token is a literal i.e not a redirection
+				cmd->args[i] = tkn->content;  // assign the literal to args
+			else if(tkn->type == 1)           // if 
 			{
 				cmd->args[i] = "|";
+				tkn = tkn->next;
 				break ;
 			}
 			else if (tkn->type > 2)
@@ -108,6 +117,8 @@ t_command	**create_adv_cmd(t_token **tkn_list, t_tool *shell)
 			tkn = tkn->next;
 		}
 		add_cmd_back(cmd_list, cmd);
+		j++;
+		i = 0;
 	}
 	return (cmd_list);
 }
