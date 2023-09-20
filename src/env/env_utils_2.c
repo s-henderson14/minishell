@@ -19,7 +19,7 @@ void print_value(char *key, t_tools *tools)
 	while (env_list != NULL)
 	{
 		if (ft_strsame(env_list->key, key) == 1)
-			printf("%s", env_list->key);
+			printf("%s", env_list->value);
 		env_list = env_list->next;
 	}
 }

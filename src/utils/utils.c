@@ -16,7 +16,7 @@ char *protect(char *arg)
 	{
 		perror("Error"); // so that the error message based on errno will be printed
 		glob_exit_status = 1;
-		exit(1);
+		return (NULL);
 	}
 	return (arg);
 }
@@ -52,7 +52,7 @@ char **array_dup(char **env)
 	dup = (char **)malloc(sizeof(char *) * (env_len + 1));
 	if (dup == NULL)
 		error_exit("Malloc failed\n", 1);
-	while (i < env_len)
+	while (env[i] != NULL && i < env_len)
 	{
 		dup[i] = ft_strdup(env[i]);
 		if (dup[i] == NULL)
@@ -62,7 +62,6 @@ char **array_dup(char **env)
 	dup[i] = NULL;
 	return (dup);
 }
-
 
 
 

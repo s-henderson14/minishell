@@ -1,40 +1,5 @@
 #include "../../include/minishell.h"
 
-t_command	*ft_lstnew_command(char **dup)
-{
-	t_command	*command;
-
-	command = (t_command *)malloc(sizeof(t_command));
-	if (command == NULL)
-		return (NULL);
-	command->args = array_dup(dup); //MALLOC
-	if (command->args == NULL)
-		return NULL;
-    command->redirection = init_redirection(command);
-	command -> next = NULL;
-	return (command);
-}
-
-void	ft_lstadd_back_command(t_command *command_list, t_command *command)
-{
-	t_command	*temp;
-
-	if (command == NULL)
-		return ;
-	if (command_list == NULL)
-	{	
-		command_list = command;
-		command->next = NULL;
-		return ;
-	}
-	temp = command_list;
-	while (temp->next != NULL)
-	{
-		temp = temp->next;
-	}
-	temp->next = command;
-}
-
 int check_arg_digit(char *arg)
 {
 	if (arg == NULL)
@@ -63,4 +28,27 @@ int find_equal_sign(char *arg)
 		i++;
 	}
 	return (-1);
+}
+
+void choose_builtin(t_tools *tools)
+{
+	t_command *command;
+
+	command = tools->command_list;
+	if (ft_strsame(command->args[0], "cd") == 1)
+		mini_cd(tools, command);
+	if (ft_strsame(command->args[0], "pwd") == 1)
+		mini_pwd(tools);
+	if (ft_strsame(command->args[0], "echo") == 1)
+		mini_echo(tools, command);
+	if (ft_strsame(command->args[0], "env") == 1)
+		mini_env(tools, command);
+	if (ft_strsame(command->args[0], "exit") == 1)
+		mini_exit(tools, command);
+	if (ft_strsame(command->args[0], "unset") == 1)
+		mini_unset(tools, command);
+	if (ft_strsame(command->args[0], "export") == 1)
+		mini_export(tools, command);
+	else
+		return ;
 }

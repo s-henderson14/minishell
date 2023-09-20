@@ -7,6 +7,8 @@ int mini_exit(t_tools *tools, t_command *command)
 	(void)tools;
 	exit_code = 0;
 	ft_putendl_fd("exit", STDERR_FILENO);
+	if (command->args[1] == NULL)
+		exit (0);
 	if (command->args[0] != NULL && command->args[1] != NULL)
 	{
 		if (command->args[2] != NULL)

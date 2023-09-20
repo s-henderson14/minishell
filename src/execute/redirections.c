@@ -10,6 +10,8 @@ int input_redirection(t_redirection *redirection)
 {
 	int fd;
 
+	printf("redir_filename = %d\n", redirection->type);
+
 	fd = open(redirection->file_name, O_RDONLY, 0644);
 	if (fd < 1)
 		error_exit("open(): failed", 1);
@@ -22,8 +24,10 @@ int output_redirection(t_redirection *redirection)
 	int fd;
 
 	fd = 0;
+	printf("redir_filename = %d\n", redirection->type);
 	if (redirection->type == GREAT)
 	{
+		printf("A\n");
 		fd = open(redirection->file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd < 0)
 			error_exit("open(): failed", 1);
@@ -35,6 +39,7 @@ int output_redirection(t_redirection *redirection)
 			error_exit("open(): failed", 1);
 	}
 	protected_dup2(fd, STDOUT_FILENO);
+	printf("B\n");
 	return (EXIT_SUCCESS);
 }
 
