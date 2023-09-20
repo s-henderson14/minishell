@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_token **tokeniser(char *input, t_tool *shell)
 {
@@ -23,10 +23,16 @@ t_token **tokeniser(char *input, t_tool *shell)
 			//free list()
 			//return(NULL);
 		}
-		if(ft_isalpha(split_input[i][0]) || ft_isdigit(split_input[i][0]) || split_input[i][0] == 45 || split_input[i][0] == '$')
+		if(ft_isalpha(split_input[i][0]) || ft_isdigit(split_input[i][0]) || split_input[i][0] == 45)
 		{	
 			tkn->type = LITERAL;
 			tkn->content = get_literal_token(split_input[i]);
+		}
+		else if (double_found(split_input[i]) && dollar_sign_found(split_input[i]))
+		{
+			tkn->type = LITERAL;
+			tkn->content = expand(split_input[i], shell->env_list);
+			printf("%s\n", tkn->content);
 		}
 		else
 		{	

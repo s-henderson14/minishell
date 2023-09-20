@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	add_token_front(t_token **tkn_lst, t_token *new_tkn)
 {
