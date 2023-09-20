@@ -1,6 +1,16 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int	meta_found(char *str)
+char	*expand(char *input, t_env_node*env_list)
+{
+	char	*var;
+	
+	var = NULL;
+	if (check_key_exists(input, env_list))
+		var = get_value_from_env_node(input, env_list);
+	return (var);
+}
+
+int	double_found(char *str)
 {
 	int	i;
 	int	count;
