@@ -6,6 +6,8 @@
 # include <stdlib.h>
 # include <stdio.h>
 #include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <unistd.h>
@@ -13,6 +15,7 @@
 
 extern int glob_exit_status; //with extern, we declare glob_exit_status without defining
 //we ll define it later in the program
+extern int signal_flag;
 
 typedef enum s_token_type
 {
@@ -57,7 +60,8 @@ typedef struct s_tools
     struct s_env_node *env_list;
     t_command *command_list;
     int number_of_pipes; //this +1 will give us number of command we have in command_list
-
+    int interactive; //it s usually set to 1, if you read heredoc,script>> must be 0(for signals)
+    int number_of_redir;
 }t_tools;
 
 
@@ -71,14 +75,69 @@ typedef struct s_env_node
 //main.c
 
 
-//test_builtin.c
+//**PARSER**//
+
+t_command   **parser(t_tool *shell);
+
+//**TOKENISER**//
+
+t_token     **tokeniser(char *input, t_tool *shell);
+
+int         count_tokens(t_token **tkn_list);
+
+char        *convert_tkn_id(int tkn_id);
+
+char        *get_literal_token(char *input);
+
+void        assign_token_type(t_token *tkn, char *str);
+
+void        add_token_front(t_token **tkn_lst, t_token *new_tkn);
+
+void        add_token_back(t_token **tkn_lst, t_token *new_tkn);
+
+//**CREATE COMMANDS**//
+
+t_command   **create_simple_cmd(t_token **tkn_list, t_tool *shell);
+
+t_command   **create_adv_cmd(t_token **tkn_list, t_tool *shell);
+
+void        add_cmd_front(t_command **cmd_lst, t_command *new_cmd);
+
+void        add_cmd_back(t_command **cmd_lst, t_command *new_cmd);
+
+int         word_counter(const char *s, char c);
+
+//**REDIRECTIONS**//
+
+void        redir_init(t_command *cmd, t_token *tkn, int *index);
+
+//**EXPANSION**//
+
+int         double_found(char *str);
+
+int         dollar_sign_found(char *string);
+
+//int         check_key_exists(char *key, t_env_node *env_list);
+
+//int         ft_strsame(const char *s1, const char *s2);
+
+//char        *get_value_from_env_node(char *key, t_env_node *env_list);
+
+char        *expand(char *input, t_env_node*env_list);
+
+//test.c
 void    init_command_structure(int argc, char **argv, t_tools *tools);
 t_command *init_command_list(char *line, t_tools *tools);
 void    malloc_command_list_structure(t_tools *tools);
-void choose_builtin(t_tools *tools);
+char **copy_content_until_pipe(char **args, int *pipe_index_position);
+int count_pipes(char **argv);
+int count_args_until_pipe(char **args, int i);
+int count_args(char **args);
 
 //test_redirection.c
-void decide_redirection_type(t_command *command);
+//int check_redirection_exist(t_command *command);
+int check_redirection_exist(char **command_args);
+void decide_redirection_type(t_redirection *redirection);
 t_redirection *init_redirection(t_command *command);
 
 
@@ -102,14 +161,17 @@ void env_list_free(t_env_node *env_list);
 void print_value(char *key, t_tools *tools);
 int check_key_exist(char *key, t_env_node *env_list);
 
-
+//UTILS
 //utils.c
 int error_exit(char *s, int exit_status);
 char *protect(char *arg);
 char **argv_duplicate_without_program_name(char **argv, int argc);
 char **array_dup(char **env);
 
-
+//utils_list.c
+void    ft_lstadd_back_command(t_command *command_list, t_command *command);
+t_command   *ft_lstnew_command(char **dup, t_tools *tools);
+t_command   *init_single_command(t_tools *tools, char **temp_args);
 
 //BUILTINS
 //mini_cd.c
@@ -141,11 +203,12 @@ int mini_export(t_tools *tools, t_command *command);
 void    print_env_for_export(t_env_node *env_list);
 
 //builtin_utils.c
-void    ft_lstadd_back_command(t_command *command_list, t_command *command);
-t_command   *ft_lstnew_command(char **dup);
 int find_equal_sign(char *arg);
 int check_arg_digit(char *arg);
+void choose_builtin(t_tools *tools);
 
+
+//EXECUTE
 //redirections.c
 void protected_dup2(int old_fd, int new_fd);
 int input_redirection(t_redirection *redirection);
@@ -155,5 +218,30 @@ int redirection(t_command *command);
 //heredoc.c
 int here_document(t_redirection *redirection);
 
+//execute.c
+int is_builtin(t_command *command);
+void execute_without_pipe(t_tools *tools);
+void execute(t_tools *tools);
+
+//execute_utils.c
+char *join_command_to_path(char *path, char *main_command);
+char **get_paths(t_tools *tools);
+int execute_single_command(t_tools *tools, t_command *command);
+
+//handle_pipes.c
+void handle_pipes(t_tools *tools);
+int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, int fd[]);
+int last_command_execution(t_tools * tools, t_command *command, int fd_input, int fd[]);
+
+
+//EXPAND
+//expand_dollar_sign.c
+int check_first_char_dollar(char *string);
+char *expand_string(char *string, t_tools *tools);
+
+
+//SIGNALS
+int init_signal(void);
+void signal_handler(int signum);
 
 #endif
