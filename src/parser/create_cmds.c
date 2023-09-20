@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 t_command	**create_simple_cmd(t_token **tkn_list, t_tool *shell)
 {
@@ -16,19 +16,14 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tool *shell)
 	tkn = *tkn_list;
 	while (tkn != NULL)
 	{
-		if (meta_found(tkn->content) && dollar_sign_found(tkn->content))
-		{	
-			if(get_value_from_env_node(tkn->content, shell->env_list) != NULL)
-				cmd->args[i] = get_value_from_env_node(tkn->content, shell->env_list);
-		}	
-		else if (tkn->content != NULL)
+		if (tkn->content != NULL)
 			cmd->args[i] = tkn->content;
 		else
 			redir_init(cmd, tkn, &i);
 		i++;
 		tkn = tkn->next;
 	}
-	cmd->args[i] = '\0';
+	cmd->args[i] = NULL;
 	add_cmd_front(cmd_list, cmd);
 	return (cmd_list);
 }
@@ -56,12 +51,7 @@ t_command	**create_adv_cmd(t_token **tkn_list, t_tool *shell)
 			cmd->redirection = ft_calloc(shell->number_of_redir, sizeof(t_redirection));  // allocate space for redirection
 		while (tkn != NULL)              // while we are not at the end of our list
 		{
-			if (meta_found(tkn->content) && dollar_sign_found(tkn->content)) // if we find double quotes and a $
-			{	
-				if(get_value_from_env_node(tkn->content, shell->env_list) != NULL) // if we find a value in our env list which matches
-					cmd->args[i] = get_value_from_env_node(tkn->content, shell->env_list); // assign this found value to our args
-			}	
-			else if (tkn->content != NULL && tkn->type == 2)    // if token is a literal i.e not a redirection
+			if (tkn->content != NULL && tkn->type == 2)    // if token is a literal i.e not a redirection
 				cmd->args[i] = tkn->content;  // assign the literal to args
 			else if(tkn->type == 1)           // if 
 			{

@@ -1,4 +1,4 @@
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void	redir_init(t_command *cmd, t_token *tkn, int *index)
 {
