@@ -149,13 +149,13 @@ char **array_dup(char **env)
 	return (dup);
 }
 
-static t_tool *init_tools(int argc, char **argv, char **env)
+static t_tools*init_tools(int argc, char **argv, char **env)
 {
-	t_tool *tools;
+	t_tools*tools;
 	(void)argv;
 	(void)argc;
 
-	tools = (t_tool *)malloc(sizeof(t_tool));
+	tools = (t_tools*)malloc(sizeof(t_tool));
 	if (tools == NULL)
 		return (NULL);
 	tools->env = array_dup(env); //MALLOC
@@ -165,7 +165,7 @@ static t_tool *init_tools(int argc, char **argv, char **env)
 	return (tools);
 }
 
-t_command	**parser(t_tool *shell)
+t_command	**parser(t_tools*shell)
 {
     t_token		**tkn_list;
     t_command	**cmd;

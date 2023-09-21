@@ -12,6 +12,7 @@
 # include <readline/history.h>
 # include <unistd.h>
 # include <limits.h>
+# include <signal.h>
 
 extern int glob_exit_status; //with extern, we declare glob_exit_status without defining
 //we ll define it later in the program
@@ -77,11 +78,11 @@ typedef struct s_env_node
 
 //**PARSER**//
 
-t_command   **parser(t_tool *shell);
+t_command   **parser(t_tools *shell);
 
 //**TOKENISER**//
 
-t_token     **tokeniser(char *input, t_tool *shell);
+t_token     **tokeniser(char *input, t_tools *shell);
 
 int         count_tokens(t_token **tkn_list);
 
@@ -97,9 +98,9 @@ void        add_token_back(t_token **tkn_lst, t_token *new_tkn);
 
 //**CREATE COMMANDS**//
 
-t_command   **create_simple_cmd(t_token **tkn_list, t_tool *shell);
+t_command   **create_simple_cmd(t_token **tkn_list, t_tools *shell);
 
-t_command   **create_adv_cmd(t_token **tkn_list, t_tool *shell);
+t_command   **create_adv_cmd(t_token **tkn_list, t_tools *shell);
 
 void        add_cmd_front(t_command **cmd_lst, t_command *new_cmd);
 

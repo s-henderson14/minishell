@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-t_token **tokeniser(char *input, t_tool *shell)
+t_token **tokeniser(char *input, t_tools*shell)
 {
 	t_token	**tkn_list;
 	t_token	*tkn;

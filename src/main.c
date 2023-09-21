@@ -36,6 +36,7 @@ static t_tools *init_tools(int argc, char **argv, char **env)
 static void shell_loop(t_tools *tools)
 {
 	char *line;
+	t_command **cmd_list;
 
 	while (signal_flag == 0)
 	{
@@ -56,8 +57,9 @@ static void shell_loop(t_tools *tools)
 			//check if input full with " ">> goes to history (PARSING PART??)
 			//IF PARSING == SUCCESS
 			//		EXECUTE
-			tools->command_list = init_command_list(line, tools); //temp, testing purpose
-			//choose_builtin(tools);
+			//tools->command_list = init_command_list(line, tools); //temp, testing purpose
+			cmd_list = parser(tools);
+			tools->command_list = *(cmd_list);
 			execute(tools);
 			//printf("EXEC FINISH\n");
 			// free(tools->command_list);
@@ -80,12 +82,6 @@ int main(int argc, char **argv, char **env)
 	// 	printf("ERROR, argc = 1");
 	// }
 	tools = init_tools(argc, argv, env);
-	//tools->env_list = init_env_linked_list(env);
-	//env_list_print(tools->env_list); //works until here
-	//init_command_structure(argv, argc, tools);
-	//printf("%s\n", tools->command_list->args[0]);
-	//choose_builtin(argv, tools);
-	//define a command here to test built-ins.
 	signal_flag = 0;
 	shell_loop(tools);
 }

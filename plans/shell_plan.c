@@ -42,7 +42,7 @@ typedef enum s_token_type
 	
 	-------------------------------------------------------LEXER & PARSER---------------------------------------------------------------
 	
-	We begin with our t_tool struct, this can be considered the main struct representing our shell program. It will be responsible for
+	We begin with our t_toolsstruct, this can be considered the main struct representing our shell program. It will be responsible for
 	storing the following information:
 		
 		+ The users input which will direct our programs behaviour.
@@ -50,7 +50,7 @@ typedef enum s_token_type
 		+ A data structure for the type t_command which stores command information needed by the executor to run commands.
 		+ The number of pipes found in the users input to inform the executor how the command should be run. 
 		
-	Initialising space for the t_tool struct will involve memory allocation for:
+	Initialising space for the t_toolsstruct will involve memory allocation for:
 	
 		+ char		*input
 		+ struct	s_env_node *env_list;
@@ -83,7 +83,7 @@ typedef enum s_token_type
 	
 	---------------------------------------------------------TOKENISER------------------------------------------------------------------
 	
-	t_token **tokeniser(char *input, t_tool *shell)
+	t_token **tokeniser(char *input, t_tools*shell)
 	
 	eg. "ls -la | cat >> output.txt"
 	
@@ -146,9 +146,9 @@ typedef enum s_token_type
     	struct s_redirection	*next;
 	}	t_redirection;
 
-	t_command   **create_cmds(t_token **tkn_list, t_tool *shell)
+	t_command   **create_cmds(t_token **tkn_list, t_tools*shell)
 
-	create_cmds() will return a list of t_command structs and takes a list of tokens and a pointer to a t_tool struct
+	create_cmds() will return a list of t_command structs and takes a list of tokens and a pointer to a t_toolsstruct
 
 	If shell->number_of_pipes == 0 there will be just one command and thus a list but just one node long.
 	If shell->number_of_pipes > 0 there will be a list of t_commands with more than one node

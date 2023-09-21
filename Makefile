@@ -26,34 +26,36 @@ LIBS	:= -lreadline
 LIBFT	:= libft/libft.a
 HEADERS := -I libft -I include
 SRCS 	:=	src/main.c \
-			src/test.c \
-			src/test_redirection.c \
-			src/env/env.c \
-			src/env/env_utils.c \
-			src/env/env_utils_2.c \
-			src/builtin/mini_cd.c \
-			src/builtin/mini_echo.c \
-			src/builtin/mini_pwd.c \
-			src/builtin/mini_env.c \
-			src/builtin/mini_exit.c \
-			src/builtin/mini_unset.c \
-			src/builtin/mini_export.c \
-			src/builtin/builtin_utils.c \
-			src/execute/redirections.c \
-			src/execute/heredoc.c \
-			src/execute/execute.c \
-			src/utils/utils.c \
-			src/error_syntax/syntax_check.c \
-			src/expansion/double_quotation.c \
-			src/expansion/expand_dollar_sign.c \
-			src/parser/create_cmds_utils.c \
-			src/parser/create_cmds.c \
-			src/parser/init_redirection.c \
-			src/parser/parser.c \
-			src/signals/signals.c \
-			src/tokeniser/tokeniser_lst_utils.c \
-			src/tokeniser/tokeniser_utls.c \
-			src/tokeniser/tokeniser.c 
+				src/test/test.c \
+				src/test/test_redirection.c \
+				src/env/env.c \
+				src/env/env_utils.c \
+				src/env/env_utils_2.c \
+				src/builtin/mini_cd.c \
+				src/builtin/mini_echo.c \
+				src/builtin/mini_pwd.c \
+				src/builtin/mini_env.c \
+				src/builtin/mini_exit.c \
+				src/builtin/mini_unset.c \
+				src/builtin/mini_export.c \
+				src/builtin/builtin_utils.c \
+				src/execute/redirections.c \
+				src/execute/heredoc.c \
+				src/execute/execute.c \
+				src/execute/handle_pipes.c \
+				src/execute/execute_utils.c \
+				src/utils/utils.c \
+				src/error_syntax/syntax_check.c \
+				src/expansion/double_quotation.c \
+				src/expansion/expand_dollar_sign.c \
+				src/parser/create_cmds_utils.c \
+				src/parser/create_cmds.c \
+				src/parser/init_redirection.c \
+				src/parser/parser.c \
+				src/signals/signals.c \
+				src/tokeniser/tokeniser_lst_utils.c \
+				src/tokeniser/tokeniser_utils.c \
+				src/tokeniser/tokeniser.c
 
 #SRCS	:= ${SRCS:%=./src/%}
 OBJS	:= ${SRCS:.c=.o}

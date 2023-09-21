@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-t_command	**create_simple_cmd(t_token **tkn_list, t_tool *shell)
+t_command	**create_simple_cmd(t_token **tkn_list, t_tools*shell)
 {
 	t_command	**cmd_list;
 	t_command	*cmd;
@@ -29,7 +29,7 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tool *shell)
 }
 
 
-t_command	**create_adv_cmd(t_token **tkn_list, t_tool *shell)
+t_command	**create_adv_cmd(t_token **tkn_list, t_tools*shell)
  {
 	t_command	**cmd_list;
 	char	**pipe_split;

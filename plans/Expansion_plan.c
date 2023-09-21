@@ -30,7 +30,7 @@ HANDLE QUOTATIONS
 
 So what does an expansion look like?
 	
-	We have an input from the user which is stored in a t_tool instance as shell->input.
+	We have an input from the user which is stored in a t_toolsinstance as shell->input.
 
 	We can first read through this and check if we have double quotation marks.
 	Then we should check if we have an even number of marks, otherwise we should error

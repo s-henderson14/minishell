@@ -43,30 +43,30 @@
 // 	//ft_lstadd_back_command(tools->command_list, command); //MALLOCC
 // }
 
-t_command *init_command_list(char *line, t_tools *tools)
-{
-	t_command *command_list;
-	char **split_line;
+// t_command *init_command_list(char *line, t_tools *tools)
+// {
+// 	t_command *command_list;
+// 	char **split_line;
 
-	command_list = tools->command_list;
-	split_line = ft_split(line, ' ');
-	//printf("%s\n%s\n", split_line[0], split_line[1]);
-	// for (int i = 0; i < 2; i++)
-	// {
-	// 	printf("%s\n", split_line[i]);
-	// }
-	//printf("%s\n%s\n%s\n%s\n", split_line[0], split_line[1], split_line[2], split_line[3]);
-	tools->number_of_pipes = count_pipes(split_line);
-//	printf("pipes= %d\n", tools->number_of_pipes);
-	command_list = ft_lstnew_command(split_line, tools);
-//	printf("%s %s %s %s\n", command_list->args[0], command_list->args[1], command_list->next->args[0], command_list->next->args[1]);//, command_list->next->next->args[0]);
-	return (command_list);
-}
+// 	command_list = tools->command_list;
+// 	split_line = ft_split(line, ' ');
+// 	//printf("%s\n%s\n", split_line[0], split_line[1]);
+// 	// for (int i = 0; i < 2; i++)
+// 	// {
+// 	// 	printf("%s\n", split_line[i]);
+// 	// }
+// 	//printf("%s\n%s\n%s\n%s\n", split_line[0], split_line[1], split_line[2], split_line[3]);
+// 	tools->number_of_pipes = count_pipes(split_line);
+// //	printf("pipes= %d\n", tools->number_of_pipes);
+// 	command_list = ft_lstnew_command(split_line, tools);
+// //	printf("%s %s %s %s\n", command_list->args[0], command_list->args[1], command_list->next->args[0], command_list->next->args[1]);//, command_list->next->next->args[0]);
+// 	return (command_list);
+// }
 
 int count_args_until_pipe(char **args, int i)
 {
 	int count;
-	
+
 	count = 0;
 	while (args[i] != NULL)
 	{
