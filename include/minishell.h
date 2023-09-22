@@ -173,6 +173,9 @@ char **array_dup(char **env);
 void    ft_lstadd_back_command(t_command *command_list, t_command *command);
 t_command   *ft_lstnew_command(char **dup, t_tools *tools);
 t_command   *init_single_command(t_tools *tools, char **temp_args);
+void command_list_free(t_command *command_list);
+void    free_double_arr(char **arr);
+
 
 //BUILTINS
 //mini_cd.c

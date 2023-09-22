@@ -113,5 +113,6 @@ char	**ft_split(char const *s, char c)
 		i = i + word_length(s + i, c);
 		arr_i++;
 	}
+	arr[arr_i] = NULL;
 	return (arr);
 }

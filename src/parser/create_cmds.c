@@ -42,8 +42,9 @@ t_command	**create_adv_cmd(t_token **tkn_list, t_tools *shell)
 	j = 0;
 	cmd_list = ft_calloc(shell->number_of_pipes + 1, sizeof(t_command *)); //allocate memory for a list of commands structs
 	pipe_split = ft_split(shell->input, '|');                              // split the user input based on pipes "ls | wc -l" becomes "ls" "wc -l"
+	//printf("%s %s %s %s\n", pipe_split[0], pipe_split[1], pipe_split[2], pipe_split[3]);//, pipe_split[3]);
 	tkn = *tkn_list;                 									   // make our tmp token equal to the head of our token_list. In this example head tkn = "ls"
-	while (j <= shell->number_of_pipes)                                    // 1 pipe present equals 2 commands and if i starts at 0 then we run our while loop for two rounds
+	while (j <= shell->number_of_pipes)                                   // 1 pipe present equals 2 commands and if i starts at 0 then we run our while loop for two rounds
 	{
 		cmd = ft_calloc(1, sizeof(t_command));                             // allocate space for a command struct
 		cmd->args = ft_calloc(word_counter(pipe_split[j], ' ') + 1, sizeof(char *)); // allocate space for command arguments

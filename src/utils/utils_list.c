@@ -1,19 +1,38 @@
 #include "../../include/minishell.h"
 
-// t_command	*ft_lstnew_command(char **dup, t_tools *tools)
-// {
-// 	t_command	*command;
+void	free_double_arr(char **arr)
+{
+	int	i;
 
-// 	command = (t_command *)malloc(sizeof(t_command));
-// 	if (command == NULL)
-// 		return (NULL);
-// 	command->args = array_dup(dup); //MALLOC
-// 	if (command->args == NULL)
-// 		return NULL;
-//     command->redirection = init_redirection(command);
-// 	command -> next = NULL;
-// 	return (command);
-// }
+	i = 0;
+	if (arr == NULL)
+		return ;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+void command_list_free(t_command *command_list)
+{
+	t_command *temp;
+
+	if (command_list == NULL)
+		return ;
+	temp = command_list;
+	while (temp != NULL)
+	{
+		temp = command_list->next;
+		free_double_arr(command_list->args);
+		free(command_list->redirection);
+		free(command_list);
+	//	env_node_free(command_list);
+		command_list = temp;
+	}
+}
+
 
 void	ft_lstadd_back_command(t_command *command_list, t_command *command)
 {

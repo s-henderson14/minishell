@@ -45,6 +45,7 @@ SRCS 	:=	src/main.c \
 				src/execute/handle_pipes.c \
 				src/execute/execute_utils.c \
 				src/utils/utils.c \
+				src/utils/utils_list.c \
 				src/error_syntax/syntax_check.c \
 				src/expansion/double_quotation.c \
 				src/expansion/expand_dollar_sign.c \

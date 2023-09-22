@@ -8,7 +8,9 @@ t_token **tokeniser(char *input, t_tools*shell)
 	int		i;
 
 	i = 0;
-	tkn_list = ft_calloc(1, sizeof(t_token *)); 
+	shell->number_of_pipes = 0; //GUL ADDED THIS LINE!!! (numb of pipe and redir need to be init before using)
+	shell->number_of_redir = 0;	//GUL ADDED THIS LINE!!!
+	tkn_list = ft_calloc(1, sizeof(t_token *));
 	if (!tkn_list)
 		return (NULL);
 	split_input = ft_split(input, ' ');
@@ -46,6 +48,9 @@ t_token **tokeniser(char *input, t_tools*shell)
 		add_token_back(tkn_list, tkn);
 		i++;
 	}
+	printf("pipes= %d\n", shell->number_of_pipes);
+	//printf("%s %s %s %s %s\n", (*tkn_list)->content, (*tkn_list)->next->content,
+	//	(*tkn_list)->next->next->content, (*tkn_list)->next->next->next->content, (*tkn_list)->next->next->next->next->content);
 	return (tkn_list);
 }
 

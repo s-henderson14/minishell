@@ -33,6 +33,7 @@ int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, i
 	pid_t	p1;
 	int		exit_code;
 
+	redirection(command);
 	p1 = fork();
 	if (p1 == -1)
 	{
@@ -44,9 +45,9 @@ int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, i
 		protected_dup2(fd_input, STDIN_FILENO);
 		protected_dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]);
-		redirection(command);
+		//redirection(command);
 		choose_builtin(tools);
-		execute_single_command(tools, command); // command will change each call
+		exit_code = execute_single_command(tools, command); // command will change each call
 	}
 	wait(&exit_code);
 	return (EXIT_SUCCESS);

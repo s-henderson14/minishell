@@ -28,8 +28,8 @@ static t_tools *init_tools(int argc, char **argv, char **env)
 	tools->env_list = init_env_linked_list(env);
 	tools->interactive = 1;
 	//init_command_structure(argc, argv, tools);
-	// tools->number_of_pipes = count_pipes(argv);
-	// printf("pipes= %d\n", tools->number_of_pipes);
+	// tools->number_of_pipes = 0;
+		// printf("pipes= %d\n", tools->number_of_pipes);
 	return (tools);
 }
 
@@ -62,8 +62,8 @@ static void shell_loop(t_tools *tools)
 			tools->command_list = *(cmd_list);
 			execute(tools);
 			//printf("EXEC FINISH\n");
-			// free(tools->command_list);
-			// tools->command_list = NULL;
+			command_list_free(tools->command_list);
+			tools->command_list = NULL;
 			free(tools->input);
 			tools->input = NULL;
 			//free things.

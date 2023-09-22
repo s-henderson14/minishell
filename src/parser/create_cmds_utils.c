@@ -28,6 +28,8 @@ int	word_counter(const char *s, char c)
 
 	i = 0;
 	count = 0;
+	if (s == NULL)
+		return (0);
 	while (s[i])
 	{
 		while (s[i] && s[i] == c)
@@ -41,3 +43,32 @@ int	word_counter(const char *s, char c)
 	}
 	return (count);
 }
+
+
+// int	word_counter(const char *s, char c)
+// {
+// 	int	count;
+// 	int	i;
+// 	char prev_char;
+
+// 	i = 0;
+// 	count = 0;
+// 	prev_char = '\0';
+
+// 	if (s == NULL)
+// 		return (0);
+// 	while (s[i] != '\0')
+// 	{
+
+// 		if (s[i] == c && prev_char != c) // to handle consecutive " "
+// 		{
+// 			count++;
+// 		}
+// 		if (i > 0) 
+// 		{
+// 			prev_char = s[i]; // to keep prev_char behind s[i]
+// 		}
+// 		i++;
+// 	}
+// 	return (count);
+// }
