@@ -8,7 +8,7 @@ int mini_exit(t_tools *tools, t_command *command)
 	exit_code = 0;
 	ft_putendl_fd("exit", STDERR_FILENO);
 	if (command->args[1] == NULL)
-		exit (0);
+		exit(0);
 	if (command->args[0] != NULL && command->args[1] != NULL)
 	{
 		if (command->args[2] != NULL)
@@ -26,7 +26,7 @@ int mini_exit(t_tools *tools, t_command *command)
 			&& ft_atoi(command->args[1]) > 255)
 		{
 			ft_putendl_fd("Exit statuses fall between 0 and 255", STDERR_FILENO);
-			exit_code = 2; 
+			exit_code = 2;
 		}
 		else if (check_arg_digit(command->args[1]) != 1)
 		{

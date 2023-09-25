@@ -48,6 +48,7 @@ int redirection(t_command *command)
 	t_redirection *redirection;
 
 	redirection = command->redirection;
+//	printf("filename = %s\n", redirection->file_name);
 	while (redirection != NULL)
 	{
 		if (redirection->type == GREAT || redirection->type == GREAT_GREAT)

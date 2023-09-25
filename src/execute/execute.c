@@ -5,6 +5,7 @@
 */
 int is_builtin(t_command *command)
 {
+	//printf("BUILTINN");
 	return (ft_strsame(command->args[0], "cd") == 1
 			|| ft_strsame(command->args[0], "echo") == 1
 			|| ft_strsame(command->args[0], "pwd") == 1
@@ -29,7 +30,6 @@ void execute_without_pipe(t_tools *tools)
 		error_exit("fork failed", 1);
 	else if (p1 == 0)
 	{
-		redirection(command);
 		execute_single_command(tools, command);
 	}
 	else
@@ -44,6 +44,7 @@ void execute(t_tools *tools)
 	t_command *command_list;
 
 	command_list = tools->command_list;
+	//printf("command args = %s %s \n", command_list->args[0], command_list->args[1]);
 	if (tools->number_of_pipes == 0)
 	{
 		if (is_builtin(command_list) == 1)
@@ -52,6 +53,7 @@ void execute(t_tools *tools)
 			choose_builtin(tools);
 		}
 		else
+			redirection(command_list);
 			execute_without_pipe(tools);
 	}
 	else

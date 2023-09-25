@@ -48,21 +48,48 @@ t_token **tokeniser(char *input, t_tools*shell)
 		add_token_back(tkn_list, tkn);
 		i++;
 	}
-	printf("pipes= %d\n", shell->number_of_pipes);
+	//printf("pipes= %d\n", shell->number_of_pipes);
 	//printf("%s %s %s %s %s\n", (*tkn_list)->content, (*tkn_list)->next->content,
 	//	(*tkn_list)->next->next->content, (*tkn_list)->next->next->next->content, (*tkn_list)->next->next->next->next->content);
 	return (tkn_list);
 }
 
+// int	main(int argc, char **argv) //THIS TESTING PART IS FOR GUL(just wanted to get str from command line, so that i could use another commands to test)
+// {
+// 	t_token	**tkn_list;
+// 	t_token	*tmp;
+// 	t_tools	*shell;
+// 	char	*str;
+// 	(void)argc;
+
+// 	str = "ls -la > out";
+// 	str = argv[1];
+// 	shell = ft_calloc(1, sizeof(t_tools));
+// 	tkn_list = tokeniser(str, shell);
+
+// 	tmp = *tkn_list;
+// 	while (tmp != NULL)
+// 	{
+// 		printf("Token Content: %s\nToken ID: %d\n",tmp->content, tmp->type);
+// 		tmp = tmp->next;
+// 	}
+// 	//printf("redir token_name %s\n", shell->redirection->token_name);
+// 	printf("No. of Pipes: %d\nNo. of Redirections: %d\n", shell->number_of_pipes, shell->number_of_redir);
+// 	free(tkn_list);
+// 	free(shell);
+// 	return (0);
+// }
+
+
 // int	main()
 // {
 // 	t_token	**tkn_list;
 // 	t_token	*tmp;
-// 	t_tool	*shell;
+// 	t_tools	*shell;
 // 	char	*str;
 
-// 	str = "ls -la < out";
-// 	shell = ft_calloc(1, sizeof(t_tool));
+// 	str = "ls -la > out";
+// 	shell = ft_calloc(1, sizeof(t_tools));
 // 	tkn_list = tokeniser(str, shell);
 
 // 	tmp = *tkn_list;
@@ -79,13 +106,13 @@ t_token **tokeniser(char *input, t_tools*shell)
 
 // int	main(int argc, char **argv) //Testing skip quotation marks in args
 // {
-// 	t_tool	*shell;
+// 	t_tools	*shell;
 // 	t_token	**tkn_list;
 // 	t_token	*tkn;
 
 // 	if (argc < 2)
 // 		exit(1);
-// 	shell = ft_calloc(1, sizeof(t_tool));
+// 	shell = ft_calloc(1, sizeof(t_tools));
 // 	tkn_list = tokeniser(argv[1], shell);
 // 	tkn = *tkn_list;
 // 	while (tkn != NULL)

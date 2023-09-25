@@ -24,14 +24,15 @@ void set_pwd_update_oldpwd(char *new_path, t_env_node *env_list)
 	if (chdir(new_path) == -1)
 	{
 		free(new_path); // i ll call exit anyways
-		error_exit("cd: No such a file or directory\n", 1); //DONT EXIT!!!
+		error_exit("mini_cd: No such a file or directory\n", 1); //DONT EXIT!!!
 	}
-	//printf("pwd = %s\n", get_value_from_env_node("PWD", env_list));			
+	//printf("pwd = %s\n", get_value_from_env_node("PWD", env_list));
+	//printf("new current = %s\n", protect(getcwd(NULL, 0)));
 	change_value_of_env_key(new_path, "PWD", env_list);	//if i set this line, PWD changes
 	change_value_of_env_key(current_pwd, "OLDPWD", env_list);	//oldpwd SET
 	//printf("oldpwd = %s\n", current_pwd);
 	//printf("pwd = %s\n", new_path);
-	//printf("pwd = %s\n", get_value_from_env_node("PWD", env_list));	
+	//printf("pwd = %s\n", get_value_from_env_node("PWD", env_list));
 	//env_list_print(env_list);
 	free(current_pwd);
 	free(new_path);
@@ -68,6 +69,8 @@ int mini_cd(t_tools *tools, t_command *command)
 	env_list = tools->env_list;
 	//if (command->args[2] != NULL) //normally, if second arg is valid, then it ignores 3rd
 	//	error_exit("cd: too many arguments\n");
+	//printf("LELLO1\n");
+	//printf("command args in mini_cd = %s %s \n", command->args[0], command->args[1]);
 	if (command->args[1] == NULL
 		|| ft_strsame(command->args[1], "~") == 1)
 	{

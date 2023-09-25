@@ -60,9 +60,10 @@ static void shell_loop(t_tools *tools)
 			//tools->command_list = init_command_list(line, tools); //temp, testing purpose
 			cmd_list = parser(tools);
 			tools->command_list = *(cmd_list);
+			//printf("command args = %s %s \n", tools->command_list->args[0], tools->command_list->args[1]);
 			execute(tools);
 			//printf("EXEC FINISH\n");
-			command_list_free(tools->command_list);
+			//command_list_free(tools->command_list);
 			tools->command_list = NULL;
 			free(tools->input);
 			tools->input = NULL;

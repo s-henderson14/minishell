@@ -36,7 +36,10 @@ void choose_builtin(t_tools *tools)
 
 	command = tools->command_list;
 	if (ft_strsame(command->args[0], "cd") == 1)
+	{
+	//	printf("CHOOSE BUILTIN\n");
 		mini_cd(tools, command);
+	}
 	if (ft_strsame(command->args[0], "pwd") == 1)
 		mini_pwd(tools);
 	if (ft_strsame(command->args[0], "echo") == 1)
