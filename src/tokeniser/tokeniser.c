@@ -37,10 +37,8 @@ t_token **tokeniser(char *input, t_tools*shell)
 			printf("%s\n", tkn->content);
 		}
 		else
-		{	
 			assign_token_type(tkn, split_input[i]);
-			tkn->content = get_literal_token(split_input[i]);
-		}
+			//tkn->content = get_literal_token(split_input[i]); Changed to remove Pipes and Redirections from command args
 		if (tkn->type == PIPE)
 			shell->number_of_pipes += 1;
 		if (tkn->type > 2)
