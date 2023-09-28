@@ -10,7 +10,7 @@ int input_redirection(t_redirection *redirection)
 {
 	int fd;
 
-	printf("redir_filename = %d\n", redirection->type);
+	printf("redir_filename = %s\n", redirection->file_name); // Changed from %d to %s and tynpe to filename
 
 	fd = open(redirection->file_name, O_RDONLY, 0644);
 	if (fd < 1)
@@ -24,7 +24,7 @@ int output_redirection(t_redirection *redirection)
 	int fd;
 
 	fd = 0;
-	printf("redir_filename = %d\n", redirection->type);
+	printf("redir_filename = %s\n", redirection->file_name);//Changed from %d to %s and tpe to filename
 	if (redirection->type == GREAT)
 	{
 		printf("A\n");
