@@ -10,6 +10,7 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tools *shell)
 	i = 0;
 	cmd_list = ft_calloc(1, sizeof(t_command *));
 	cmd = ft_calloc(1, sizeof(t_command));
+	//printf("argc: %d\n", count_tokens(tkn_list));
 	cmd->args = ft_calloc(count_tokens(tkn_list) + 1, sizeof(char *));
 	if (shell->number_of_redir >= 1)
 			cmd->redirection = ft_calloc(1, sizeof(t_redirection *));
@@ -19,7 +20,7 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tools *shell)
 		if (tkn->content != NULL)
 			cmd->args[i] = tkn->content;
 		else
-			redir_init(cmd, tkn, &i);
+			redir_init(cmd, tkn);
 		i++;
 		tkn = tkn->next;
 	}
@@ -56,12 +57,12 @@ t_command	**create_adv_cmd(t_token **tkn_list, t_tools *shell)
 				cmd->args[i] = tkn->content;  // assign the literal to args
 			else if(tkn->type == 1)           // if 
 			{
-				cmd->args[i] = "|";
+				//cmd->args[i] = "|";//Changed to remove pipes and redirections from command args
 				tkn = tkn->next;
 				break ;
 			}
 			else if (tkn->type > 2)
-				redir_init(cmd, tkn, &i);
+				redir_init(cmd, tkn);
 			i++;
 			tkn = tkn->next;
 		}

@@ -176,6 +176,8 @@ t_command	**parser(t_tools *shell)
 		cmd = create_simple_cmd(tkn_list, shell);
 	else if (shell->number_of_pipes > 0)
 		cmd = create_adv_cmd(tkn_list, shell);
+	//printf("command %s\n", (*cmd)->args[0]);
+	//printf("arg 1 %s\n", (*cmd)->args[2]);
 	return (cmd);
 }
 

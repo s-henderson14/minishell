@@ -26,7 +26,7 @@ int	word_counter(const char *s, char c)
 	int	count;
 	int	i;
 
-	i = 0;
+	i = 0; ////Example of "ls -l | grep libft" become "ls -l" "grep libft"
 	count = 0;
 	if (s == NULL)
 		return (0);
@@ -34,12 +34,17 @@ int	word_counter(const char *s, char c)
 	{
 		while (s[i] && s[i] == c)
 			i++;
-		while (s[i] && s[i] != c)
+		if (s[i] != '|' || s[i] != '>' || s[i] != '<') //changed to remove pipes and redirections from command args
 		{	
-			i++;
-			if (s[i] == c || s[i] == '\0')
-				count++;
+			while (s[i] && s[i] != c)
+			{	
+				i++;
+				if (s[i] == c || s[i] == '\0')
+					count++;
+			}
 		}
+		else
+			i++;// added as part of removing pipes and redirections from command args
 	}
 	return (count);
 }
