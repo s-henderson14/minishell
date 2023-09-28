@@ -53,8 +53,10 @@ void execute(t_tools *tools)
 			choose_builtin(tools);
 		}
 		else
+		{	
 			redirection(command_list);
 			execute_without_pipe(tools);
+		}
 	}
 	else
 	{
