@@ -110,7 +110,7 @@ int         word_counter(const char *s, char c);
 
 //**REDIRECTIONS**//
 
-void        redir_init(t_command *cmd, t_token *tkn, int *index);
+void        redir_init(t_command *cmd, t_token *tkn);
 
 //**EXPANSION**//
 
