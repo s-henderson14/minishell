@@ -30,7 +30,7 @@ void execute_without_pipe(t_tools *tools)
 		error_exit("fork failed", 1);
 	else if (p1 == 0)
 	{
-		execute_single_command(tools, command);
+		exit_code = execute_single_command(tools, command);
 	}
 	else
 	{
