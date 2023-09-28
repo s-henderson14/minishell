@@ -18,10 +18,12 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tools *shell)
 	while (tkn != NULL)
 	{
 		if (tkn->content != NULL)
+		{
 			cmd->args[i] = tkn->content;
+			i++;
+		}
 		else
 			redir_init(cmd, tkn);
-		i++;
 		tkn = tkn->next;
 	}
 	cmd->args[i] = NULL;
