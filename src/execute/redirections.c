@@ -10,7 +10,7 @@ int input_redirection(t_redirection *redirection)
 {
 	int fd;
 
-	printf("redir_filename = %s\n", redirection->file_name); // Changed from %d to %s and tynpe to filename
+	printf("input_filename = %s\n", redirection->file_name); // Changed from %d to %s and tynpe to filename
 
 	fd = open(redirection->file_name, O_RDONLY, 0644);
 	if (fd < 1)
@@ -24,16 +24,13 @@ int output_redirection(t_redirection *redirection)
 	int fd;
 
 	fd = 0;
-	printf("redir_filename = %s\n", redirection->file_name);//Changed from %d to %s and tpe to filename
+	printf("output_filename = %s\n", redirection->file_name);//Changed from %d to %s and tpe to filename
 	if (redirection->type == GREAT)
 	{
 		printf("A\n");
 		fd = open(redirection->file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd < 0)
-		{
-			printf("B\n");
 			error_exit("open(): failed", 1);
-		}
 	}
 	else if (redirection->type == GREAT_GREAT)
 	{
@@ -42,7 +39,7 @@ int output_redirection(t_redirection *redirection)
 			error_exit("open(): failed", 1);
 	}
 	protected_dup2(fd, STDOUT_FILENO);
-	//printf("C\n");
+	printf("B\n");
 	return (EXIT_SUCCESS);
 }
 
@@ -50,8 +47,8 @@ int redirection(t_command *command)
 {
 	t_redirection *redirection;
 
-	redirection = command->redirection;
-//	printf("filename = %s type = %d\n", redirection->file_name, redirection->type);
+	redirection = *command->redirection; // added * for access to array of redir structs
+//	printf("filename = %s\n", redirection->file_name);
 	while (redirection != NULL)
 	{
 		if (redirection->type == GREAT || redirection->type == GREAT_GREAT)

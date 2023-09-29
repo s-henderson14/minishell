@@ -44,7 +44,7 @@ void execute(t_tools *tools)
 	t_command *command_list;
 
 	command_list = tools->command_list;
-	//printf("command args = %s %s %s\n", command_list->args[0], command_list->args[1], command_list->args[2]);
+	//printf("command args = %s %s \n", command_list->args[0], command_list->args[1]);
 	if (tools->number_of_pipes == 0)
 	{
 		if (is_builtin(command_list) == 1)
