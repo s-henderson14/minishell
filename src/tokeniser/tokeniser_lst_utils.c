@@ -29,8 +29,11 @@ int count_tokens(t_token **tkn_list)
     i = 0;
     tmp = *tkn_list;
 	while (tmp != NULL)
-	{
-		i++;
+	{	
+		if(tmp->type > 2 && tmp->next->type == 2)
+			tmp = tmp->next;
+		else if (tmp->type == 2)
+			i++;
 		tmp = tmp->next;
 	}
 	return (i);
