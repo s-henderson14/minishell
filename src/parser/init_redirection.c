@@ -18,18 +18,18 @@ void	redir_init(t_command *cmd, t_token *tkn)
 	
 }
 
-void	add_redir_front(t_redirection **redir_lst, t_redirection *new_redir)
+void	add_redir_front(t_redirection *redir_lst, t_redirection *new_redir)
 {
-	new_redir->next = *redir_lst;
-	*redir_lst = new_redir;
+	new_redir->next = redir_lst;
+	redir_lst = new_redir;
 }
 
-void	add_redir_back(t_redirection **redir_lst, t_redirection *new_redir)
+void	add_redir_back(t_redirection *redir_lst, t_redirection *new_redir)
 {
 	t_redirection	*tmp;
 
-	tmp = *redir_lst;
-	if (*redir_lst == NULL)
+	tmp = redir_lst;
+	if (redir_lst == NULL)
 	{	
 		add_redir_front(redir_lst, new_redir);
 		return ;
