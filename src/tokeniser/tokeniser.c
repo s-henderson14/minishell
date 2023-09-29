@@ -46,6 +46,7 @@ t_token **tokeniser(char *input, t_tools*shell)
 		add_token_back(tkn_list, tkn);
 		i++;
 	}
+	tkn_list[i] = NULL;
 	//printf("pipes= %d\n", shell->number_of_pipes);
 	//printf("%s %s %s %s %s\n", (*tkn_list)->content, (*tkn_list)->next->content,
 	//	(*tkn_list)->next->next->content, (*tkn_list)->next->next->next->content, (*tkn_list)->next->next->next->next->content);

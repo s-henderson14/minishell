@@ -14,11 +14,13 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tools *shell)
 	cmd->args = ft_calloc(count_tokens(tkn_list) + 1, sizeof(char *));
 	if (shell->number_of_redir >= 1)
 			cmd->redirection = ft_calloc(shell->number_of_redir, sizeof(t_redirection *));
+
 	tkn = *tkn_list;
 	while (tkn != NULL)
 	{
 		if (tkn->type > 2 && tkn->next->type == 2)
 		{	
+			printf("a\n");
 			redir_init(cmd, tkn);
 			tkn = tkn->next;
 		}
