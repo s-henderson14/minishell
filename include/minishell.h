@@ -112,6 +112,10 @@ int         word_counter(const char *s, char c);
 
 void        redir_init(t_command *cmd, t_token *tkn);
 
+void	    add_redir_back(t_redirection *redir_lst, t_redirection *new_redir);
+
+void	    add_redir_front(t_redirection *redir_lst, t_redirection *new_redir);
+
 //**EXPANSION**//
 
 int         double_found(char *str);
