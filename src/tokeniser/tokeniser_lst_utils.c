@@ -23,16 +23,17 @@ void	add_token_back(t_token **tkn_lst, t_token *new_tkn)
 
 int count_tokens(t_token **tkn_list)
 {
-    int		i;
-    t_token	*tmp;
-
+    int     i;
+    t_token *tmp;
     i = 0;
     tmp = *tkn_list;
-	while (tmp != NULL)
-	{
-		if (tmp->type == 2)
-			i++;
-		tmp = tmp->next;
-	}
-	return (i);
+    while (tmp != NULL)
+    {
+        if(tmp->type > 2 && tmp->next->type == 2)
+            tmp = tmp->next;
+        else if (tmp->type == 2)
+            i++;
+        tmp = tmp->next;
+    }
+    return (i);
 }

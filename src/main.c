@@ -50,6 +50,7 @@ static void shell_loop(t_tools *tools)
 		{
 			free(line);
 			error_exit("bad user input", 1); //??
+			exit(1);
 		}
 		else if (line[0] != '\0')
 		{
@@ -65,11 +66,11 @@ static void shell_loop(t_tools *tools)
 				// tools->command_list->args[2], tools->command_list->args[3]);
 			execute(tools);
 			//printf("EXEC FINISH\n");
-			command_list_free(tools->command_list);
+			//command_list_free(tools->command_list);
 			tools->command_list = NULL;
-			free(tools->input);
-			tools->input = NULL;
-			//free things.
+			// free(tools->input);
+			// tools->input = NULL;
+			free(line);
 			//printf("--------");
 		}
 	}

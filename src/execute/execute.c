@@ -42,26 +42,34 @@ void execute_without_pipe(t_tools *tools)
 void execute(t_tools *tools)
 {
 	t_command *command_list;
+	int fd_in;
+	int fd_out;
 
+	fd_in = dup(STDIN_FILENO);
+	fd_out = dup(STDOUT_FILENO);
 	command_list = tools->command_list;
 	//printf("command args = %s %s \n", command_list->args[0], command_list->args[1]);
 	if (tools->number_of_pipes == 0)
 	{
 		if (is_builtin(command_list) == 1)
 		{
-			redirection(command_list);
+			if (redirection(command_list) == 1)
+				return ;
 			choose_builtin(tools);
 		}
 		else
 		{	
-			redirection(command_list);
+			if (redirection(command_list) == 1)
+				return ;
 			execute_without_pipe(tools);
+
 		}
 	}
 	else
 	{
 		handle_pipes(tools);
 		//printf("here pipes need to be execute()\n");
-		return ;
 	}
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
 }

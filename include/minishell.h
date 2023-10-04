@@ -116,6 +116,8 @@ void	    add_redir_back(t_redirection *redir_lst, t_redirection *new_redir);
 
 void	    add_redir_front(t_redirection *redir_lst, t_redirection *new_redir);
 
+int count_nodes(t_redirection *redirection);
+
 //**EXPANSION**//
 
 int         double_found(char *str);
