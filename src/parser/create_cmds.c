@@ -12,8 +12,8 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tools *shell)
 	cmd = ft_calloc(1, sizeof(t_command));
 	printf("argc: %d\n", count_tokens(tkn_list));
 	cmd->args = ft_calloc(count_tokens(tkn_list) + 1, sizeof(char *));
-	if (shell->number_of_redir >= 1)
-	{		
+	if (shell->number_of_redir > 0)
+	{
 		cmd->redirection = ft_calloc(1, sizeof(t_redirection));
 		cmd->redirection->file_name = NULL;
 		cmd->redirection->type = 0;
@@ -24,7 +24,7 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tools *shell)
 	while (tkn != NULL)
 	{
 		if (tkn->type > 2 && tkn->next->type == 2)
-		{	
+		{
 			redir_init(cmd, tkn);
 			tkn = tkn->next;
 		}
@@ -65,16 +65,16 @@ t_command	**create_adv_cmd(t_token **tkn_list, t_tools *shell)
 		while (tkn != NULL)              // while we are not at the end of our list
 		{
 			if (tkn->type > 2 && tkn->next->type == 2)
-			{	
+			{
 				redir_init(cmd, tkn);
 				tkn = tkn->next;
 			}
 			else if (tkn->content != NULL && tkn->type == 2)    // if token is a literal i.e not a redirection
-			{	
+			{
 				cmd->args[i] = tkn->content;  // assign the literal to args
 				i++;
 			}
-			else if(tkn->type == 1)           // if 
+			else if(tkn->type == 1)           // if
 			{
 				//cmd->args[i] = "|";//Changed to remove pipes and redirections from command args
 				tkn = tkn->next;
@@ -88,6 +88,6 @@ t_command	**create_adv_cmd(t_token **tkn_list, t_tools *shell)
 	}
 	return (cmd_list);
 }
-	
+
 	//NOTE: edge case "ls > file1 > file2" will create file1 but only write into file2. We would have to say if shell->number_ of_redir > 1 then
 	// the following literals would be created as files and only the last word (use a last word function) would be written into 

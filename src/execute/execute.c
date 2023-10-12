@@ -58,7 +58,7 @@ void execute(t_tools *tools)
 			choose_builtin(tools);
 		}
 		else
-		{	
+		{
 			if (redirection(command_list) == 1)
 				return ;
 			execute_without_pipe(tools);

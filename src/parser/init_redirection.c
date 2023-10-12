@@ -3,7 +3,7 @@
 void	redir_init(t_command *cmd, t_token *tkn)
 {
 	t_redirection *redir;
-	
+
 	redir = NULL;
 	//
 	cmd->redirection->file_name = tkn->next->content;
@@ -16,18 +16,16 @@ void	redir_init(t_command *cmd, t_token *tkn)
 	// cmd->redirection->type = tkn->type;
 	if (tkn->next->type != 2 && tkn->next != NULL)
 		exit(1); // Handle error
-	if (count_nodes(cmd->redirection) > 1)
-	{
-		redir = ft_calloc(1, sizeof(t_redirection));
-		if (redir == NULL)
-			return ;
-		redir->file_name = ft_calloc(ft_strlen(tkn->next->content), sizeof(char));
-		add_redir_back(cmd->redirection, redir);
-	}
-	// cmd->redirection = redir;
-	// redir = cmd->redirection->next;
+	printf("count_nodes = %d\n", count_nodes(cmd->redirection));
+	redir = ft_calloc(1, sizeof(t_redirection));
+	if (redir == NULL)
+		return ;
+	redir->file_name = ft_calloc(ft_strlen(tkn->next->content), sizeof(char));
+	add_redir_back(cmd->redirection, redir);
+	printf("count_nodes = %d\n", count_nodes(cmd->redirection));
 }
 
+//probably we dont need this since we have a initial node (cmd->redir)
 void	add_redir_front(t_redirection *redir_lst, t_redirection *new_redir)
 {
 	new_redir->next = redir_lst;
@@ -41,12 +39,7 @@ void	add_redir_back(t_redirection *redir_lst, t_redirection *new_redir)
 
 	tmp = redir_lst;
 	printf("file name check: %s\n", redir_lst->file_name);
-	// if (redir_lst->file_name == NULL)
-	// {	
-	// 	add_redir_front(redir_lst, new_redir);
-	// 	return ;
-	// }
-  	while (tmp->next != NULL)
+	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = new_redir;
 	new_redir->next = NULL;

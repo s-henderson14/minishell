@@ -62,8 +62,8 @@ static void shell_loop(t_tools *tools)
 			//tools->command_list = init_command_list(line, tools); //temp, testing purpose
 			cmd_list = parser(tools);
 			tools->command_list = *(cmd_list);
-			printf("command args = %s %s\n", tools->command_list->args[0], tools->command_list->args[1]);
-				// tools->command_list->args[2], tools->command_list->args[3]);
+			printf("command args = %s %s %s %s\n", tools->command_list->args[0], tools->command_list->args[1],
+				 tools->command_list->args[2], tools->command_list->args[3]);
 			execute(tools);
 			//printf("EXEC FINISH\n");
 			//command_list_free(tools->command_list);
