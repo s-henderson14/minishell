@@ -20,7 +20,6 @@ int input_redirection(t_redirection *redirection)
 		return (1);
 	}
 	protected_dup2(fd, STDIN_FILENO);
-	// close(fd);
 	return (EXIT_SUCCESS);
 }
 
@@ -29,10 +28,10 @@ int output_redirection(t_redirection *redirection)
 	int fd;
 
 	// fd = 0;
-	//printf("output_filename = %s\n", redirection->file_name);//Changed from %d to %s and tpe to filename
+	printf("output_filename = %s\n", redirection->file_name);//Changed from %d to %s and tpe to filename
 	if (redirection->type == GREAT)
 	{
-		printf("A\n");
+		//printf("A\n");
 		fd = open(redirection->file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd < 0)
 			return (error_exit("open(): failed", 1));
@@ -40,7 +39,7 @@ int output_redirection(t_redirection *redirection)
 	}
 	else if (redirection->type == GREAT_GREAT)
 	{
-			printf("B\n");
+			//printf("B\n");
 
 		fd = open(redirection->file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
 		if (fd < 0)

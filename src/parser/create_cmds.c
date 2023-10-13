@@ -10,7 +10,7 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tools *shell)
 	i = 0;
 	cmd_list = ft_calloc(1, sizeof(t_command *));
 	cmd = ft_calloc(1, sizeof(t_command));
-	printf("argc: %d\n", count_tokens(tkn_list));
+	//printf("argc: %d\n", count_tokens(tkn_list));
 	cmd->args = ft_calloc(count_tokens(tkn_list) + 1, sizeof(char *));
 	if (shell->number_of_redir > 0)
 	{
