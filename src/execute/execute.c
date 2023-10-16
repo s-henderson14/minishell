@@ -51,6 +51,7 @@ void execute(t_tools *tools)
 	//printf("command args = %s %s \n", command_list->args[0], command_list->args[1]);
 	if (tools->number_of_pipes == 0)
 	{
+		check_heredoc(command_list);
 		if (is_builtin(command_list) == 1)
 		{
 			if (redirection(command_list) == 1)

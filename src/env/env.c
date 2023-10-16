@@ -13,9 +13,9 @@
 t_env_node *init_env_linked_list(char **env)
 {
 	t_env_node	*env_list;
-	char	*key;
-	char	*value;
-	int		i;
+	char		*key;
+	char		*value;
+	int			i;
 
 	env_list = NULL;
 	i = 0;
@@ -31,8 +31,7 @@ t_env_node *init_env_linked_list(char **env)
 		}
 		if (env_list != NULL)
 			env_node_add_back(env_node_create(key, value), env_list);
-		free(key);
-		free(value);
+		free_key_and_value(key, value);
 		i++;
 	}
 	return (env_list);

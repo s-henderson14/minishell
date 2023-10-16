@@ -8,6 +8,7 @@ void handle_pipes(t_tools *tools)
 	int fd_input;
 
 	command_list = tools->command_list;
+	check_heredoc(command_list);
 	fd_input = STDIN_FILENO; //first command has input from STDIN_FI
 	temp = command_list;
 	while (temp->next != NULL)

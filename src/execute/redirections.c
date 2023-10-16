@@ -31,7 +31,6 @@ int output_redirection(t_redirection *redirection)
 	//printf("output_filename = %s\n", redirection->file_name);//Changed from %d to %s and tpe to filename
 	if (redirection->type == GREAT)
 	{
-		//printf("A\n");
 		fd = open(redirection->file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd < 0)
 			return (error_exit("open(): failed", 1));
@@ -39,8 +38,6 @@ int output_redirection(t_redirection *redirection)
 	}
 	else if (redirection->type == GREAT_GREAT)
 	{
-			//printf("B\n");
-
 		fd = open(redirection->file_name, O_CREAT | O_RDWR | O_APPEND, 0644);
 		if (fd < 0)
 			return (error_exit("open(): failed", 1));
@@ -68,11 +65,11 @@ int redirection(t_command *command)
 			if (input_redirection(redirection) == 1)
 				return (EXIT_FAILURE);
 		}
-		else if (redirection->type == LESS_LESS)
-		{
-			if (here_document(redirection) == 1)
-				return (EXIT_FAILURE);
-		}
+		// else if (redirection->type == LESS_LESS)
+		// {
+		// 	if (here_document(redirection) == 1)
+		// 		return (EXIT_FAILURE);
+		// }
 		redirection = redirection->next;
 	}
 	return (EXIT_SUCCESS);

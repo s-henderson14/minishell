@@ -1,5 +1,23 @@
 #include "../../include/minishell.h"
 
+void check_heredoc(t_command *command)
+{
+	t_redirection *redirection;
+
+	redirection = command->redirection;
+	if (redirection == NULL)
+		return ;
+	while (redirection != NULL)
+	{
+		if (redirection->type == LESS_LESS)
+		{
+			if (here_document(redirection) == 1)
+				return ;
+		}
+		redirection = redirection->next;
+	}
+}
+
 int here_document(t_redirection *redirection)
 {
 	char *line;
@@ -20,6 +38,7 @@ int here_document(t_redirection *redirection)
 		if (line[0] != '\0')
 		{
 			write(fd_pipe[1], line, ft_strlen(line));
+			write(fd_pipe[1], "\n", 1);
 		}
 		free(line);
 	}

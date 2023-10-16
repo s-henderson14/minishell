@@ -167,6 +167,8 @@ void env_list_free(t_env_node *env_list);
 //env_utils_2.c
 void print_value(char *key, t_tools *tools);
 int check_key_exist(char *key, t_env_node *env_list);
+void free_key_and_value(char *key, char *value);
+
 
 //UTILS
 //utils.c
@@ -226,6 +228,7 @@ int output_redirection(t_redirection *redirection);
 int redirection(t_command *command);
 
 //heredoc.c
+void check_heredoc(t_command *command);
 int here_document(t_redirection *redirection);
 
 //execute.c

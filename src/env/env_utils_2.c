@@ -23,3 +23,9 @@ void print_value(char *key, t_tools *tools)
 		env_list = env_list->next;
 	}
 }
+
+void free_key_and_value(char *key, char *value)
+{
+	free(key);
+	free(value);
+}

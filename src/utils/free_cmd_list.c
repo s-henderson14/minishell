@@ -6,7 +6,7 @@ void	clean_split(char **arr)
 
 	i = 0;
 	if (arr[i])
-	{	
+	{
 		while (arr[i])
 		{
 			free(arr[i]);
@@ -46,7 +46,7 @@ void clean_cmd_list(t_command **cmd_list)
 		nxt = node->next;
 		if (node->args)
 			clean_split(node->args);
-		if (node->redirection)	
+		if (node->redirection)
 			clean_redirection(node->redirection);
 		free(node);
 		node = nxt;
