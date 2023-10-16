@@ -8,7 +8,6 @@ void handle_pipes(t_tools *tools)
 	int fd_input;
 
 	command_list = tools->command_list;
-	check_heredoc(command_list);
 	fd_input = STDIN_FILENO; //first command has input from STDIN_FI
 	temp = command_list;
 	while (temp->next != NULL)
@@ -35,6 +34,7 @@ int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, i
 	int		exit_code;
 
 	// redirection(command);
+	check_heredoc(command);
 	p1 = fork();
 	if (p1 == -1)
 	{
@@ -59,6 +59,7 @@ int last_command_execution(t_tools * tools, t_command *command, int fd_input, in
 	pid_t	p1;
 	int		exit_code;
 
+	check_heredoc(command);
 	p1 = fork();
 	if (p1 == -1)
 	{
