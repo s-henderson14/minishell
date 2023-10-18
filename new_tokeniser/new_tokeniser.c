@@ -72,10 +72,15 @@ t_token *init_token(char *content)
 	i = 0;
 	tkn = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (is_redirection(content[i]))
+	{	
 		tkn->content = NULL;
+		assign_token_type(tkn, content);
+	}
     else
+	{	
 		tkn->content = ft_strdup(content);
-	assign_token_type(tkn, content);
+		tkn->type = 2;
+	}
     tkn->next = NULL;
     return (tkn);
 }
@@ -91,18 +96,18 @@ char* ft_strndup(const char* s, size_t n)
     new_str = (char*) malloc(len + 1);
     if (new_str == NULL) 
         return (NULL);
-    ft_strlcpy(new_str, s, len);
+    ft_memcpy(new_str, s, len);
     new_str[len] = '\0';
     return (new_str);
 }
 
 int	is_redirection(char input)
 {
-	if (input == PIPE)
+	if (input == '|')
 		return (1);
-	else if (input == GREAT || input == GREAT_GREAT)
+	else if (input == '>')
 		return (1);
-	else if (input == LESS || input == LESS_LESS)
+	else if (input == '<')
 		return (1);
 	return (0);
 }
