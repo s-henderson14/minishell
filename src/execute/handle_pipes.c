@@ -63,7 +63,6 @@ int last_command_execution(t_tools * tools, t_command *command, int fd_input, in
 	p1 = fork();
 	if (p1 == -1)
 	{
-		//close all fd's
 		error_exit("fork() failed", 1);
 	}
 	else if (p1 == 0)
