@@ -24,6 +24,7 @@ void handle_pipes(t_tools *tools)
 		fd_input = fd[0]; //keep output of command for the next.
 		temp = temp->next;
 	}
+	//pipe(fd);
 	last_command_execution(tools, temp, fd_input, fd);
 	//get return value;
 }
