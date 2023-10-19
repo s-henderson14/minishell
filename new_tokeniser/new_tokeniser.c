@@ -25,34 +25,34 @@ t_token **new_tokeniser(t_tools *shell)
 t_token **build_tkn_list(char *input, t_token ***tkn_list)
 {
 	t_token	*tkn;
-	int		insideMeta;
+	int		in_single_q;
 	int		i;
 	int		start;
 
 	i = 0;
 	start = -1;
-	insideMeta = 0;
+	in_single_q = 0;
 	while (input[i])
 	{
-		if (input[i] == '\'' && !insideMeta)
+		if (input[i] == '\'' && !in_single_q)
 		{	
-			insideMeta = 1;
+			in_single_q = 1;
 			start = i + 1;
 		}
-		else if (input[i] == '\'' && insideMeta)
+		else if (input[i] == '\'' && in_single_q)
 		{	
-			insideMeta = 0;
+			in_single_q = 0;
 			tkn = init_token(ft_strndup(input + start, i - start));
 			add_token_back(*tkn_list, tkn);
 			start = -1;
 		}
-		else if (input[i] == ' ' && !insideMeta && start != -1)
+		else if (input[i] == ' ' && !in_single_q && start != -1)
 		{	
 			tkn = init_token(ft_strndup(input + start, i - start));
 			add_token_back(*tkn_list, tkn);
 			start = -1;
 		}
-		else if (!insideMeta && start == -1 && input[i] != ' ')
+		else if (!in_single_q && start == -1 && input[i] != ' ')
 			start = i;
 		i++;
 	}
