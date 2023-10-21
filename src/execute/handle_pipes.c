@@ -8,7 +8,7 @@ void handle_pipes(t_tools *tools)
 	int fd_input;
 
 	command_list = tools->command_list;
-	fd_input = STDIN_FILENO; //first command has input from STDIN_FI
+	fd_input = dup(STDIN_FILENO); //first command has input from STDIN_FI
 	temp = command_list;
 	while (temp->next != NULL)
 	{
@@ -21,7 +21,7 @@ void handle_pipes(t_tools *tools)
 			single_execution_in_pipe(tools, temp, fd_input, fd);
 		}
 		close(fd[1]); //i ll call pipe again for next command
-		fd_input = fd[0]; //keep output of command for the next.
+		fd_input = dup(fd[0]);
 		temp = temp->next;
 	}
 	//pipe(fd);
@@ -32,7 +32,7 @@ void handle_pipes(t_tools *tools)
 int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, int fd[])
 {
 	pid_t	p1;
-	int		exit_code;
+	//int		exit_code;
 
 	// redirection(command);
 	check_heredoc(command);
@@ -44,21 +44,25 @@ int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, i
 	}
 	else if (p1 == 0)
 	{
+		close(fd[0]);
 		protected_dup2(fd_input, STDIN_FILENO);
 		protected_dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
+		//close(fd[0]);
 		redirection(command);
-		choose_builtin(tools);
-		exit_code = execute_single_command(tools, command); // command will change each call
+		if (is_builtin(command) == 1)
+			return (choose_builtin(tools));
+		execute_single_command(tools, command); // command will change each call
 	}
-	wait(&exit_code);
+	// else
+	// 	wait(NULL);
 	return (EXIT_SUCCESS);
 }
 
 int last_command_execution(t_tools * tools, t_command *command, int fd_input, int fd[])
 {
 	pid_t	p1;
-	int		exit_code;
+	//int		exit_code;
+	(void)fd;
 
 	check_heredoc(command);
 	p1 = fork();
@@ -74,6 +78,7 @@ int last_command_execution(t_tools * tools, t_command *command, int fd_input, in
 		execute_single_command(tools, command);
 	}
 	close(fd[0]);
-	wait(&exit_code);
+	close(fd_input);
+	//wait(&exit_code);
 	return (EXIT_SUCCESS);
 }
