@@ -215,7 +215,7 @@ void    print_env_for_export(t_env_node *env_list);
 //builtin_utils.c
 int find_equal_sign(char *arg);
 int check_arg_digit(char *arg);
-void choose_builtin(t_tools *tools);
+int choose_builtin(t_tools *tools);
 
 
 //EXECUTE

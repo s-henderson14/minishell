@@ -30,7 +30,7 @@ int find_equal_sign(char *arg)
 	return (-1);
 }
 
-void choose_builtin(t_tools *tools)
+int choose_builtin(t_tools *tools)
 {
 	t_command *command;
 
@@ -41,17 +41,17 @@ void choose_builtin(t_tools *tools)
 		mini_cd(tools, command);
 	}
 	if (ft_strsame(command->args[0], "pwd") == 1)
-		mini_pwd(tools);
+		return(mini_pwd(tools));
 	if (ft_strsame(command->args[0], "echo") == 1)
-		mini_echo(tools, command);
+		return(mini_echo(tools, command));
 	if (ft_strsame(command->args[0], "env") == 1)
-		mini_env(tools, command);
+		return(mini_env(tools, command));
 	if (ft_strsame(command->args[0], "exit") == 1)
-		mini_exit(tools, command);
+		return(mini_exit(tools, command));
 	if (ft_strsame(command->args[0], "unset") == 1)
-		mini_unset(tools, command);
+		return(mini_unset(tools, command));
 	if (ft_strsame(command->args[0], "export") == 1)
-		mini_export(tools, command);
+		return(mini_export(tools, command));
 	else
-		return ;
+		return (EXIT_FAILURE);
 }
