@@ -25,6 +25,7 @@ void handle_pipes(t_tools *tools)
 		temp = temp->next;
 	}
 	//pipe(fd);
+	printf("fd_input in handle %d\n", fd_input);
 	last_command_execution(tools, temp, fd_input, fd);
 	//get return value;
 }
@@ -72,13 +73,14 @@ int last_command_execution(t_tools * tools, t_command *command, int fd_input, in
 	}
 	else if (p1 == 0)
 	{
+		printf("fd_input in last_command %d\n", fd_input);
 		protected_dup2(fd_input, STDIN_FILENO);
 		redirection(command);
 		choose_builtin(tools);
 		execute_single_command(tools, command);
 	}
-	close(fd[0]);
+	//close(fd[0]);
 	close(fd_input);
-	//wait(&exit_code);
+	wait(NULL);
 	return (EXIT_SUCCESS);
 }
