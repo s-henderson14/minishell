@@ -30,28 +30,14 @@ int find_equal_sign(char *arg)
 	return (-1);
 }
 
-int choose_builtin(t_tools *tools)
+int is_builtin(t_command *command)
 {
-	t_command *command;
-
-	command = tools->command_list;
-	if (ft_strsame(command->args[0], "cd") == 1)
-	{
-	//	printf("CHOOSE BUILTIN\n");
-		mini_cd(tools, command);
-	}
-	if (ft_strsame(command->args[0], "pwd") == 1)
-		return(mini_pwd(tools));
-	if (ft_strsame(command->args[0], "echo") == 1)
-		return(mini_echo(tools, command));
-	if (ft_strsame(command->args[0], "env") == 1)
-		return(mini_env(tools, command));
-	if (ft_strsame(command->args[0], "exit") == 1)
-		return(mini_exit(tools, command));
-	if (ft_strsame(command->args[0], "unset") == 1)
-		return(mini_unset(tools, command));
-	if (ft_strsame(command->args[0], "export") == 1)
-		return(mini_export(tools, command));
-	else
-		return (EXIT_FAILURE);
+	//printf("BUILTINN");
+	return (ft_strsame(command->args[0], "cd") == 1
+			|| ft_strsame(command->args[0], "echo") == 1
+			|| ft_strsame(command->args[0], "pwd") == 1
+			|| ft_strsame(command->args[0], "env") == 1
+			|| ft_strsame(command->args[0], "exit") == 1
+			|| ft_strsame(command->args[0], "export") == 1
+			|| ft_strsame(command->args[0], "unset") == 1);
 }

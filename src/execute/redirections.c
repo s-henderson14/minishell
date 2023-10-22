@@ -65,11 +65,6 @@ int redirection(t_command *command)
 			if (input_redirection(redirection) == 1)
 				return (EXIT_FAILURE);
 		}
-		// else if (redirection->type == LESS_LESS)
-		// {
-		// 	if (here_document(redirection) == 1)
-		// 		return (EXIT_FAILURE);
-		// }
 		redirection = redirection->next;
 	}
 	return (EXIT_SUCCESS);

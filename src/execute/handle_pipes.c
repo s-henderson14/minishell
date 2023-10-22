@@ -24,8 +24,7 @@ void handle_pipes(t_tools *tools)
 		fd_input = dup(fd[0]);
 		temp = temp->next;
 	}
-	//pipe(fd);
-	printf("fd_input in handle %d\n", fd_input);
+//	printf("fd_input in handle %d\n", fd_input);
 	last_command_execution(tools, temp, fd_input, fd);
 	//get return value;
 }
@@ -50,8 +49,10 @@ int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, i
 		protected_dup2(fd[1], STDOUT_FILENO);
 		//close(fd[0]);
 		redirection(command);
+		//printf("A\n");
 		if (is_builtin(command) == 1)
-			return (choose_builtin(tools));
+			exit(exec_builtin(tools));
+		//printf("B\n");
 		execute_single_command(tools, command); // command will change each call
 	}
 	// else
@@ -73,14 +74,18 @@ int last_command_execution(t_tools * tools, t_command *command, int fd_input, in
 	}
 	else if (p1 == 0)
 	{
-		printf("fd_input in last_command %d\n", fd_input);
+	//	printf("fd_input in last_command %d\n", fd_input);
 		protected_dup2(fd_input, STDIN_FILENO);
 		redirection(command);
-		choose_builtin(tools);
+	//	exec_builtin(tools);
+		if (is_builtin(command) == 1)
+		{
+			exit(exec_builtin(tools));
+		}
 		execute_single_command(tools, command);
 	}
-	//close(fd[0]);
+	close(fd[0]);
 	close(fd_input);
-	wait(NULL);
+	waitpid(p1, NULL, 0);
 	return (EXIT_SUCCESS);
 }

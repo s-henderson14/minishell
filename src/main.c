@@ -43,9 +43,6 @@ static void shell_loop(t_tools *tools)
 	{
 		//signal_flag = init_signal();
 		line = readline("\033[0;35m----->\033[1;36mMINISHELL&: \033[1;33m"); //caller must free it when finished
-		//check if input == NULL>> doesnt go to history
-		// if (signal_flag == 2)
-		// 	continue ;
 		if (line == NULL) // means it encounters EOF, ctrl-D
 		{
 			free(line);
@@ -56,22 +53,14 @@ static void shell_loop(t_tools *tools)
 		{
 			tools->input = line;
 			add_history(tools->input);
-			//check if input full with " ">> goes to history (PARSING PART??)
-			//IF PARSING == SUCCESS
-			//		EXECUTE
-			//tools->command_list = init_command_list(line, tools); //temp, testing purpose
 			cmd_list = parser(tools);
 			tools->command_list = *(cmd_list);
 			// printf("command args = %s %s %s %s\n", tools->command_list->args[0], tools->command_list->args[1],
 				 // tools->command_list->args[2], tools->command_list->args[3]);
 			execute(tools);
-			//printf("EXEC FINISH\n");
 			//command_list_free(tools->command_list);
 			tools->command_list = NULL;
-			// free(tools->input);
-			// tools->input = NULL;
 			free(line);
-			//printf("--------");
 		}
 	}
 }

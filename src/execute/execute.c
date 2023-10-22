@@ -1,18 +1,45 @@
 #include "../../include/minishell.h"
 
-/*
-**	is_builtin() checks if given command is a built-in command
-*/
-int is_builtin(t_command *command)
+int exec_builtin(t_tools *tools)
 {
-	//printf("BUILTINN");
-	return (ft_strsame(command->args[0], "cd") == 1
-			|| ft_strsame(command->args[0], "echo") == 1
-			|| ft_strsame(command->args[0], "pwd") == 1
-			|| ft_strsame(command->args[0], "env") == 1
-			|| ft_strsame(command->args[0], "exit") == 1
-			|| ft_strsame(command->args[0], "export") == 1
-			|| ft_strsame(command->args[0], "unset") == 1);
+	t_command *command;
+
+	command = tools->command_list;
+	if (ft_strsame(command->args[0], "cd") == 1)
+	{
+		return(mini_cd(tools, command));
+	}
+	if (ft_strsame(command->args[0], "pwd") == 1)
+		return(mini_pwd(tools));
+	if (ft_strsame(command->args[0], "echo") == 1)
+		return(mini_echo(tools, command));
+	if (ft_strsame(command->args[0], "env") == 1)
+		return(mini_env(tools, command));
+	if (ft_strsame(command->args[0], "exit") == 1)
+		return(mini_exit(tools, command));
+	if (ft_strsame(command->args[0], "unset") == 1)
+		return(mini_unset(tools, command));
+	if (ft_strsame(command->args[0], "export") == 1)
+		return(mini_export(tools, command));
+	else
+		return (EXIT_FAILURE);
+}
+
+void simple_command_no_pipe(t_tools *tools, t_command *command_list)
+{
+	check_heredoc(command_list);
+	if (is_builtin(command_list) == 1)
+	{
+		if (redirection(command_list) == 1)
+			return ;
+		exec_builtin(tools);
+	}
+	else
+	{
+		if (redirection(command_list) == 1)
+			return ;
+		execute_without_pipe(tools);
+	}
 }
 
 /*
@@ -51,20 +78,19 @@ void execute(t_tools *tools)
 	//printf("command args = %s %s \n", command_list->args[0], command_list->args[1]);
 	if (tools->number_of_pipes == 0)
 	{
-		check_heredoc(command_list);
-		if (is_builtin(command_list) == 1)
-		{
-			if (redirection(command_list) == 1)
-				return ;
-			choose_builtin(tools);
-		}
-		else
-		{
-			if (redirection(command_list) == 1)
-				return ;
-			execute_without_pipe(tools);
-
-		}
+		// check_heredoc(command_list);
+		// if (is_builtin(command_list) == 1)
+		// {
+		// 	if (redirection(command_list) == 1)
+		// 		return ;
+		// 	choose_builtin(tools);
+		// }
+		// else
+		// {
+		// 	if (redirection(command_list) == 1)
+		// 		return ;
+		// 	execute_without_pipe(tools);
+		simple_command_no_pipe(tools, command_list);
 	}
 	else
 	{

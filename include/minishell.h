@@ -217,7 +217,8 @@ void    print_env_for_export(t_env_node *env_list);
 //builtin_utils.c
 int find_equal_sign(char *arg);
 int check_arg_digit(char *arg);
-int choose_builtin(t_tools *tools);
+int is_builtin(t_command *command);
+
 
 
 //EXECUTE
@@ -232,9 +233,10 @@ void check_heredoc(t_command *command);
 int here_document(t_redirection *redirection);
 
 //execute.c
-int is_builtin(t_command *command);
+void simple_command_no_pipe(t_tools *tools, t_command *command_list);
 void execute_without_pipe(t_tools *tools);
 void execute(t_tools *tools);
+int exec_builtin(t_tools *tools);
 
 //execute_utils.c
 char *join_command_to_path(char *path, char *main_command);
