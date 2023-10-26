@@ -1,10 +1,12 @@
 #include "../../include/minishell.h"
 
-t_token	**build_tkn_list(char *input, t_token ***tkn_list);
+t_token	**build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
 
 t_token *init_token(char *content);
 
 char* 	ft_strndup(const char* s, size_t n);
+
+int		word_len(char *str, int start);
 
 
 t_token **new_tokeniser(t_tools *shell)
@@ -18,23 +20,25 @@ t_token **new_tokeniser(t_tools *shell)
 	tkn_list = ft_calloc(1, sizeof(t_token *));
 	if (!tkn_list)
 		return (free(tkn_string), NULL);
-	tkn_list = build_tkn_list(tkn_string, &tkn_list);	
+	tkn_list = build_tkn_list(tkn_string, &tkn_list, shell);	
 	return (tkn_list);
 }
 
-t_token **build_tkn_list(char *input, t_token ***tkn_list)
+t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 {
 	t_token	*tkn;
 	int		in_single_q;
+	int		in_double_q;
 	int		i;
 	int		start;
 
 	i = 0;
 	start = -1;
 	in_single_q = 0;
+	in_double_q = 0;
 	while (input[i])
 	{
-		if (input[i] == '\'' && !in_single_q)
+		if (input[i] == '\'' && !in_single_q && !in_double_q)
 		{	
 			in_single_q = 1;
 			start = i + 1;
@@ -46,13 +50,40 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list)
 			add_token_back(*tkn_list, tkn);
 			start = -1;
 		}
-		else if (input[i] == ' ' && !in_single_q && start != -1)
+		else if (input[i] == '"' && !in_single_q) // Handle double quotes
+		{
+			if (in_double_q && start != -1)
+			{
+				tkn = init_token(ft_strndup(input + start, i - start));
+				add_token_back(*tkn_list, tkn);
+
+				start = -1;
+			}
+			in_double_q = !in_double_q;
+			if (in_double_q)
+				start = i + 1;
+		}
+		else if (input[i] == '$' && !in_single_q)
+		{	
+			tkn = init_token(expand(ft_strndup(input + i + 1 ,word_len(input, i + 1)), shell->env_list));
+			add_token_back(*tkn_list, tkn);
+			i = i + word_len(input, i);
+			start = -1;
+		}
+		else if (input[i] == '$' && in_single_q)
+		{	
+			tkn = init_token(ft_strndup(input + i, word_len(input, i)));
+			add_token_back(*tkn_list, tkn);
+			i = start + word_len(input, i);
+			start = -1;
+		}
+		else if (input[i] == ' ' && !in_single_q && !in_double_q && start != -1)
 		{	
 			tkn = init_token(ft_strndup(input + start, i - start));
 			add_token_back(*tkn_list, tkn);
 			start = -1;
 		}
-		else if (!in_single_q && start == -1 && input[i] != ' ')
+		else if (!in_single_q && !in_double_q && start == -1 && input[i] != ' ')
 			start = i;
 		i++;
 	}
@@ -110,6 +141,21 @@ int	is_redirection(char input)
 	else if (input == '<')
 		return (1);
 	return (0);
+}
+
+int	word_len(char *str, int start)
+{	
+	int	len;
+	
+	len = 0;
+	if (!str[start])
+		return (0);
+	while (str[start] != ' ' && str[start] != 34 && str[start] != 39 && str[start] != '\0')
+	{	
+		len++;
+		start++;
+	}
+	return (len);
 }
 // t_token *tokenise(const char *s, char delimiter) {
     
