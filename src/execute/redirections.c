@@ -34,8 +34,7 @@ int output_redirection(t_redirection *redirection)
 		fd = open(redirection->file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd < 0)
 			return (error_exit("open(): failed", 1));
-	//	protected_dup2(fd, STDOUT_FILENO);
-		dup2(fd, STDOUT_FILENO);
+		protected_dup2(fd, STDOUT_FILENO);
 	}
 	else if (redirection->type == GREAT_GREAT)
 	{
