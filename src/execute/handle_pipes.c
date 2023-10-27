@@ -12,30 +12,30 @@ void handle_pipes(t_tools *tools)
 	temp = command_list;
 	while (temp->next != NULL)
 	{
+		check_heredoc(temp);
 		if (pipe(fd) == -1)
 		{
 			error_exit("pipe() failed", 1);
 		}
 		else
 		{
-			single_execution_in_pipe(tools, temp, fd_input, fd);
+			single_execution_in_pipe(tools, temp, &fd_input, fd);
 		}
 		close(fd[1]); //i ll call pipe again for next command
 		fd_input = dup(fd[0]);
+		close(fd[0]);
 		temp = temp->next;
 	}
-//	printf("fd_input in handle %d\n", fd_input);
-	last_command_execution(tools, temp, fd_input, fd);
+	//printf("fd_input in handle %d\n", fd_input);
+	last_command_execution(tools, temp, &fd_input, fd);
 	//get return value;
 }
 
-int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, int fd[])
+int single_execution_in_pipe(t_tools *tools, t_command *command, int *fd_input, int fd[])
 {
 	pid_t	p1;
 	//int		exit_code;
 
-	// redirection(command);
-	check_heredoc(command);
 	p1 = fork();
 	if (p1 == -1)
 	{
@@ -45,11 +45,12 @@ int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, i
 	else if (p1 == 0)
 	{
 		close(fd[0]);
-		protected_dup2(fd_input, STDIN_FILENO);
-		protected_dup2(fd[1], STDOUT_FILENO);
-		//close(fd[0]);
-		redirection(command);
-		//printf("A\n");
+		protected_dup2(*fd_input, STDIN_FILENO);
+		protected_dup2(fd[1], STDOUT_FILENO);//FIRST EXEC, fd[1] == ????
+	//	printf("STDOUT 2= %d\n", STDOUT_FILENO);
+		if (command->redirection)
+			redirection(command);
+	//	printf("After REDIRECTOIN (2) STDOUT = %d\n", STDOUT_FILENO);
 		if (is_builtin(command) == 1)
 			exit(exec_builtin(tools));
 		//printf("B\n");
@@ -60,7 +61,7 @@ int single_execution_in_pipe(t_tools *tools, t_command *command, int fd_input, i
 	return (EXIT_SUCCESS);
 }
 
-int last_command_execution(t_tools * tools, t_command *command, int fd_input, int fd[])
+int last_command_execution(t_tools * tools, t_command *command, int *fd_input, int fd[])
 {
 	pid_t	p1;
 	//int		exit_code;
@@ -74,9 +75,10 @@ int last_command_execution(t_tools * tools, t_command *command, int fd_input, in
 	}
 	else if (p1 == 0)
 	{
-	//	printf("fd_input in last_command %d\n", fd_input);
-		protected_dup2(fd_input, STDIN_FILENO);
-		redirection(command);
+	//	printf("fd_input in last_command %d\n", *fd_input);
+		protected_dup2(*fd_input, STDIN_FILENO);
+		if (command->redirection)
+			redirection(command);
 	//	exec_builtin(tools);
 		if (is_builtin(command) == 1)
 		{
@@ -85,7 +87,7 @@ int last_command_execution(t_tools * tools, t_command *command, int fd_input, in
 		execute_single_command(tools, command);
 	}
 	close(fd[0]);
-	close(fd_input);
+	close(*fd_input);
 	waitpid(p1, NULL, 0);
 	return (EXIT_SUCCESS);
 }

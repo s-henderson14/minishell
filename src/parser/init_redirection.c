@@ -8,7 +8,7 @@ void	redir_init(t_command *cmd, t_token *tkn)
 	//
 	if (cmd->redirection->file_name == NULL)
 	{
-		printf("A\n");
+		//printf("A\n");
 		cmd->redirection->file_name = tkn->next->content;
 		cmd->redirection->type = tkn->type;
 	}
@@ -30,7 +30,7 @@ void	redir_init(t_command *cmd, t_token *tkn)
 	}
 	if (tkn->next->type != 2 && tkn->next != NULL)
 		exit(1); // Handle error
-	printf("count_nodes = %d\n", count_nodes(cmd->redirection));
+	//printf("count_nodes = %d\n", count_nodes(cmd->redirection));
 }
 
 // //probably we dont need this since we have a initial node (cmd->redir)

@@ -4,7 +4,7 @@ void protected_dup2(int old_fd, int new_fd)
 {
 	if (dup2(old_fd, new_fd) == -1)
 		error_exit("dup2(): failed", 1);
-	close (old_fd);
+	close(old_fd);
 }
 
 int input_redirection(t_redirection *redirection)
@@ -34,7 +34,8 @@ int output_redirection(t_redirection *redirection)
 		fd = open(redirection->file_name, O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (fd < 0)
 			return (error_exit("open(): failed", 1));
-		protected_dup2(fd, STDOUT_FILENO);
+	//	protected_dup2(fd, STDOUT_FILENO);
+		dup2(fd, STDOUT_FILENO);
 	}
 	else if (redirection->type == GREAT_GREAT)
 	{
