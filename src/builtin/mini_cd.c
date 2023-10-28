@@ -67,10 +67,8 @@ int mini_cd(t_tools *tools, t_command *command)
 	t_env_node	*env_list;
 
 	env_list = tools->env_list;
-	//if (command->args[2] != NULL) //normally, if second arg is valid, then it ignores 3rd
-	//	error_exit("cd: too many arguments\n");
-	//printf("LELLO1\n");
-	//printf("command args in mini_cd = %s %s \n", command->args[0], command->args[1]);
+	if (ft_strsame(command->args[1], ".") == 1)
+		return (EXIT_SUCCESS);
 	if (command->args[1] == NULL
 		|| ft_strsame(command->args[1], "~") == 1)
 	{
@@ -86,5 +84,5 @@ int mini_cd(t_tools *tools, t_command *command)
 		target = command->args[1];
 	}
 	set_pwd_update_oldpwd(target, env_list);
-	return (glob_exit_status);
+	return (EXIT_SUCCESS);
 }

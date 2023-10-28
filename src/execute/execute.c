@@ -73,6 +73,8 @@ void execute(t_tools *tools)
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	command_list = tools->command_list;
+	if (command_list->args[0] == NULL)
+		return ;
 	//printf("command args = %s %s \n", command_list->args[0], command_list->args[1]);
 	if (tools->number_of_pipes == 0)
 	{

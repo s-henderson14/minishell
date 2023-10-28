@@ -23,8 +23,6 @@ void handle_pipes(t_tools *tools)
 		}
 		close(fd[1]); //i ll call pipe again for next command
 		fd_input = dup(fd[0]);
-		if (temp != command_list)
-			close(fd_input);
 		close(fd[0]);
 		temp = temp->next;
 	}
