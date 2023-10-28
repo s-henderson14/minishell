@@ -16,7 +16,7 @@
 
 extern int glob_exit_status; //with extern, we declare glob_exit_status without defining
 //we ll define it later in the program
-extern int signal_flag;
+extern int g_sig;
 
 typedef enum s_token_type
 {
@@ -241,13 +241,14 @@ int exec_builtin(t_tools *tools);
 //execute_utils.c
 char *join_command_to_path(char *path, char *main_command);
 char **get_paths(t_tools *tools);
-int execute_single_command(t_tools *tools, t_command *command);
+int call_execve(t_tools *tools, t_command *command);
 
 //handle_pipes.c
 void handle_pipes(t_tools *tools);
 void single_execution_in_pipe(t_tools *tools, t_command *command, int *fd_input, int fd[]);
+void child_exec_in_pipe(t_tools * tools, t_command *command, int *fd_input, int fd[]);
 int last_command_execution(t_tools * tools, t_command *command, int *fd_input, int fd[]);
-void    latest_status(pid_t pid);
+int    latest_status(pid_t pid);
 
 
 //EXPAND

@@ -12,6 +12,7 @@
 // }t_tool;
 
 int glob_exit_status = 0;
+int g_sig = 0;
 
 static t_tools *init_tools(int argc, char **argv, char **env)
 {
@@ -68,6 +69,7 @@ static void shell_loop(t_tools *tools)
 	}
 }
 
+
 int main(int argc, char **argv, char **env)
 {
 	t_tools *tools;
@@ -78,6 +80,5 @@ int main(int argc, char **argv, char **env)
 	// 	printf("ERROR, argc = 1");
 	// }
 	tools = init_tools(argc, argv, env);
-	signal_flag = 0;
 	shell_loop(tools);
 }

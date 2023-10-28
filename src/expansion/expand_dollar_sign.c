@@ -18,7 +18,7 @@ char *expand_string(char *string, t_tools *tools)
 
 	if (ft_strsame(string, "$?") == 1)
 	{
-		return_val = ft_itoa(glob_exit_status); //MALLOCCC
+		return_val = ft_itoa(g_sig); //MALLOCCC
 		return (return_val);
 	}
 	temp = tools->env_list;

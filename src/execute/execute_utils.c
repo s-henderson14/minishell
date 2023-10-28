@@ -58,10 +58,10 @@ static char *try_access_path(t_command *command, char **path_arr)
 	return (NULL);
 }
 /*
-**	execute_child() first searchs the command in current directory. 
+**	execute_child() first searchs the command in current directory.
 **	If finds, does execution, otherwise it searchs the command in PATH
 */
-int execute_single_command(t_tools *tools, t_command *command)
+int call_execve(t_tools *tools, t_command *command)
 {
 	char **path_arr;
 	char *full_path_command;

@@ -23,6 +23,8 @@ void handle_pipes(t_tools *tools)
 		}
 		close(fd[1]); //i ll call pipe again for next command
 		fd_input = dup(fd[0]);
+		if (temp != command_list)
+			close(fd_input);
 		close(fd[0]);
 		temp = temp->next;
 	}
@@ -43,21 +45,23 @@ void single_execution_in_pipe(t_tools *tools, t_command *command, int *fd_input,
 	}
 	else if (p1 == 0)
 	{
-		close(fd[0]);
-		protected_dup2(*fd_input, STDIN_FILENO);
-		protected_dup2(fd[1], STDOUT_FILENO);//FIRST EXEC, fd[1] == ????
-	//	printf("STDOUT 2= %d\n", STDOUT_FILENO);
-		if (command->redirection)
-			redirection(command);
-	//	printf("After REDIRECTOIN (2) STDOUT = %d\n", STDOUT_FILENO);
-		if (is_builtin(command) == 1)
-			exit(exec_builtin(tools));
-		//printf("B\n");
-		execute_single_command(tools, command); // command will change each call
+		child_exec_in_pipe(tools, command, fd_input, fd);
 	}
-	// else
-	// 	wait(NULL);
-//	return (EXIT_SUCCESS);
+}
+
+void child_exec_in_pipe(t_tools * tools, t_command *command, int *fd_input, int fd[])
+{
+	close(fd[0]);
+	protected_dup2(*fd_input, STDIN_FILENO);
+	protected_dup2(fd[1], STDOUT_FILENO);//FIRST EXEC, fd[1] == ????
+//	printf("STDOUT 2= %d\n", STDOUT_FILENO);
+	if (command->redirection)
+		redirection(command);
+//	printf("After REDIRECTOIN (2) STDOUT = %d\n", STDOUT_FILENO);
+	if (is_builtin(command) == 1)
+		exit(exec_builtin(tools));
+	//printf("B\n");
+	call_execve(tools, command); // command will change each call
 }
 
 int last_command_execution(t_tools * tools, t_command *command, int *fd_input, int fd[])
@@ -83,7 +87,7 @@ int last_command_execution(t_tools * tools, t_command *command, int *fd_input, i
 		{
 			exit(exec_builtin(tools));
 		}
-		execute_single_command(tools, command);
+		call_execve(tools, command);
 	}
 	close(fd[0]);
 	close(*fd_input);
@@ -91,14 +95,19 @@ int last_command_execution(t_tools * tools, t_command *command, int *fd_input, i
 	return (p1);
 }
 
-void	latest_status(pid_t pid)
+/*
+	WIFEXITED() Returns a nonzero value if the child terminated normally
+	WIFSIGNALED() Returns a nonzero value if the child process terminated
+				because it received a signal that was not handled.
+*/
+int	latest_status(pid_t pid)
 {
 	int		status;
 
-	status = 0;
 	waitpid(pid, &status, 0);
-	if (WIFEXITED(status))
-		glob_exit_status = WEXITSTATUS(status);
-	if (WIFSIGNALED(status))
-		glob_exit_status = 128 + status;
+	if (WIFEXITED(status) != 0)
+		g_sig = WEXITSTATUS(status);
+	if (WIFSIGNALED(status) != 0)
+		g_sig = 128 + status;
+	return (g_sig);
 }

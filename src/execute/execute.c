@@ -32,7 +32,7 @@ void simple_command_no_pipe(t_tools *tools, t_command *command_list)
 	{
 		if (redirection(command_list) == 1)
 			return ;
-		exec_builtin(tools);
+		g_sig = exec_builtin(tools);
 	}
 	else
 	{
@@ -48,7 +48,6 @@ void simple_command_no_pipe(t_tools *tools, t_command *command_list)
 void execute_without_pipe(t_tools *tools)
 {
 	t_command *command;
-	int exit_code;
 	pid_t p1;
 
 	command = tools->command_list;
@@ -57,12 +56,11 @@ void execute_without_pipe(t_tools *tools)
 		error_exit("fork failed", 1);
 	else if (p1 == 0)
 	{
-		exit_code = execute_single_command(tools, command);
+		call_execve(tools, command);
 	}
 	else
 	{
-		waitpid(p1, &exit_code, 0);
-		glob_exit_status = exit_code;
+		latest_status(p1);
 	}
 }
 
@@ -78,18 +76,6 @@ void execute(t_tools *tools)
 	//printf("command args = %s %s \n", command_list->args[0], command_list->args[1]);
 	if (tools->number_of_pipes == 0)
 	{
-		// check_heredoc(command_list);
-		// if (is_builtin(command_list) == 1)
-		// {
-		// 	if (redirection(command_list) == 1)
-		// 		return ;
-		// 	choose_builtin(tools);
-		// }
-		// else
-		// {
-		// 	if (redirection(command_list) == 1)
-		// 		return ;
-		// 	execute_without_pipe(tools);
 		simple_command_no_pipe(tools, command_list);
 	}
 	else
