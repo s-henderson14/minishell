@@ -26,6 +26,9 @@ static t_tools *init_tools(int argc, char **argv, char **env)
 	tools->input = NULL;
 	tools->env = array_dup(env); //MALLOC
 	tools->env_list = init_env_linked_list(env);
+
+	//printf("%s \n %s \n", tools->env_list->key, tools->env_list->next->key);
+
 	tools->interactive = 1;
 	//init_command_structure(argc, argv, tools);
 	// tools->number_of_pipes = 0;
@@ -38,8 +41,8 @@ static void shell_loop(t_tools *tools)
 	char *line;
 	t_command **cmd_list;
 
-	signal_flag = init_signal();
-	while (signal_flag == 0)
+	//signal_flag = init_signal();
+	while (1)
 	{
 		//signal_flag = init_signal();
 		line = readline("\033[0;35m----->\033[1;36mMINISHELL&: \033[1;33m"); //caller must free it when finished

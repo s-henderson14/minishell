@@ -15,13 +15,15 @@ void signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
+		printf("\n");
 		signal_flag = SIGINT;
+		rl_on_new_line();
+		rl_redisplay();
 
 	}
-	else if (signum == SIGTERM)
+	else
 	{
 		signal_flag = SIGTERM;
-		kill(0, SIGTERM);
 	}
 }
 //interactivemod
@@ -29,25 +31,20 @@ void signal_handler(int signum)
 //non interactive -- heredoc related, while reading a script
 
 
-int init_signal(void)
-{
-	struct sigaction sa;
-
-	sa.sa_handler = signal_handler;
-    sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-    if (sigaction(SIGINT, &sa, NULL) == -1)
-    {
-        signal_handler(SIGINT);
-        signal_flag = 2;
-    }
-    else if (sigaction(SIGTERM, &sa, NULL) == -1)
-    {
-        signal_handler(SIGTERM);
-        signal_flag = 1;
-    }
-    return (signal_flag);
-}
+// int init_signal(void)
+// {
+// 	if (sigaction(SIGINT, &sa, NULL) == -1)
+// 	{
+// 		signal(SIGINT, SIG_DFL);
+// 		signal_flag = 2;
+// 	}
+// 	else if (sigaction(SIGTERM, &sa, NULL) == -1)
+// 	{
+// 		(SIGTERM);
+// 		signal_flag = 1;
+// 	}
+// 	return (signal_flag);
+// }
 //this returns global flag for the case "signal received??"
 //if necessary it exits the prgoram, or get the prompt back??
 

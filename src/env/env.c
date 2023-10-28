@@ -29,7 +29,7 @@ t_env_node *init_env_linked_list(char **env)
 			if (env_list == NULL)
 				return NULL;
 		}
-		if (env_list != NULL)
+		else if (env_list != NULL)
 			env_node_add_back(env_node_create(key, value), env_list);
 		free_key_and_value(key, value);
 		i++;

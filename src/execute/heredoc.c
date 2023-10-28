@@ -25,6 +25,10 @@ int here_document(t_redirection *redirection)
 	int fd_pipe[2];
 
 	delimiter = redirection->file_name;
+	if (delimiter == NULL)
+	{
+		error_exit("minishell: syntax error near unexpected token `newline'", 258);
+	}
 	if (pipe(fd_pipe) == -1)
 		return (EXIT_FAILURE);
 	while (1)

@@ -27,11 +27,10 @@ void handle_pipes(t_tools *tools)
 		temp = temp->next;
 	}
 	//printf("fd_input in handle %d\n", fd_input);
-	last_command_execution(tools, temp, &fd_input, fd);
-	//get return value;
+	latest_status(last_command_execution(tools, temp, &fd_input, fd));
 }
 
-int single_execution_in_pipe(t_tools *tools, t_command *command, int *fd_input, int fd[])
+void single_execution_in_pipe(t_tools *tools, t_command *command, int *fd_input, int fd[])
 {
 	pid_t	p1;
 	//int		exit_code;
@@ -58,7 +57,7 @@ int single_execution_in_pipe(t_tools *tools, t_command *command, int *fd_input, 
 	}
 	// else
 	// 	wait(NULL);
-	return (EXIT_SUCCESS);
+//	return (EXIT_SUCCESS);
 }
 
 int last_command_execution(t_tools * tools, t_command *command, int *fd_input, int fd[])
@@ -88,6 +87,18 @@ int last_command_execution(t_tools * tools, t_command *command, int *fd_input, i
 	}
 	close(fd[0]);
 	close(*fd_input);
-	waitpid(p1, NULL, 0);
-	return (EXIT_SUCCESS);
+	//waitpid(p1, NULL, 0);
+	return (p1);
+}
+
+void	latest_status(pid_t pid)
+{
+	int		status;
+
+	status = 0;
+	waitpid(pid, &status, 0);
+	if (WIFEXITED(status))
+		glob_exit_status = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		glob_exit_status = 128 + status;
 }
