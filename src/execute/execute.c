@@ -30,12 +30,14 @@ void simple_command_no_pipe(t_tools *tools, t_command *command_list)
 	check_heredoc(command_list);
 	if (is_builtin(command_list) == 1)
 	{
+		printf("BUILTIN\n");
 		if (redirection(command_list) == 1)
 			return ;
 		g_sig = exec_builtin(tools);
 	}
 	else
 	{
+		printf("LAAAA\n");
 		if (redirection(command_list) == 1)
 			return ;
 		execute_without_pipe(tools);

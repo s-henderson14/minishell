@@ -22,6 +22,11 @@ t_env_node *init_env_linked_list(char **env)
 	while (env[i] != NULL)
 	{
 		key = get_key_from_env_arr(env[i]); //MALLOC
+		if (ft_strsame(key, "OLDPWD") == 1)
+		{
+			i++;
+			continue ;
+		}
 		value = get_value_from_env_arr(env[i]); //MALLOC
 		if (env_list == NULL)
 		{

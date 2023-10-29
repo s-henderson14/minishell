@@ -55,7 +55,7 @@ static void shell_loop(t_tools *tools)
 			add_history(tools->input);
 			cmd_list = parser(tools);
 			tools->command_list = *(cmd_list);
-			printf("command = %s\n", tools->command_list->args[0]);
+			printf("command = %s %s\n", tools->command_list->args[0], tools->command_list->args[1]);
 			// printf("command args = %s %s %s %s\n", tools->command_list->args[0], tools->command_list->args[1],
 				 // tools->command_list->args[2], tools->command_list->args[3]);
 			execute(tools);

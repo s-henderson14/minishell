@@ -166,6 +166,7 @@ void env_list_free(t_env_node *env_list);
 void print_value(char *key, t_tools *tools);
 int check_key_exist(char *key, t_env_node *env_list);
 void free_key_and_value(char *key, char *value);
+void remove_oldpwd(t_env_node *env_list);
 
 
 //UTILS
@@ -186,6 +187,7 @@ void    free_double_arr(char **arr);
 //BUILTINS
 //mini_cd.c
 void    initiate_oldpwd(char *value_to_oldpwd, t_env_node *env_list);
+char *find_upper_dir(char *current_dir);
 void set_pwd_update_oldpwd(char *new_path, t_env_node *env_list);
 char  *get_value_from_env_node(char *key, t_env_node *env_list);
 int mini_cd(t_tools *tools, t_command *command);
