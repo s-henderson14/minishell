@@ -14,7 +14,6 @@
 # include <limits.h>
 # include <signal.h>
 
-extern int glob_exit_status; //with extern, we declare glob_exit_status without defining
 //we ll define it later in the program
 extern int g_sig;
 
@@ -61,7 +60,6 @@ typedef struct s_tools
     struct s_env_node *env_list;
     t_command *command_list;
     int number_of_pipes; //this +1 will give us number of command we have in command_list
-    int interactive; //it s usually set to 1, if you read heredoc,script>> must be 0(for signals)
     int number_of_redir;
 }t_tools;
 
