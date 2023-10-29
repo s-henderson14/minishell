@@ -43,12 +43,12 @@ int mini_export(t_tools *tools, t_command *command)
 	if (env_list != NULL && command->args[0] != NULL && command->args[1] == NULL)
 	{
 		print_env_for_export(env_list);
-		return (0);
+		return (EXIT_SUCCESS);
 	}
 	else if (command->args[0] != NULL && check_arg_digit(command->args[1]) == 1)
 	{
 		error_exit("bash: export: no valid identifier", 1);
-		return (0);
+		return (EXIT_FAILURE);
 	}
 	else if (env_list != NULL && check_arg_digit(command->args[1]) == 0
 		&& find_equal_sign(command->args[1]) != -1)
@@ -57,5 +57,5 @@ int mini_export(t_tools *tools, t_command *command)
 		env_node_add_back(new_node, env_list);
 	}
 	//env_list_print(env_list);
-	return (1);
+	return (EXIT_FAILURE);
 }

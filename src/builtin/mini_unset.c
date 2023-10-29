@@ -34,5 +34,5 @@ int mini_unset(t_tools *tools, t_command *command)
 		find_node_in_list_remove(command->args[1], env_list);
 	}
 	//env_list_print(env_list);
-	return (0);
+	return (EXIT_SUCCESS);
 }

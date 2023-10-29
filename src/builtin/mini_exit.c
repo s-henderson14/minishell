@@ -14,8 +14,7 @@ int mini_exit(t_tools *tools, t_command *command)
 		if (command->args[2] != NULL)
 		{
 			ft_putendl_fd("bash: exit: too many arguments", STDERR_FILENO);
-			glob_exit_status = 1;
-			return (1);
+			return (EXIT_FAILURE);
 		}
 		if (check_arg_digit(command->args[1]) == 1
 			&& ft_atoi(command->args[1]) < 256 && ft_atoi(command->args[1]) > 0)
@@ -33,9 +32,7 @@ int mini_exit(t_tools *tools, t_command *command)
 			ft_putendl_fd("bash: exit: numeric argument required", STDERR_FILENO);
 			exit_code = 255;
 		}
-
-		glob_exit_status = exit_code;
 		exit(exit_code);
 	}
-	return (0);
+	return (EXIT_SUCCESS);
 }

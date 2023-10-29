@@ -11,7 +11,6 @@
 
 // }t_tool;
 
-int glob_exit_status = 0;
 int g_sig = 0;
 
 static t_tools *init_tools(int argc, char **argv, char **env)
@@ -20,7 +19,7 @@ static t_tools *init_tools(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 
-	glob_exit_status = 0;
+	signal_init();
 	tools = (t_tools *)malloc(sizeof(t_tools));
 	if (tools == NULL)
 		return (NULL);

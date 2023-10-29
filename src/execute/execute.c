@@ -56,6 +56,7 @@ void execute_without_pipe(t_tools *tools)
 		error_exit("fork failed", 1);
 	else if (p1 == 0)
 	{
+		signal_child();
 		call_execve(tools, command);
 	}
 	else
@@ -72,6 +73,7 @@ void execute(t_tools *tools)
 
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
+	signal_parent();
 	command_list = tools->command_list;
 	if (command_list->args[0] == NULL)
 		return ;

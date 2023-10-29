@@ -14,10 +14,9 @@ int mini_pwd(t_tools *tools)
 	if (cwd == NULL)
 	{
 		ft_putendl_fd("pwd: command fails\n", STDERR_FILENO); //we have a func for the errs
-		glob_exit_status = 1;
-		return (glob_exit_status);
+		return (EXIT_FAILURE);
 	}
 	printf("%s\n", cwd);
 	free(cwd);
-	return (glob_exit_status);
+	return (EXIT_SUCCESS);
 }

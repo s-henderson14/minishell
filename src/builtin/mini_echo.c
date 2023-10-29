@@ -57,5 +57,5 @@ int mini_echo(t_tools *tools, t_command *command)
 	print_arguments(i, tools, command);
 	if (print_newline == 1)
 		printf("\n");
-	return (glob_exit_status);
+	return (EXIT_SUCCESS);
 }

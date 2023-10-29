@@ -258,7 +258,10 @@ char *expand_string(char *string, t_tools *tools);
 
 
 //SIGNALS
-int init_signal(void);
 void signal_handler(int signum);
+void signal_child(void);
+void signal_parent(void);
+void signal_init(void);
+void signal_noninteractive(void);
 
 #endif

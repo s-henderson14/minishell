@@ -2,12 +2,11 @@
 
 int error_exit(char *s, int exit_status)
 {
-	glob_exit_status = exit_status;
 	if (s == NULL)
-		return (glob_exit_status);
+		return (exit_status);
 	ft_putstr_fd(s, STDERR_FILENO);
 	write(STDOUT_FILENO, "\n", 1);
-	return (glob_exit_status);
+	return (exit_status);
 }
 
 char *protect(char *arg)
@@ -15,7 +14,7 @@ char *protect(char *arg)
 	if (arg == NULL)
 	{
 		perror("Error"); // so that the error message based on errno will be printed
-		glob_exit_status = 1;
+		g_sig = 1;
 		return (NULL);
 	}
 	return (arg);

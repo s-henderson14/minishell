@@ -71,12 +71,12 @@ int call_execve(t_tools *tools, t_command *command)
 	if (full_path_command == NULL)
 	{
 		error_exit("command not found", 127);
-		return glob_exit_status;
+		return (127);
 	}
 	execve(full_path_command, command->args, tools->env);
 	free(full_path_command);
 	//free all
 	//exit code?
 	error_exit("child exec bad", 1);
-	return (1);
+	return (EXIT_FAILURE);
 }

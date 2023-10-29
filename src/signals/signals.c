@@ -1,30 +1,49 @@
 #include "../../include/minishell.h"
 
-// struct sigaction {
-//     void   (*sa_handler)(int);    /* Address of handler */
-//     sigset_t sa_mask;             /* Signals blocked during handler
-//                                      invocation */
-//     int      sa_flags;            /* Flags controlling handler invocation */
-//     void   (*sa_restorer)(void);  /* Not for application use */
-// };
+/*
+SIG_DFL
+SIG_DFL specifies the default action for the particular signal. The default actions for various kinds of signals are stated in Standard Signals.
 
-// struct sigaction sa;
-int signal_flag = 0;
+SIG_IGN
+SIG_IGN specifies that the signal should be ignored.
+*/
 
 void signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
 		printf("\n");
-		signal_flag = SIGINT;
-		rl_on_new_line();
-		rl_redisplay();
-
+		g_sig = 130;
+	 	rl_on_new_line();
+	 //	rl_replace_line("", 0);
+	 	rl_redisplay();
 	}
 	else
-	{
-		signal_flag = SIGTERM;
-	}
+		g_sig = 131;
+}
+
+void signal_parent()
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void signal_init()
+{
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
+}
+
+void signal_child()
+{
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_DFL);
+}
+
+void signal_noninteractive()
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_IGN);
 }
 //interactivemod
 

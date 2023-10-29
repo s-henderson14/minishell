@@ -11,7 +11,7 @@ int mini_env(t_tools *tools, t_command *command)
 
 	env_list = tools->env_list;
 	if (env_list == NULL)
-		return glob_exit_status;
+		return (EXIT_FAILURE);
 	if (check_key_exist("PATH", env_list) == 0)
 		error_exit("bash: env: No such file or directory", 127);
 	if (command->args[0] != NULL && command->args[1] != NULL)
@@ -20,5 +20,5 @@ int mini_env(t_tools *tools, t_command *command)
 		return (127);
 	}
 	env_list_print(env_list);
-	return (0);
+	return (EXIT_SUCCESS);
 }
