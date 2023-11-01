@@ -12,11 +12,11 @@ void signal_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		printf("\n");
-		g_sig = 130;
 	 	rl_on_new_line();
-	 //	rl_replace_line("", 0);
+	 	rl_replace_line("", 0);
+		printf("\n");
 	 	rl_redisplay();
+		g_sig = 130;
 	}
 	else
 		g_sig = 131;
@@ -30,6 +30,11 @@ void signal_parent()
 
 void signal_init()
 {
+	// struct termios	term;
+
+	// tcgetattr(STDIN_FILENO, &term);
+	// term.c_lflag &= ~(ECHOCTL);
+	// tcsetattr(STDIN_FILENO, TCSAFLUSH, &term);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 }

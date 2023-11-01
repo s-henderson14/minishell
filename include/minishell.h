@@ -248,7 +248,7 @@ void handle_pipes(t_tools *tools);
 void single_execution_in_pipe(t_tools *tools, t_command *command, int *fd_input, int fd[]);
 void child_exec_in_pipe(t_tools * tools, t_command *command, int *fd_input, int fd[]);
 int last_command_execution(t_tools * tools, t_command *command, int *fd_input, int fd[]);
-int    latest_status(pid_t pid);
+int	latest_status(pid_t pid, int pipe_num);
 
 
 //EXPAND

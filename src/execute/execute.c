@@ -63,7 +63,7 @@ void execute_without_pipe(t_tools *tools)
 	}
 	else
 	{
-		latest_status(p1);
+		latest_status(p1, 0);
 	}
 }
 

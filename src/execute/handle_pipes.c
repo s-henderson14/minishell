@@ -27,7 +27,7 @@ void handle_pipes(t_tools *tools)
 		temp = temp->next;
 	}
 	//printf("fd_input in handle %d\n", fd_input);
-	latest_status(last_command_execution(tools, temp, &fd_input, fd));
+	latest_status(last_command_execution(tools, temp, &fd_input, fd), tools->number_of_pipes);
 }
 
 void single_execution_in_pipe(t_tools *tools, t_command *command, int *fd_input, int fd[])
@@ -86,11 +86,18 @@ int last_command_execution(t_tools * tools, t_command *command, int *fd_input, i
 	WIFSIGNALED() Returns a nonzero value if the child process terminated
 				because it received a signal that was not handled.
 */
-int	latest_status(pid_t pid)
+int	latest_status(pid_t pid, int pipe_num)
 {
 	int		status;
+	int		i;
 
+	i = 0;
 	waitpid(pid, &status, 0);
+	while (i < pipe_num)
+	{
+		wait(&status);
+		i++;
+	}
 	if (WIFEXITED(status) != 0)
 		g_sig = WEXITSTATUS(status);
 	if (WIFSIGNALED(status) != 0)
