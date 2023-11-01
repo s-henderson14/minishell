@@ -230,7 +230,7 @@ int redirection(t_command *command);
 
 //heredoc.c
 void check_heredoc(t_command *command);
-int here_document(t_redirection *redirection);
+void here_document(t_redirection *redirection);
 
 //execute.c
 void simple_command_no_pipe(t_tools *tools, t_command *command_list);

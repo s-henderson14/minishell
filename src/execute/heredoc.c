@@ -9,16 +9,15 @@ void check_heredoc(t_command *command)
 		return ;
 	while (redirection != NULL)
 	{
-		if (redirection->type == LESS_LESS)
+		if (redirection->type == LESS_LESS && redirection)
 		{
-			if (here_document(redirection) == 1)
-				return ;
+			here_document(redirection);
 		}
 		redirection = redirection->next;
 	}
 }
 
-int here_document(t_redirection *redirection)
+void here_document(t_redirection *redirection)
 {
 	char *line;
 	char *delimiter;
@@ -26,27 +25,25 @@ int here_document(t_redirection *redirection)
 
 	delimiter = redirection->file_name;
 	if (delimiter == NULL)
-	{
 		error_exit("minishell: syntax error near unexpected token `newline'", 258);
-	}
 	if (pipe(fd_pipe) == -1)
-		return (EXIT_FAILURE);
+		error_exit("minishell: syntax error near unexpected token `newline'", 1);
 	while (1)
 	{
+		signal_noninteractive();
 		line = readline("> ");
+		if (line == NULL)
+			break;
 		if (ft_strsame(line, delimiter) == 1)
 		{
 			free(line);
 			break ;
 		}
-		if (line[0] != '\0')
-		{
-			write(fd_pipe[1], line, ft_strlen(line));
-			write(fd_pipe[1], "\n", 1);
-		}
+		write(fd_pipe[1], line, ft_strlen(line));
+		write(fd_pipe[1], "\n", 1);
 		free(line);
 	}
 	protected_dup2(fd_pipe[0], STDIN_FILENO);
 	close(fd_pipe[1]);
-	return (EXIT_SUCCESS);
+//	return (EXIT_SUCCESS);
 }
