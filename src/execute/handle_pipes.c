@@ -93,7 +93,7 @@ int	latest_status(pid_t pid, int pipe_num)
 
 	i = 0;
 	waitpid(pid, &status, 0);
-	while (i < pipe_num)
+	while (i < pipe_num + 1)
 	{
 		wait(&status);
 		i++;

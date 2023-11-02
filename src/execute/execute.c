@@ -27,6 +27,11 @@ int exec_builtin(t_tools *tools)
 
 void simple_command_no_pipe(t_tools *tools, t_command *command_list)
 {
+	// int fd_in;
+	// int fd_out;
+
+	// fd_in = dup(STDIN_FILENO);
+	// fd_out = dup(STDOUT_FILENO);
 	check_heredoc(command_list);
 	if (is_builtin(command_list) == 1)
 	{
@@ -42,6 +47,8 @@ void simple_command_no_pipe(t_tools *tools, t_command *command_list)
 			return ;
 		execute_without_pipe(tools);
 	}
+	// protected_dup2(fd_in, STDIN_FILENO);
+	// protected_dup2(fd_out, STDOUT_FILENO);
 }
 
 /*
@@ -73,10 +80,11 @@ void execute(t_tools *tools)
 	int fd_in;
 	int fd_out;
 
+	command_list = tools->command_list;
+//	check_heredoc(command_list);
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	signal_parent();
-	command_list = tools->command_list;
 	if (command_list->args[0] == NULL)
 		return ;
 	//printf("command args = %s %s \n", command_list->args[0], command_list->args[1]);
@@ -89,6 +97,6 @@ void execute(t_tools *tools)
 		handle_pipes(tools);
 		//printf("here pipes need to be execute()\n");
 	}
-	dup2(fd_in, STDIN_FILENO);
-	dup2(fd_out, STDOUT_FILENO);
+	protected_dup2(fd_in, STDIN_FILENO);
+	protected_dup2(fd_out, STDOUT_FILENO);
 }

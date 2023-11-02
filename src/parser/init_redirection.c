@@ -20,7 +20,7 @@ void	redir_init(t_command *cmd, t_token *tkn)
 
 	else if (cmd->redirection->file_name != NULL)
 	{
-		printf("B\n");
+		//printf("B\n");
 		redir = ft_calloc(1, sizeof(t_redirection));
 		if (redir == NULL)
 			return ;
