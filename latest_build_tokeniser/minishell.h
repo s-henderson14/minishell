@@ -18,6 +18,8 @@ extern int glob_exit_status; //with extern, we declare glob_exit_status without 
 //we ll define it later in the program
 extern int signal_flag;
 
+# define SPECIAL_DELIMITERS "<>| "
+
 typedef enum s_token_type
 {
     PIPE = 1,
@@ -86,7 +88,7 @@ t_token 	**new_tokeniser(t_tools *shell);
 
 t_token		**build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
 
-t_token 	*init_token(char *content);
+t_token 	*init_token(char *content, t_tools *shell);
 
 char* 		ft_strndup(const char* s, size_t n);
 
@@ -102,7 +104,7 @@ char        *convert_tkn_id(int tkn_id);
 
 char        *get_literal_token(char *input);
 
-void        assign_token_type(t_token *tkn, char *str);
+void        assign_token_type(t_token *tkn, char *str, t_tools *shell);
 
 void        add_token_front(t_token **tkn_lst, t_token *new_tkn);
 

@@ -2,7 +2,7 @@
 
 t_token	**build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
 
-t_token *init_token(char *content);
+t_token *init_token(char *content, t_tools *shell);
 
 char* 	ft_strndup(const char* s, size_t n);
 
@@ -44,7 +44,7 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 		else if (input[i] == '\'' && in_single_q)
 		{	
 			in_single_q = 0;
-			tkn = init_token(ft_strndup(input + start, i - start));
+			tkn = init_token(ft_strndup(input + start, i - start), shell);
 			add_token_back(*tkn_list, tkn);
 			start = -1;
 		}
@@ -52,7 +52,7 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 		{
 			if (in_double_q && start != -1)
 			{
-				tkn = init_token(ft_strndup(input + start, i - start));
+				tkn = init_token(ft_strndup(input + start, i - start), shell);
 				add_token_back(*tkn_list, tkn);
 				start = -1;
 			}
@@ -62,15 +62,26 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 		}
 		else if (input[i] == '$' && !in_single_q)
 		{	
-			tkn = init_token(expand(ft_strndup(input + i + 1 ,word_len(input, i + 1)), shell->env_list));
+			tkn = init_token(expand(ft_strndup(input + i + 1 ,word_len(input, i + 1)), shell->env_list), shell);
 			add_token_back(*tkn_list, tkn);
 			i = i + word_len(input, i) - 1;
 			start = -1;
 		}
-		else if (input[i] == ' ' && !in_single_q && !in_double_q && start != -1)
+		else if ((input[i] == ' ' || input[i] == '>' || input[i] == '<' || input[i] == '|')
+		&& !in_single_q && !in_double_q && start != -1)
 		{	
-			tkn = init_token(ft_strndup(input + start, i - start));
+			tkn = init_token(ft_strndup(input + start, i - start), shell);
 			add_token_back(*tkn_list, tkn);
+			if (input[i + 1] == '>' || input[i + 1] == '<')
+			{	
+				tkn = init_token(ft_strndup(input + i, 2), shell);
+				add_token_back(*tkn_list, tkn);
+			}
+			else 
+			{	
+				tkn = init_token(ft_strndup(input + i, 1), shell);
+				add_token_back(*tkn_list, tkn);
+			}
 			start = -1;
 		}
 		else if (!in_single_q && !in_double_q && start == -1 && input[i] != ' ')
@@ -79,13 +90,13 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 	}
 	if (start != -1)
 	{	
-		tkn = init_token(ft_strdup(input + start));
+		tkn = init_token(ft_strdup(input + start), shell);
 		add_token_back(*tkn_list, tkn);
 	}
 	return (*tkn_list);
 }
 
-t_token *init_token(char *content) 
+t_token *init_token(char *content, t_tools *shell) 
 {    
 	t_token *tkn;
 	int		i; 
@@ -95,7 +106,7 @@ t_token *init_token(char *content)
 	if (is_redirection(content[i]))
 	{	
 		tkn->content = NULL;
-		assign_token_type(tkn, content);
+		assign_token_type(tkn, content, shell);
 	}
     else
 	{	
