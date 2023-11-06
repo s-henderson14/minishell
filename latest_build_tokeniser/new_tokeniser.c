@@ -48,7 +48,7 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 			add_token_back(*tkn_list, tkn);
 			start = -1;
 		}
-		else if (input[i] == '"' && !in_single_q) // Handle double quotes
+		else if (input[i] == '"' && !in_single_q && !ft_strchr(input + start, '=')) // Handle double quotes
 		{
 			if (in_double_q && start != -1)
 			{
@@ -77,7 +77,7 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 				tkn = init_token(ft_strndup(input + i, 2), shell);
 				add_token_back(*tkn_list, tkn);
 			}
-			else 
+			else if (input[i] == '>' || input[i] == '<')
 			{	
 				tkn = init_token(ft_strndup(input + i, 1), shell);
 				add_token_back(*tkn_list, tkn);
