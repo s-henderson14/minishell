@@ -7,6 +7,12 @@ char	*expand(char *input, t_env_node*env_list)
 	var = NULL;
 	if (check_key_exist(input, env_list))
 		var = get_value_from_env_node(input, env_list);
+	if (input[0] == '?')
+	{	
+		var = malloc(1 * sizeof(char) + 1);
+		var[0] = input[0];
+		var[1] = '\0';
+	}
 	return (var);
 }
 
