@@ -64,14 +64,7 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 		{	
 			tkn = init_token(expand(ft_strndup(input + i + 1 ,word_len(input, i + 1)), shell->env_list));
 			add_token_back(*tkn_list, tkn);
-			i = i + word_len(input, i);
-			start = -1;
-		}
-		else if (input[i] == '$' && in_single_q)
-		{	
-			tkn = init_token(ft_strndup(input + i, word_len(input, i)));
-			add_token_back(*tkn_list, tkn);
-			i = start + word_len(input, i);
+			i = i + word_len(input, i) - 1;
 			start = -1;
 		}
 		else if (input[i] == ' ' && !in_single_q && !in_double_q && start != -1)
