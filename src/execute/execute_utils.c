@@ -1,5 +1,12 @@
 #include "../../include/minishell.h"
 
+char *check_path(char *command)
+{
+	if (ft_strchr(command, '/') || command[0] == '.')
+		return (command);
+	return (NULL);
+}
+
 char *join_command_to_path(char *path, char *main_command)
 {
 	char *path_with_slash_at_the_end;
@@ -66,8 +73,13 @@ int call_execve(t_tools *tools, t_command *command)
 	char **path_arr;
 	char *full_path_command;
 
-	path_arr = get_paths(tools);
-	full_path_command = try_access_path(command, path_arr);
+	if (check_path(command->args[0]) != NULL)
+		full_path_command = command->args[0];
+	else
+	{
+		path_arr = get_paths(tools);
+		full_path_command = try_access_path(command, path_arr);
+	}
 	if (full_path_command == NULL)
 	{
 		error_exit("command not found", 127);

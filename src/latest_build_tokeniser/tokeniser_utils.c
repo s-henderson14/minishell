@@ -21,7 +21,7 @@ char	*get_literal_token(char *input)
 	return (literal);
 }
 
-void	assign_token_type(t_token *tkn, char *str)
+void	assign_token_type(t_token *tkn, char *str, t_tools *shell)
 {
 	if (ft_strlen(str) == 2)
 	{	
@@ -29,6 +29,7 @@ void	assign_token_type(t_token *tkn, char *str)
 			tkn->type =  GREAT_GREAT;
 		else if (str[0] == '<')
 			tkn->type = LESS_LESS;
+		shell->number_of_redir += 1;	
 	}
 	if (ft_strlen(str) == 1)
 	{	
@@ -36,8 +37,12 @@ void	assign_token_type(t_token *tkn, char *str)
 			tkn->type = GREAT;
 		if (str[0] == '<')
 			tkn->type = LESS;
-		if (str[0] == '|')
-			tkn->type = PIPE;
+		shell->number_of_redir += 1;
+	}
+	if (str[0] == '|')
+	{	
+		tkn->type = PIPE;
+		shell->number_of_pipes += 1;
 	}
 }
 

@@ -2,7 +2,8 @@
 
 int check_first_char_dollar(char *string)
 {
-	if (*string != '$')
+	// if (*string != '$')
+	if (*string != '?')
 		return (0);
 	else
 		return (1);
@@ -16,7 +17,8 @@ char *expand_string(char *string, t_tools *tools)
 	t_env_node	*temp;
 	char		*return_val;
 
-	if (ft_strsame(string, "$?") == 1)
+	// if (ft_strsame(string, "$?") == 1)
+	if (ft_strsame(string, "?") == 1)
 	{
 		return_val = ft_itoa(g_sig); //MALLOCCC
 		return (return_val);

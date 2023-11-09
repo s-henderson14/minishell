@@ -17,61 +17,61 @@
 //we ll define it later in the program
 extern int g_sig;
 
+# define SPECIAL_DELIMITERS "<>| "
+
 typedef enum s_token_type
 {
-    PIPE = 1,
-    LITERAL,
-    GREAT,
-    GREAT_GREAT,
-    LESS,
-    LESS_LESS,
+	PIPE = 1,
+	LITERAL,
+	GREAT,
+	GREAT_GREAT,
+	LESS,
+	LESS_LESS,
 }   t_token_type;
 
 typedef struct s_token
 {
-    char            *content;
-    t_token_type    type;
-    struct s_token  *next;
+	char            *content;
+	t_token_type    type;
+	struct s_token  *next;
 }   t_token;
 
 
 typedef struct s_redirection
 {
-    char            *file_name;
-    char    *token_name;
-    t_token_type    type; //if it s <<, heredoc, call heredoc f()
-    struct s_redirection *next; //ls > output.txt < input.txt
-                                //just like above, we might have multiple redir. in a command,
-                                //thats why we have a pointer to redirection.
+	char            *file_name;
+	char    *token_name;
+	t_token_type    type; //if it s <<, heredoc, call heredoc f()
+	struct s_redirection *next; //ls > output.txt < input.txt
+								//just like above, we might have multiple redir. in a command,
+								//thats why we have a pointer to redirection.
 }t_redirection;
 
 typedef struct s_command
 {
-    char **args;
-    t_redirection *redirection;
-    struct s_command *next;
+	char **args;
+	t_redirection *redirection;
+	struct s_command *next;
 }t_command;
 
 
 typedef struct s_tools
 {
-    char *input;
-    char **env;
-    struct s_env_node *env_list;
-    t_command *command_list;
-    int number_of_pipes; //this +1 will give us number of command we have in command_list
-    int number_of_redir;
+	char *input;
+	char **env;
+	struct s_env_node *env_list;
+	t_command *command_list;
+	int number_of_pipes; //this +1 will give us number of command we have in command_list
+	int number_of_redir;
 }t_tools;
 
 
 typedef struct s_env_node
 {
-    struct s_env_node    *next;
-    char            *key;
-    char            *value;
+	struct s_env_node    *next;
+	char            *key;
+	char            *value;
 }   t_env_node;
-
-//main.c
 
 
 //**PARSER**//
@@ -79,6 +79,20 @@ typedef struct s_env_node
 t_command   **parser(t_tools *shell);
 
 //**TOKENISER**//
+
+t_token 	**new_tokeniser(t_tools *shell);
+
+t_token		**build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
+
+t_token 	*init_token(char *content, t_tools *shell);
+
+char*		ft_strndup(const char* s, size_t n);
+
+int 		word_len(char *str, int start);
+
+int			is_redirection(char input);
+
+//void		count_redirections(t_token **tkn_lst, t_tools *shell);
 
 t_token     **tokeniser(char *input, t_tools *shell);
 
@@ -88,7 +102,7 @@ char        *convert_tkn_id(int tkn_id);
 
 char        *get_literal_token(char *input);
 
-void        assign_token_type(t_token *tkn, char *str);
+void        assign_token_type(t_token *tkn, char *str, t_tools *shell);
 
 void        add_token_front(t_token **tkn_lst, t_token *new_tkn);
 
@@ -114,7 +128,7 @@ void	    add_redir_back(t_redirection *redir_lst, t_redirection *new_redir);
 
 void	    add_redir_front(t_redirection *redir_lst, t_redirection *new_redir);
 
-int count_nodes(t_redirection *redirection);
+int 		count_nodes(t_redirection *redirection);
 
 //**EXPANSION**//
 
@@ -122,14 +136,96 @@ int         double_found(char *str);
 
 int         dollar_sign_found(char *string);
 
-//int         check_key_exists(char *key, t_env_node *env_list);
-
-//int         ft_strsame(const char *s1, const char *s2);
-
-//char        *get_value_from_env_node(char *key, t_env_node *env_list);
-
 char        *expand(char *input, t_env_node*env_list);
 
+// t_command   **create_simple_cmd(t_token **tkn_list, t_tools *shell);
+
+// t_command   **create_adv_cmd(t_token **tkn_list, t_tools *shell);
+
+// void        add_cmd_front(t_command **cmd_lst, t_command *new_cmd);
+
+// void        add_cmd_back(t_command **cmd_lst, t_command *new_cmd);
+
+// int         word_counter(const char *s, char c);
+// =======
+// int         count_tokens(t_token **tkn_list);
+
+// void        add_token_front(t_token **tkn_lst, t_token *new_tkn);
+// >>>>>>> sean
+
+// void        add_token_back(t_token **tkn_lst, t_token *new_tkn);
+
+// <<<<<<< HEAD
+// void        redir_init(t_command *cmd, t_token *tkn);
+
+// void	    add_redir_back(t_redirection *redir_lst, t_redirection *new_redir);
+
+// void	    add_redir_front(t_redirection *redir_lst, t_redirection *new_redir);
+
+// int count_nodes(t_redirection *redirection);
+// =======
+// //tokeniser_utils.c
+// >>>>>>> sean
+
+// char        *convert_tkn_id(int tkn_id);
+
+// <<<<<<< HEAD
+// int         double_found(char *str);
+
+// int         dollar_sign_found(char *string);
+
+// //int         check_key_exists(char *key, t_env_node *env_list);
+
+// //int         ft_strsame(const char *s1, const char *s2);
+
+// //char        *get_value_from_env_node(char *key, t_env_node *env_list);
+
+// char        *expand(char *input, t_env_node*env_list);
+
+// =======
+// char        *get_literal_token(char *input);
+
+// void        assign_token_type(t_token *tkn, char *str);
+
+// void		free_tkn_list(t_token **list);
+
+// void		clean_split(char **arr);
+
+
+// //create_cmds.c
+
+// t_command   **create_simple_cmd(t_token **tkn_list, t_tools *shell);
+
+// t_command   **create_adv_cmd(t_token **tkn_list, t_tools *shell);
+
+// //create_cmds_utils.c
+
+// void        add_cmd_front(t_command **cmd_lst, t_command *new_cmd);
+
+// void        add_cmd_back(t_command **cmd_lst, t_command *new_cmd);
+
+// int         word_counter(const char *s, char c);
+
+// //init_redirection.c
+
+// void        redir_init(t_command *cmd, t_token *tkn);
+
+// //double_quotation.c
+
+// int         double_found(char *str);
+
+// int         dollar_sign_found(char *string);
+
+// char        *expand(char *input, t_env_node*env_list);
+
+// //int         check_key_exists(char *key, t_env_node *env_list);
+
+// //int         ft_strsame(const char *s1, const char *s2);
+
+// //char        *get_value_from_env_node(char *key, t_env_node *env_list);
+
+
+// >>>>>>> sean
 //test.c
 void    init_command_structure(int argc, char **argv, t_tools *tools);
 t_command *init_command_list(char *line, t_tools *tools);
@@ -167,7 +263,6 @@ void print_value(char *key, t_tools *tools);
 int check_key_exist(char *key, t_env_node *env_list);
 void free_key_and_value(char *key, char *value);
 void remove_oldpwd(t_env_node *env_list);
-
 
 //UTILS
 //utils.c
@@ -220,7 +315,6 @@ int check_arg_digit(char *arg);
 int is_builtin(t_command *command);
 
 
-
 //EXECUTE
 //redirections.c
 void protected_dup2(int old_fd, int new_fd);
@@ -243,6 +337,7 @@ int exec_builtin(t_tools *tools);
 char *join_command_to_path(char *path, char *main_command);
 char **get_paths(t_tools *tools);
 int call_execve(t_tools *tools, t_command *command);
+char *check_path(char *command);
 
 //handle_pipes.c
 void handle_pipes(t_tools *tools);

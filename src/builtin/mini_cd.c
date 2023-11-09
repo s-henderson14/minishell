@@ -77,24 +77,15 @@ int mini_cd(t_tools *tools, t_command *command)
 	env_list = tools->env_list;
 	if (command->args[1] == NULL
 		|| ft_strsame(command->args[1], "~") == 1)
-	{
 		target = get_value_from_env_node("HOME", env_list); //PROTECT
-	}
 	else if (ft_strsame(command->args[1], "..") == 1)
-	{
-		//printf("NOKTANOKTA\n");
 		target = find_upper_dir(getcwd(NULL, 0));
-	}
 	else if (ft_strsame(command->args[1], ".") == 1)
 		return (EXIT_SUCCESS);
 	else if (ft_strsame(command->args[1], "-") == 1) // ----OLDPWD
-	{
 		target = get_value_from_env_node("OLDPWD", env_list); //proteeect
-	}
 	else
-	{
 		target = command->args[1];
-	}
 	printf("target = %s\n", target);
 	set_pwd_update_oldpwd(target, env_list);
 	return (EXIT_SUCCESS);

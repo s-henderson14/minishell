@@ -171,11 +171,14 @@ t_command	**parser(t_tools *shell)
     t_command	**cmd;
 
 	cmd = NULL;
-	tkn_list = tokeniser(shell->input, shell);
+	//tkn_list = tokeniser(shell->input, shell);
+	tkn_list = new_tokeniser(shell);
 	if (shell->number_of_pipes == 0)
 		cmd = create_simple_cmd(tkn_list, shell);
 	else if (shell->number_of_pipes > 0)
 		cmd = create_adv_cmd(tkn_list, shell);
+	//printf("command %s\n", (*cmd)->args[0]);
+	//printf("arg 1 %s\n", (*cmd)->args[2]);
 	return (cmd);
 }
 

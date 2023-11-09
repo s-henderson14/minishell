@@ -51,17 +51,17 @@ SRCS 	:=	src/main.c \
 				src/execute/execute_utils.c \
 				src/utils/utils.c \
 				src/utils/utils_list.c \
-				src/error_syntax/syntax_check.c \
-				src/expansion/double_quotation.c \
 				src/expansion/expand_dollar_sign.c \
-				src/parser/create_cmds_utils.c \
-				src/parser/create_cmds.c \
-				src/parser/init_redirection.c \
-				src/parser/parser.c \
 				src/signals/signals.c \
+				create_cmds.c \
+				src/parser/create_cmds_utils.c \
 				src/tokeniser/tokeniser_lst_utils.c \
-				src/tokeniser/tokeniser_utils.c \
-				src/tokeniser/tokeniser.c
+				src/latest_build_tokeniser/new_tokeniser.c \
+				src/latest_build_tokeniser/tokeniser_utils.c \
+				src/latest_build_tokeniser/double_quotation.c \
+				src/latest_build_tokeniser/parser.c \
+				src/latest_build_tokeniser/init_redirection.c \
+
 
 #SRCS	:= ${SRCS:%=./src/%}
 OBJS	:= ${SRCS:.c=.o}
