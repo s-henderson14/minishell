@@ -74,8 +74,9 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 			add_token_back(*tkn_list, tkn);
 			if (input[i + 1] == '>' || input[i + 1] == '<')
 			{	
-				tkn = init_token(ft_strndup(input + i, 2), shell);
+				tkn = init_token(ft_strndup(input + i + 1, 2), shell);
 				add_token_back(*tkn_list, tkn);
+				i++;
 			}
 			else if (input[i] == '>' || input[i] == '<')
 			{	
