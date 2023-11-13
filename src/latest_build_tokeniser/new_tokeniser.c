@@ -64,7 +64,7 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 		{	
 			tkn = init_token(expand(ft_strndup(input + i + 1 ,word_len(input, i + 1)), shell->env_list), shell);
 			add_token_back(*tkn_list, tkn);
-			i = i + word_len(input, i) - 1;
+			i = i + word_len(input, i);// - 1; //removed to fix error with command sequence (1)export var=a (2) export $var=test
 			start = -1;
 		}
 		else if ((input[i] == ' ' || input[i] == '>' || input[i] == '<' || input[i] == '|')
@@ -154,7 +154,7 @@ int	word_len(char *str, int start)
 		return (0);
 	while (str[start])
 	{ 
-		if (str[start] == ' ' || str[start] == 34 || str[start] == 39)
+		if (str[start] == ' ' || str[start] == 34 || str[start] == 39 || str[start] == '=')
 			break;
 		len++;
 		start++;
