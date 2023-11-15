@@ -16,6 +16,19 @@ char *find_upper_dir(char *current_dir)
 	return (upper_dir);
 }
 
+char *detect_current_dir(char *target)
+{
+	char *new_path;
+
+	new_path = NULL;
+	if (target[0] == '.' && target[1] == '/')
+	{
+		new_path = ft_substr(target, 2, ft_strlen(target) - 2);
+		return (new_path);
+	}
+	return (target);
+}
+
 void	initiate_oldpwd(char *value_to_oldpwd, t_env_node *env_list)
 {
 	t_env_node *oldpwd;
@@ -34,6 +47,7 @@ void set_pwd_update_oldpwd(char *new_path, t_env_node *env_list)
 
 	if (check_key_exist("OLDPWD", env_list) == 0)
 		initiate_oldpwd("", env_list);
+	//detect_current_dir(new_path);
 	current_pwd = protect(getcwd(NULL, 0));				//get current_pwd
 	if (chdir(new_path) == -1)
 	{
@@ -44,29 +58,6 @@ void set_pwd_update_oldpwd(char *new_path, t_env_node *env_list)
 	change_value_of_env_key(current_pwd, "OLDPWD", env_list);	//oldpwd SET
 	free(current_pwd);
 	free(new_path);
-}
-
-/*
-**	This function traverses within env_linked_list,
-**	tries to find the key element equal to char *key,
-**	if finds, return its value
-*/
-char	*get_value_from_env_node(char *key, t_env_node *env_list)
-{
-	char *value;
-
-	if (check_key_exist(key, env_list) == 0)
-		return (NULL);
-	while (env_list != NULL)
-	{
-		if (ft_strsame(key, env_list->key) == 1)
-		{
-			value = ft_strdup(env_list->value);
-			return (value);
-		}
-		env_list = env_list->next;
-	}
-	return (NULL);
 }
 
 int mini_cd(t_tools *tools, t_command *command)
@@ -80,12 +71,13 @@ int mini_cd(t_tools *tools, t_command *command)
 		target = get_value_from_env_node("HOME", env_list); //PROTECT
 	else if (ft_strsame(command->args[1], "..") == 1)
 		target = find_upper_dir(getcwd(NULL, 0));
-	else if (ft_strsame(command->args[1], ".") == 1)
+	else if (ft_strsame(command->args[1], ".") == 1
+		&& ft_strsame(command->args[1], "./") != 1)
 		return (EXIT_SUCCESS);
-	else if (ft_strsame(command->args[1], "-") == 1) // ----OLDPWD
-		target = get_value_from_env_node("OLDPWD", env_list); //proteeect
+	// else if (ft_strsame(command->args[1], "-") == 1) // ----OLDPWD
+	// 	target = get_value_from_env_node("OLDPWD", env_list); //proteeect
 	else
-		target = command->args[1];
+		target = detect_current_dir(command->args[1]);
 	printf("target = %s\n", target);
 	set_pwd_update_oldpwd(target, env_list);
 	return (EXIT_SUCCESS);

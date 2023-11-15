@@ -284,7 +284,7 @@ void    free_double_arr(char **arr);
 void    initiate_oldpwd(char *value_to_oldpwd, t_env_node *env_list);
 char *find_upper_dir(char *current_dir);
 void set_pwd_update_oldpwd(char *new_path, t_env_node *env_list);
-char  *get_value_from_env_node(char *key, t_env_node *env_list);
+char *detect_current_dir(char *target);
 int mini_cd(t_tools *tools, t_command *command);
 
 //mini_echo.c
@@ -313,6 +313,7 @@ void    print_env_for_export(t_env_node *env_list);
 int find_equal_sign(char *arg);
 int check_arg_digit(char *arg);
 int is_builtin(t_command *command);
+char  *get_value_from_env_node(char *key, t_env_node *env_list);
 
 
 //EXECUTE

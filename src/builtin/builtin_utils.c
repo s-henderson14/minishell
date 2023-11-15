@@ -14,6 +14,29 @@ int check_arg_digit(char *arg)
 }
 
 /*
+**	This function traverses within env_linked_list,
+**	tries to find the key element equal to char *key,
+**	if finds, return its value
+*/
+char	*get_value_from_env_node(char *key, t_env_node *env_list)
+{
+	char *value;
+
+	if (check_key_exist(key, env_list) == 0)
+		return (NULL);
+	while (env_list != NULL)
+	{
+		if (ft_strsame(key, env_list->key) == 1)
+		{
+			value = ft_strdup(env_list->value);
+			return (value);
+		}
+		env_list = env_list->next;
+	}
+	return (NULL);
+}
+
+/*
 ** 	Searchs equal sign in given string. If finds returns its index position. Else, -1
 */
 int find_equal_sign(char *arg)
