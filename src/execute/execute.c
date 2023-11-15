@@ -81,12 +81,11 @@ void execute(t_tools *tools)
 	int fd_out;
 
 	command_list = tools->command_list;
-//	check_heredoc(command_list);
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	signal_parent();
-	if (command_list->args[0] == NULL)
-		return ;
+	// if (command_list->args[0] == NULL)
+	// 	return ;
 	//printf("command args = %s %s \n", command_list->args[0], command_list->args[1]);
 	if (tools->number_of_pipes == 0)
 	{
