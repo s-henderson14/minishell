@@ -5,6 +5,7 @@ int error_exit(char *s, int exit_status)
 	if (s == NULL)
 		return (exit_status);
 	ft_putstr_fd(s, STDERR_FILENO);
+	g_sig = exit_status;
 	write(STDOUT_FILENO, "\n", 1);
 	return (exit_status);
 }

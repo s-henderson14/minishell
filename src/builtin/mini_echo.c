@@ -7,19 +7,22 @@
 void print_arguments(int i, t_tools *tools, t_command *command)
 {
 	char **args;
-	char *expanded;
+	//char *expanded;
 
 	args = command->args;
 	while (args[i] != NULL)
 	{
 		if (ft_strsame(args[i], "~") == 1)
 			print_value("HOME", tools);
-		else if (check_first_char_dollar(args[i]) == 1)
-		{
-			expanded = expand_string(args[i], tools);
-			printf("%s", expanded);
-			free(expanded);
-		}
+		else if (ft_strsame(args[i], "?") == 1)
+			printf("%s\n", ft_itoa(g_sig)); //MALLOCCC
+
+		// else if (check_first_char_dollar(args[i]) == 1)
+		// {
+		// 	expanded = expand_string(args[i], tools);
+		// 	printf("%s", expanded);
+		// 	free(expanded);
+		// }
 		else
 			printf("%s", args[i]);
 		if (args[i + 1] != NULL)
