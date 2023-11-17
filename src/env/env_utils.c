@@ -89,24 +89,6 @@ void env_node_free(t_env_node *node)
 	}
 }
 
-/*
-**	Frees entire list of env
-*/
-void env_list_free(t_env_node *env_list)
-{
-	t_env_node *temp;
-
-	if (env_list == NULL)
-		return ;
-	temp = env_list;
-	while (temp != NULL)
-	{
-		temp = env_list->next;
-		env_node_free(env_list);
-		env_list = temp;
-	}
-}
-
 
 
 
