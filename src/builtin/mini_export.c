@@ -1,14 +1,11 @@
 #include "../../include/minishell.h"
 
-t_env_node *split_arg_and_create_node(char *arg)
+t_env_node	*split_arg_and_create_node(char *arg)
 {
-	t_env_node *new_node;
-	//int equal_sign_index;
-	char *key;
-	char *value;
+	t_env_node	*new_node;
+	char		*key;
+	char		*value;
 
-
-	//equal_sign_index = find_equal_sign(arg);
 	key = get_key_from_env_arr(arg);
 	value = get_value_from_env_arr(arg);
 	new_node = env_node_create(key, value);
@@ -19,7 +16,7 @@ t_env_node *split_arg_and_create_node(char *arg)
 
 void	print_env_for_export(t_env_node *env_list)
 {
-	t_env_node *temp;
+	t_env_node	*temp;
 
 	temp = NULL;
 	if (env_list == NULL)
@@ -31,21 +28,23 @@ void	print_env_for_export(t_env_node *env_list)
 		printf("%s=\"%s\"\n", temp->key, temp->value);
 		temp = temp->next;
 	}
-
 }
-int mini_export(t_tools *tools, t_command *command)
+
+int	mini_export(t_tools *tools, t_command *command)
 {
-	t_env_node *env_list;
-	t_env_node *new_node;
+	t_env_node	*env_list;
+	t_env_node	*new_node;
 
 	new_node = NULL;
 	env_list = tools->env_list;
-	if (env_list != NULL && command->args[0] != NULL && command->args[1] == NULL)
+	if (env_list != NULL && command->args[0]
+		!= NULL && command->args[1] == NULL)
 	{
 		print_env_for_export(env_list);
 		return (EXIT_SUCCESS);
 	}
-	else if (command->args[0] != NULL && check_arg_digit(command->args[1]) == 1)
+	else if (command->args[0] != NULL
+		&& check_arg_digit(command->args[1]) == 1)
 	{
 		error_exit("bash: export: no valid identifier", 1);
 		return (EXIT_FAILURE);
@@ -56,6 +55,5 @@ int mini_export(t_tools *tools, t_command *command)
 		new_node = split_arg_and_create_node(command->args[1]);
 		env_node_add_back(new_node, env_list);
 	}
-	//env_list_print(env_list);
 	return (EXIT_FAILURE);
 }

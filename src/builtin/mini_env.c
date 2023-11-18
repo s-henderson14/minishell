@@ -5,9 +5,9 @@
 **	If list is empty, doesnt return error
 **	Also ignores empty keys, doesnt print them
 */
-int mini_env(t_tools *tools, t_command *command)
+int	mini_env(t_tools *tools, t_command *command)
 {
-	t_env_node *env_list;
+	t_env_node	*env_list;
 
 	env_list = tools->env_list;
 	if (env_list == NULL)

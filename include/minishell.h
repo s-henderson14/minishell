@@ -298,7 +298,7 @@ int mini_pwd(t_tools *tools);
 int mini_env(t_tools *tools, t_command *command);
 
 //mini_exit.c
-int mini_exit(t_tools *tools, t_command *command);
+int mini_exit(t_command *command);
 
 //mini_unset.c
 void find_node_in_list_remove(char *key, t_env_node *env_list);

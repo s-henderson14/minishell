@@ -16,7 +16,7 @@ int exec_builtin(t_tools *tools)
 	if (ft_strsame(command->args[0], "env") == 1)
 		return(mini_env(tools, command));
 	if (ft_strsame(command->args[0], "exit") == 1)
-		return(mini_exit(tools, command));
+		return(mini_exit(command));
 	if (ft_strsame(command->args[0], "unset") == 1)
 		return(mini_unset(tools, command));
 	if (ft_strsame(command->args[0], "export") == 1)

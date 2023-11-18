@@ -4,10 +4,9 @@
 **	Prints strings of char **args array
 **	param i : starting index of the strings array for printing
 */
-void print_arguments(int i, t_tools *tools, t_command *command)
+void	print_arguments(int i, t_tools *tools, t_command *command)
 {
-	char **args;
-	//char *expanded;
+	char	**args;
 
 	args = command->args;
 	while (args[i] != NULL)
@@ -31,14 +30,13 @@ void print_arguments(int i, t_tools *tools, t_command *command)
 	}
 }
 
-int mini_echo(t_tools *tools, t_command *command)
+int	mini_echo(t_tools *tools, t_command *command)
 {
-	char **args;
-	int i;
-	int j;
-	int print_newline;
+	char	**args;
+	int		i;
+	int		j;
+	int		print_newline;
 
-	(void)tools;
 	args = command->args;
 	i = 1;
 	print_newline = 1;
@@ -47,7 +45,7 @@ int mini_echo(t_tools *tools, t_command *command)
 		j = 2;
 		if (args[i][j] != '\0' && args[i][j] != 'n')
 			break ;
-		while (args[i][j] != '\0' && args[i][j] == 'n') // -nnnnnn
+		while (args[i][j] != '\0' && args[i][j] == 'n')
 			j++;
 		if (args[i][j] == '\0')
 		{

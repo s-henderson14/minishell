@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-int check_arg_digit(char *arg)
+int	check_arg_digit(char *arg)
 {
 	if (arg == NULL)
 		return (0);
@@ -20,7 +20,7 @@ int check_arg_digit(char *arg)
 */
 char	*get_value_from_env_node(char *key, t_env_node *env_list)
 {
-	char *value;
+	char	*value;
 
 	if (check_key_exist(key, env_list) == 0)
 		return (NULL);
@@ -37,11 +37,12 @@ char	*get_value_from_env_node(char *key, t_env_node *env_list)
 }
 
 /*
-** 	Searchs equal sign in given string. If finds returns its index position. Else, -1
+** 	Searchs equal sign in given string.
+**  If finds returns its index position. Else, -1
 */
-int find_equal_sign(char *arg)
+int	find_equal_sign(char *arg)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arg[i] != '\0')
@@ -53,15 +54,15 @@ int find_equal_sign(char *arg)
 	return (-1);
 }
 
-int is_builtin(t_command *command)
+int	is_builtin(t_command *command)
 {
 	if (ft_strsame(command->args[0], "echo") == 1
-			|| ft_strsame(command->args[0], "cd") == 1
-			|| ft_strsame(command->args[0], "pwd") == 1
-			|| ft_strsame(command->args[0], "env") == 1
-			|| ft_strsame(command->args[0], "exit") == 1
-			|| ft_strsame(command->args[0], "export") == 1
-			|| ft_strsame(command->args[0], "unset") == 1)
+		|| ft_strsame(command->args[0], "cd") == 1
+		|| ft_strsame(command->args[0], "pwd") == 1
+		|| ft_strsame(command->args[0], "env") == 1
+		|| ft_strsame(command->args[0], "exit") == 1
+		|| ft_strsame(command->args[0], "export") == 1
+		|| ft_strsame(command->args[0], "unset") == 1)
 	{
 		return (1);
 	}

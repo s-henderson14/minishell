@@ -5,15 +5,15 @@
 **	For getcwd(), see manual
 **	This funtion ignores extra parameters, still prints
 */
-int mini_pwd(t_tools *tools)
+int	mini_pwd(t_tools *tools)
 {
 	char	*cwd;
 
 	(void)tools;
-	cwd = getcwd(NULL, 0); //if this one fails, do i have to check value of PWDin env_list?
+	cwd = getcwd(NULL, 0);
 	if (cwd == NULL)
 	{
-		ft_putendl_fd("pwd: command fails\n", STDERR_FILENO); //we have a func for the errs
+		ft_putendl_fd("pwd: command fails\n", STDERR_FILENO);
 		return (EXIT_FAILURE);
 	}
 	printf("%s\n", cwd);
