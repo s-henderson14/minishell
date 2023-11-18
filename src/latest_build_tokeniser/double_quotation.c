@@ -8,7 +8,7 @@ char	*expand(char *input, t_env_node*env_list)
 	if (check_key_exist(input, env_list))
 		var = get_value_from_env_node(input, env_list);
 	if (input[0] == '?')
-	{	
+	{
 		var = malloc(1 * sizeof(char) + 1);
 		var[0] = input[0];
 		var[1] = '\0';
@@ -34,8 +34,7 @@ int	double_found(char *str)
 	else if (count > 0 && count % 2 == 0)
 		return(1);
 	else
-		return (0);	
-
+		return (0);
 }
 
 int dollar_sign_found(char *string)
@@ -44,7 +43,7 @@ int dollar_sign_found(char *string)
 
 	i = 1;
 	while (string[i])
-	{	
+	{
 		if (string[i] == '$')
 			return (1);
 		i++;

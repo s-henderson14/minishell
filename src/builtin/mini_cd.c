@@ -65,6 +65,7 @@ int mini_cd(t_tools *tools, t_command *command)
 	char	*target;
 	t_env_node	*env_list;
 
+	printf("command in cd = %s\n", command->args[0]);
 	env_list = tools->env_list;
 	if (command->args[1] == NULL
 		|| ft_strsame(command->args[1], "~") == 1)
@@ -78,7 +79,7 @@ int mini_cd(t_tools *tools, t_command *command)
 	// 	target = get_value_from_env_node("OLDPWD", env_list); //proteeect
 	else
 		target = detect_current_dir(command->args[1]);
-	printf("target = %s\n", target);
+	//printf("target = %s\n", target);
 	set_pwd_update_oldpwd(target, env_list);
 	return (EXIT_SUCCESS);
 }

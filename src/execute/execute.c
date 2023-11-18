@@ -5,12 +5,12 @@ int exec_builtin(t_tools *tools)
 	t_command *command;
 
 	command = tools->command_list;
-	if (ft_strsame(command->args[0], "cd") == 1)
-	{
-		return(mini_cd(tools, command));
-	}
+	if (command->args[0] == NULL)
+		return (EXIT_FAILURE);
 	if (ft_strsame(command->args[0], "pwd") == 1)
 		return(mini_pwd(tools));
+	if (ft_strsame(command->args[0], "cd") == 1)
+		return(mini_cd(tools, command));
 	if (ft_strsame(command->args[0], "echo") == 1)
 		return(mini_echo(tools, command));
 	if (ft_strsame(command->args[0], "env") == 1)
@@ -35,14 +35,12 @@ void simple_command_no_pipe(t_tools *tools, t_command *command_list)
 	check_heredoc(command_list);
 	if (is_builtin(command_list) == 1)
 	{
-		//printf("BUILTIN\n");
 		if (redirection(command_list) == 1)
 			return ;
 		g_sig = exec_builtin(tools);
 	}
 	else
 	{
-		//printf("LAAAA\n");
 		if (redirection(command_list) == 1)
 			return ;
 		execute_without_pipe(tools);
@@ -94,7 +92,6 @@ void execute(t_tools *tools)
 	else
 	{
 		handle_pipes(tools);
-		//printf("here pipes need to be execute()\n");
 	}
 	protected_dup2(fd_in, STDIN_FILENO);
 	protected_dup2(fd_out, STDOUT_FILENO);

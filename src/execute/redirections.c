@@ -50,7 +50,7 @@ int redirection(t_command *command)
 {
 	t_redirection *redirection;
 
-	redirection = command->redirection; // added * for access to array of redir structs
+	redirection = command->redirection;
 //	printf("filename = %s\n", redirection->file_name);
 	while (redirection != NULL)
 	{

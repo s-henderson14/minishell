@@ -89,6 +89,6 @@ int call_execve(t_tools *tools, t_command *command)
 	free(full_path_command);
 	//free all
 	//exit code?
-	error_exit("child exec bad", 1);
+	error_exit("command not found", 1);
 	return (EXIT_FAILURE);
 }

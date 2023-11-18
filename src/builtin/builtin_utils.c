@@ -55,12 +55,15 @@ int find_equal_sign(char *arg)
 
 int is_builtin(t_command *command)
 {
-	//printf("BUILTINN");
-	return (ft_strsame(command->args[0], "cd") == 1
-			|| ft_strsame(command->args[0], "echo") == 1
+	if (ft_strsame(command->args[0], "echo") == 1
+			|| ft_strsame(command->args[0], "cd") == 1
 			|| ft_strsame(command->args[0], "pwd") == 1
 			|| ft_strsame(command->args[0], "env") == 1
 			|| ft_strsame(command->args[0], "exit") == 1
 			|| ft_strsame(command->args[0], "export") == 1
-			|| ft_strsame(command->args[0], "unset") == 1);
+			|| ft_strsame(command->args[0], "unset") == 1)
+	{
+		return (1);
+	}
+	return (0);
 }
