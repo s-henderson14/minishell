@@ -13,12 +13,12 @@
 USER			:=	$(shell whoami)
 
 #codam setting
-# export RL_LIB	:= -L/Users/$(USER)/.brew/opt/readline/lib
-# export RL_INC	:= -I/Users/$(USER)/.brew/opt/readline/include
+export RL_LIB	:= -L/Users/$(USER)/.brew/opt/readline/lib
+export RL_INC	:= -I/Users/$(USER)/.brew/opt/readline/include
 
 #GUL home setting
-export RL_LIB	:= -L/opt/homebrew/opt/readline/lib
-export RL_INC	:= -I/opt/homebrew/opt/readline/include
+# export RL_LIB	:= -L/opt/homebrew/opt/readline/lib
+# export RL_INC	:= -I/opt/homebrew/opt/readline/include
 
 
 #SEAN home setting
@@ -51,6 +51,7 @@ SRCS 	:=	src/main.c \
 				src/execute/execute_utils.c \
 				src/utils/utils.c \
 				src/utils/utils_list.c \
+				src/utils/free_cmd_list.c \
 				src/expansion/expand_dollar_sign.c \
 				src/signals/signals.c \
 				create_cmds.c \

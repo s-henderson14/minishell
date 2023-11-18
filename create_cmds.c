@@ -30,7 +30,7 @@ t_command	**create_simple_cmd(t_token **tkn_list, t_tools *shell)
 		}
 		else if (tkn->content != NULL)
 		{
-			cmd->args[i] = tkn->content;
+			ft_strlcpy(cmd->args[i], tkn->content, ft_strlen(tkn->content) + 1);
 			i++;
 		}
 		tkn = tkn->next;

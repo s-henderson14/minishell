@@ -24,6 +24,8 @@ static t_tools *init_tools(int argc, char **argv, char **env)
 	if (tools == NULL)
 		return (NULL);
 	tools->input = NULL;
+	tools->number_of_pipes = 0;
+	tools->number_of_redir = 0;
 	tools->env = array_dup(env); //MALLOC
 	tools->env_list = init_env_linked_list(env);
 
@@ -34,7 +36,7 @@ static t_tools *init_tools(int argc, char **argv, char **env)
 	return (tools);
 }
 
-static void shell_loop(t_tools *tools)
+static void shell_loop(t_tools *tools) // return int for errors
 {
 	char *line;
 	t_command **cmd_list;
@@ -46,8 +48,9 @@ static void shell_loop(t_tools *tools)
 		if (line == NULL) // means it encounters EOF, ctrl-D
 		{
 			free(line);
-			error_exit("bad user input", 1); //??
-			exit(1);
+			return ;
+			// error_exit("bad user input", 1); //??
+			// exit(1);
 		}
 		else if (line[0] != '\0')
 		{
@@ -59,7 +62,7 @@ static void shell_loop(t_tools *tools)
 			 // printf("command args = %s %d %s %d %s\n", tools->command_list->args[0], tools->command_list->redirection->type,
 			// 	  tools->command_list->redirection->next->file_name, tools->command_list->redirection->next->type, tools->command_list->redirection->next->file_name);
 			execute(tools);
-			//command_list_free(tools->command_list);
+		//	command_list_free(tools->command_list);
 			tools->command_list = NULL;
 			free(line);
 		}
@@ -78,4 +81,7 @@ int main(int argc, char **argv, char **env)
 	// }
 	tools = init_tools(argc, argv, env);
 	shell_loop(tools);
+	free_double_arr(tools->env);
+	env_list_free(tools->env_list);
+//	free(tools);
 }

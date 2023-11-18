@@ -18,7 +18,8 @@ t_token **new_tokeniser(t_tools *shell)
 	tkn_list = ft_calloc(1, sizeof(t_token *));
 	if (!tkn_list)
 		return (free(tkn_string), NULL);
-	tkn_list = build_tkn_list(tkn_string, &tkn_list, shell);	
+	tkn_list = build_tkn_list(tkn_string, &tkn_list, shell);
+	free(tkn_string);
 	return (tkn_list);
 }
 

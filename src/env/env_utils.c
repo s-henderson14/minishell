@@ -89,6 +89,21 @@ void env_node_free(t_env_node *node)
 	}
 }
 
+void tkn_node_free(t_token *node)
+{
+	if (node == NULL)
+	{
+		printf("Node is already free\n");
+		return ;
+	}
+	else
+	{
+		free(node->content);
+		free(node);
+		node = NULL;
+	}
+}
+
 
 
 

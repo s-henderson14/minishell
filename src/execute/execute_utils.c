@@ -64,6 +64,7 @@ static char *try_access_path(t_command *command, char **path_arr)
 	}
 	return (NULL);
 }
+
 /*
 **	execute_child() first searchs the command in current directory.
 **	If finds, does execution, otherwise it searchs the command in PATH

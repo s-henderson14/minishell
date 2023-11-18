@@ -5,9 +5,18 @@ void	redir_init(t_command *cmd, t_token *tkn)
 	t_redirection *redir;
 	
 	redir = ft_calloc(1, sizeof(t_redirection));
+
+
+
+
+
 	redir->file_name = ft_calloc(ft_strlen(tkn->next->content), sizeof(char));
-	redir->file_name = tkn->next->content;
+	ft_memcpy(redir->file_name, tkn->next->content, ft_strlen(tkn->next->content) + 1);
+	//redir->file_name = tkn->next->content;
 	redir->type = tkn->type;
+
+
+
 	// cmd->redirection->file_name = ft_calloc(ft_strlen(tkn->next->content), sizeof(char));
 	// cmd->redirection->file_name = tkn->next->content;
 	//ft_strlcpy(cmd->redirection->file_name, tkn->next->content, ft_strlen(tkn->next->content));
@@ -41,3 +50,5 @@ void	add_redir_back(t_redirection *redir_lst, t_redirection *new_redir)
 	tmp->next = new_redir;
 	new_redir->next = NULL;
 }
+
+//void	*ft_memcpy(void *dst, const void *src, size_t n)

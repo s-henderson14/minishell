@@ -256,7 +256,9 @@ int env_list_size(t_env_node *env_list);
 int env_str_arr_size(char **env);
 void env_node_add_back(t_env_node *new_node, t_env_node *env_list);
 void env_node_free(t_env_node *node);
+void tkn_node_free(t_token *node);
 void env_list_free(t_env_node *env_list);
+void tkn_list_free(t_token **env_list);
 
 //env_utils_2.c
 void print_value(char *key, t_tools *tools);

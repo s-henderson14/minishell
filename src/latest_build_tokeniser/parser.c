@@ -179,6 +179,8 @@ t_command	**parser(t_tools *shell)
 		cmd = create_adv_cmd(tkn_list, shell);
 	//printf("command %s\n", (*cmd)->args[0]);
 	//printf("arg 1 %s\n", (*cmd)->args[2]);
+	//shell->command_list = *(cmd);
+	tkn_list_free(tkn_list);
 	return (cmd);
 }
 
