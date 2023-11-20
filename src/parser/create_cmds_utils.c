@@ -58,7 +58,7 @@ void init_cmd(t_command ***cmd_list, t_command **cmd, t_token **tkn_list)
 
 void assign_literal(t_command *cmd, t_token *tkn, int *index)
 {
-	cmd->args[*index] = ft_calloc(ft_strlen(tkn->content), sizeof(char));
+	cmd->args[*index] = ft_calloc(ft_strlen(tkn->content) + 1, sizeof(char));
 	ft_strlcpy(cmd->args[*index], tkn->content, ft_strlen(tkn->content) + 1);
 	*index += 1;
 }
