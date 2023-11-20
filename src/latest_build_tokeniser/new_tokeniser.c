@@ -1,29 +1,35 @@
 #include "../../include/minishell.h"
 
-t_token	**build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
+//t_token	*build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
+t_token *build_tkn_list(char *input, t_tools *shell);
 
 t_token *init_token(char *content, t_tools *shell);
 
 char* 	ft_strndup(const char* s, size_t n);
 
 
-t_token **new_tokeniser(t_tools *shell)
+t_token *new_tokeniser(t_tools *shell)
 {
 	char	*tkn_string;
-	t_token	**tkn_list;
+	// t_token	**tkn_list;
 	
 	tkn_string = ft_strtrim(shell->input, " ");
 	if (!tkn_string)
 		return (NULL);
-	tkn_list = ft_calloc(1, sizeof(t_token *));
-	if (!tkn_list)
+
+	// tkn_list = ft_calloc(1, sizeof(t_token *));
+	// if (!tkn_list)
+	// 	return (free(tkn_string), NULL);
+
+	shell->token_list = ft_calloc(1, sizeof(t_token));
+	if (shell->token_list == NULL)
 		return (free(tkn_string), NULL);
-	tkn_list = build_tkn_list(tkn_string, &tkn_list, shell);
+	shell->token_list = build_tkn_list(tkn_string, shell);
 	free(tkn_string);
-	return (tkn_list);
+	return (shell->token_list);
 }
 
-t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
+t_token *build_tkn_list(char *input, t_tools *shell)
 {
 	t_token	*tkn;
 	int		in_single_q;
@@ -46,7 +52,7 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 		{	
 			in_single_q = 0;
 			tkn = init_token(ft_strndup(input + start, i - start), shell);
-			add_token_back(*tkn_list, tkn);
+			add_token_back(shell->token_list, tkn);
 			start = -1;
 		}
 		else if (input[i] == '"' && !in_single_q && !ft_strchr(input + start, '=')) // Handle double quotes
@@ -54,7 +60,7 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 			if (in_double_q && start != -1)
 			{
 				tkn = init_token(ft_strndup(input + start, i - start), shell);
-				add_token_back(*tkn_list, tkn);
+				add_token_back(shell->token_list, tkn);
 				start = -1;
 			}
 			in_double_q = !in_double_q;
@@ -64,7 +70,7 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 		else if (input[i] == '$' && !in_single_q)
 		{	
 			tkn = init_token(expand(ft_strndup(input + i + 1 ,word_len(input, i + 1)), shell->env_list), shell);
-			add_token_back(*tkn_list, tkn);
+			add_token_back(shell->token_list, tkn);
 			i = i + word_len(input, i);// - 1; //removed to fix error with command sequence (1)export var=a (2) export $var=test
 			start = -1;
 		}
@@ -72,17 +78,17 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 		&& !in_single_q && !in_double_q && start != -1)
 		{	
 			tkn = init_token(ft_strndup(input + start, i - start), shell);
-			add_token_back(*tkn_list, tkn);
+			add_token_back(shell->token_list, tkn);
 			if (input[i + 1] == '>' || input[i + 1] == '<')
 			{	
 				tkn = init_token(ft_strndup(input + i + 1, 2), shell);
-				add_token_back(*tkn_list, tkn);
+				add_token_back(shell->token_list, tkn);
 				i += 2;
 			}
 			else if (input[i] == '>' || input[i] == '<')
 			{	
 				tkn = init_token(ft_strndup(input + i, 1), shell);
-				add_token_back(*tkn_list, tkn);
+				add_token_back(shell->token_list, tkn);
 			}
 			start = -1;
 		}
@@ -93,9 +99,10 @@ t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
 	if (start != -1)
 	{	
 		tkn = init_token(ft_strdup(input + start), shell);
-		add_token_back(*tkn_list, tkn);
+		printf("token in built_tkn_list = %s\n", tkn->content);
+		add_token_back(shell->token_list, tkn);
 	}
-	return (*tkn_list);
+	return (shell->token_list);
 }
 
 t_token *init_token(char *content, t_tools *shell) 
@@ -115,7 +122,9 @@ t_token *init_token(char *content, t_tools *shell)
 		tkn->content = ft_strdup(content);
 		tkn->type = 2;
 	}
+	printf("token in init_token = %s\n", tkn->content);
     tkn->next = NULL;
+
     return (tkn);
 }
 

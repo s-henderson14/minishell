@@ -49,7 +49,7 @@ int	word_counter(const char *s, char c)
 	return (count);
 }
 
-void init_cmd(t_command ***cmd_list, t_command **cmd, t_token **tkn_list)
+void init_cmd(t_command ***cmd_list, t_command **cmd, t_token *tkn_list)
 {
 	*cmd_list = ft_calloc(1, sizeof(t_command *));
 	*cmd = ft_calloc(1, sizeof(t_command));
@@ -63,33 +63,33 @@ void assign_literal(t_command *cmd, t_token *tkn, int *index)
 	*index += 1;
 }
 
-t_command *extract_cmd(t_token **tkn_list, t_tools *shell, int *repeater)
-{
-	t_command	*cmd;
-	t_token		*tkn;
-	int			i;
-	int			j;
+// t_command *extract_cmd(t_token **tkn_list, t_tools *shell, int *repeater)
+// {
+// 	t_command	*cmd;
+// 	t_token		*tkn;
+// 	int			i;
+// 	int			j;
 
-	i = 0;
-	j = 0;
-	while (j++ != *repeater)
-		tkn = tkn->next;
-	cmd = ft_calloc(1, sizeof(t_command));
-	cmd->args = ft_calloc(count_tokens(tkn_list) + 1, sizeof(char *));
-	redir_init(shell, cmd);
-	tkn = *tkn_list;
-	while (tkn != NULL)
-	{
-		if (tkn->type == 1)
-			break ;
-		else if (tkn->type > 2 && tkn->next->type == 2)
-			add_redir(cmd, tkn);
-		else if (tkn->content != NULL)
-			assign_literal(cmd, tkn, &i);
-		tkn = tkn->next;
-	}
-	if (tkn->type == 1 || tkn->type > 2)
-		*repeater += 1;
-	cmd->args[i] = NULL;
-	return (cmd);
-}
+// 	i = 0;
+// 	j = 0;
+// 	while (j++ != *repeater)
+// 		tkn = tkn->next;
+// 	cmd = ft_calloc(1, sizeof(t_command));
+// 	cmd->args = ft_calloc(count_tokens(tkn_list) + 1, sizeof(char *));
+// 	redir_init(shell, cmd);
+// 	tkn = *tkn_list;
+// 	while (tkn != NULL)
+// 	{
+// 		if (tkn->type == 1)
+// 			break ;
+// 		else if (tkn->type > 2 && tkn->next->type == 2)
+// 			add_redir(cmd, tkn);
+// 		else if (tkn->content != NULL)
+// 			assign_literal(cmd, tkn, &i);
+// 		tkn = tkn->next;
+// 	}
+// 	if (tkn->type == 1 || tkn->type > 2)
+// 		*repeater += 1;
+// 	cmd->args[i] = NULL;
+// 	return (cmd);
+// }

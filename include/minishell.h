@@ -60,6 +60,7 @@ typedef struct s_tools
 	char *input;
 	char **env;
 	struct s_env_node *env_list;
+	t_token *token_list;
 	t_command *command_list;
 	int number_of_pipes; //this +1 will give us number of command we have in command_list
 	int number_of_redir;
@@ -80,9 +81,9 @@ t_command   **parser(t_tools *shell);
 
 //**TOKENISER**//
 
-t_token 	**new_tokeniser(t_tools *shell);
+t_token 	*new_tokeniser(t_tools *shell);
 
-t_token		**build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
+t_token		*build_tkn_list(char *input, t_tools *shell);
 
 t_token 	*init_token(char *content, t_tools *shell);
 
@@ -96,7 +97,7 @@ int			is_redirection(char input);
 
 t_token     **tokeniser(char *input, t_tools *shell);
 
-int         count_tokens(t_token **tkn_list);
+int         count_tokens(t_token *tkn_list);
 
 char        *convert_tkn_id(int tkn_id);
 
@@ -104,19 +105,19 @@ char        *get_literal_token(char *input);
 
 void        assign_token_type(t_token *tkn, char *str, t_tools *shell);
 
-void        add_token_front(t_token **tkn_lst, t_token *new_tkn);
+void        add_token_front(t_token *tkn_lst, t_token *new_tkn);
 
-void        add_token_back(t_token **tkn_lst, t_token *new_tkn);
+void        add_token_back(t_token *tkn_lst, t_token *new_tkn);
 
 //**CREATE COMMANDS**//
 
-void 		init_cmd(t_command ***cmd_list, t_command **cmd, t_token **tkn_list);
+void 		init_cmd(t_command ***cmd_list, t_command **cmd, t_token *tkn_list);
 
-t_command   **create_simple_cmd(t_token **tkn_list, t_tools *shell);
+t_command   **create_simple_cmd(t_tools *shell);
 
 void 		assign_literal(t_command *cmd, t_token *tkn, int *index);
 
-t_command   **create_adv_cmd(t_token **tkn_list, t_tools *shell);
+t_command   **create_adv_cmd(t_tools *shell);
 
 void        add_cmd_front(t_command **cmd_lst, t_command *new_cmd);
 
@@ -264,7 +265,7 @@ void env_node_add_back(t_env_node *new_node, t_env_node *env_list);
 void env_node_free(t_env_node *node);
 void tkn_node_free(t_token *node);
 void env_list_free(t_env_node *env_list);
-void tkn_list_free(t_token **env_list);
+void tkn_list_free(t_token *env_list);
 
 //env_utils_2.c
 void print_value(char *key, t_tools *tools);

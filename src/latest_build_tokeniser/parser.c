@@ -167,16 +167,24 @@
 
 t_command	**parser(t_tools *shell)
 {
-    t_token		**tkn_list;
+   // t_token		**tkn_list;
     t_command	**cmd;
 
 	cmd = NULL;
-	tkn_list = new_tokeniser(shell);
+	shell->token_list = new_tokeniser(shell);
+	//printf("token = %s\n", shell->token_list->content);
 	if (shell->number_of_pipes == 0)
-		cmd = create_simple_cmd(tkn_list, shell);
+		cmd = create_simple_cmd(shell);
 	else if (shell->number_of_pipes > 0)
-		cmd = create_adv_cmd(tkn_list, shell);
+		cmd = create_adv_cmd(shell);
+	//printf("command = %s\n", *(cmd)->args[0]);
 	return (cmd);
+	// tkn_list = new_tokeniser(shell);
+	// if (shell->number_of_pipes == 0)
+	// 	cmd = create_simple_cmd(tkn_list, shell);
+	// else if (shell->number_of_pipes > 0)
+	// 	cmd = create_adv_cmd(tkn_list, shell);
+	// return (cmd);
 }
 
 // int	main(int argc, char **argv, char **env) // Tests the use of tokeniser, create_cmds.count_tokens, convert_token_id and beginning of parser

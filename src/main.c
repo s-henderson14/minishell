@@ -28,6 +28,7 @@ static t_tools *init_tools(int argc, char **argv, char **env)
 	tools->number_of_redir = 0;
 	tools->env = array_dup(env); //MALLOC
 	tools->env_list = init_env_linked_list(env);
+	tools->token_list = NULL;
 
 	//printf("%s \n %s \n", tools->env_list->key, tools->env_list->next->key);
 	//init_command_structure(argc, argv, tools);
@@ -58,17 +59,17 @@ static void shell_loop(t_tools *tools) // return int for errors
 			add_history(tools->input);
 			cmd_list = parser(tools);
 			tools->command_list = *(cmd_list);
-			//printf("command=%s\n", tools->command_list->args[0]);
+			printf("command=%s\n", tools->command_list->args[0]);
 			 // printf("command args = %s %d %s %d %s\n", tools->command_list->args[0], tools->command_list->redirection->type,
 			// 	  tools->command_list->redirection->next->file_name, tools->command_list->redirection->next->type, tools->command_list->redirection->next->file_name);
 			execute(tools);
 		//	command_list_free(tools->command_list);
 			tools->command_list = NULL;
+			tkn_list_free(tools->token_list);
 			free(line);
 		}
 	}
 }
-
 
 int main(int argc, char **argv, char **env)
 {
@@ -83,5 +84,5 @@ int main(int argc, char **argv, char **env)
 	shell_loop(tools);
 	free_double_arr(tools->env);
 	env_list_free(tools->env_list);
-//	free(tools);
+	free(tools);
 }
