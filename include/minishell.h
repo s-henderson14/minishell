@@ -110,9 +110,15 @@ void        add_token_back(t_token **tkn_lst, t_token *new_tkn);
 
 //**CREATE COMMANDS**//
 
+void 		init_cmd(t_command ***cmd_list, t_command **cmd, t_token **tkn_list);
+
 t_command   **create_simple_cmd(t_token **tkn_list, t_tools *shell);
 
+void 		assign_literal(t_command *cmd, t_token *tkn, int *index);
+
 t_command   **create_adv_cmd(t_token **tkn_list, t_tools *shell);
+
+t_command 	*extract_cmd(t_token **tkn_list, t_tools *shell, int *repeater);
 
 void        add_cmd_front(t_command **cmd_lst, t_command *new_cmd);
 
@@ -122,7 +128,9 @@ int         word_counter(const char *s, char c);
 
 //**REDIRECTIONS**//
 
-void        redir_init(t_command *cmd, t_token *tkn);
+void        add_redir(t_command *cmd, t_token *tkn);
+
+void		redir_init(t_tools *shell, t_command *cmd);
 
 void	    add_redir_back(t_redirection *redir_lst, t_redirection *new_redir);
 

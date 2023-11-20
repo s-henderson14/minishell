@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	redir_init(t_command *cmd, t_token *tkn)
+void	add_redir(t_command *cmd, t_token *tkn)
 {
 	t_redirection *redir;
 	
@@ -27,6 +27,18 @@ void	redir_init(t_command *cmd, t_token *tkn)
 	add_redir_back(cmd->redirection,redir);
 	// cmd->redirection = redir;
 	// redir = cmd->redirection->next;
+}
+
+void	redir_init(t_tools *shell, t_command *cmd)
+{
+	if (shell->number_of_redir >= 1)
+	{
+		cmd->redirection = ft_calloc(1, sizeof(t_redirection));
+		cmd->redirection->file_name = NULL;
+		cmd->redirection->type = 0;
+		cmd->redirection->next = NULL;
+	}
+	cmd->redirection = NULL;
 }
 
 void	add_redir_front(t_redirection *redir_lst, t_redirection *new_redir)
