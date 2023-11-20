@@ -118,8 +118,6 @@ void 		assign_literal(t_command *cmd, t_token *tkn, int *index);
 
 t_command   **create_adv_cmd(t_token **tkn_list, t_tools *shell);
 
-t_command 	*extract_cmd(t_token **tkn_list, t_tools *shell, int *repeater);
-
 void        add_cmd_front(t_command **cmd_lst, t_command *new_cmd);
 
 void        add_cmd_back(t_command **cmd_lst, t_command *new_cmd);

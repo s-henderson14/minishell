@@ -38,7 +38,8 @@ void	redir_init(t_tools *shell, t_command *cmd)
 		cmd->redirection->type = 0;
 		cmd->redirection->next = NULL;
 	}
-	cmd->redirection = NULL;
+	if (shell->number_of_redir == 0)
+		cmd->redirection = NULL;
 }
 
 void	add_redir_front(t_redirection *redir_lst, t_redirection *new_redir)
