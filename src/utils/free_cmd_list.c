@@ -64,7 +64,8 @@ void	clean_redirection(t_redirection *node)
 		free(node);
 		node = nxt;
 	}
-	free(node);
+	if (node != NULL)
+		free(node);
 }
 
 void clean_cmd_list(t_command **cmd_list)

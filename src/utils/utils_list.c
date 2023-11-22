@@ -15,24 +15,42 @@ void	free_double_arr(char **arr)
 	free(arr);
 }
 
-void command_list_free(t_command *command_list)
-{
-	t_command *temp;
+// void command_list_free(t_command *command_list)
+// {
+// 	t_command *temp;
 
-	if (command_list == NULL)
-		return ;
-	temp = command_list;
-	while (temp != NULL)
-	{
-		temp = command_list->next;
-		free_double_arr(command_list->args);
-		free(command_list->redirection);
-		free(command_list);
-	//	env_node_free(command_list);
-		command_list = temp;
-	}
-}
+// 	if (command_list == NULL)
+// 		return ;
+// 	temp = command_list;
+// 	while (temp != NULL)
+// 	{
+// 		temp = command_list->next;
+// 		free_double_arr(command_list->args);
+// 		//free(command_list->redirection);
+// 		redir_list_free(command_list->redirection);
+// 		free(command_list);
+// 	//	env_node_free(command_list);
+// 		command_list = temp;
+// 	}
+// }
 
+// void redir_list_free(t_redirection *redir_list)
+// {
+// 	t_redirection *temp;
+
+// 	if (redir_list == NULL)
+// 		return ;
+// 	temp = redir_list;
+// 	while (temp != NULL)
+// 	{
+// 		temp = redir_list->next;
+// 		free(redir_list->file_name);
+// 		free(redir_list->token_name);
+// 		free(redir_list);
+// 	//	env_node_free(command_list);
+// 		redir_list = temp;
+// 	}
+// }
 
 void	ft_lstadd_back_command(t_command *command_list, t_command *command)
 {

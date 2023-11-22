@@ -59,13 +59,14 @@ static void shell_loop(t_tools *tools) // return int for errors
 			add_history(tools->input);
 			cmd_list = parser(tools);
 			tools->command_list = *(cmd_list);
-			printf("command=%s\n", tools->command_list->args[0]);
+			//printf("command=%s\n", tools->command_list->args[0]);
 			 // printf("command args = %s %d %s %d %s\n", tools->command_list->args[0], tools->command_list->redirection->type,
 			// 	  tools->command_list->redirection->next->file_name, tools->command_list->redirection->next->type, tools->command_list->redirection->next->file_name);
 			execute(tools);
-		//	command_list_free(tools->command_list);
-			tools->command_list = NULL;
 			tkn_list_free(tools->token_list);
+			//command_list_free(tools->command_list);
+			clean_cmd_list(&tools->command_list);
+			tools->command_list = NULL;
 			free(line);
 		}
 	}
@@ -85,4 +86,6 @@ int main(int argc, char **argv, char **env)
 	free_double_arr(tools->env);
 	env_list_free(tools->env_list);
 	free(tools);
+	rl_clear_history();
+	//return(g_sig);
 }

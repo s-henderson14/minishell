@@ -279,12 +279,16 @@ int error_exit(char *s, int exit_status);
 char *protect(char *arg);
 char **argv_duplicate_without_program_name(char **argv, int argc);
 char **array_dup(char **env);
+void	clean_split(char **arr);
+void	clean_redirection(t_redirection *node);
+void clean_cmd_list(t_command **cmd_list);
 
 //utils_list.c
 void    ft_lstadd_back_command(t_command *command_list, t_command *command);
 t_command   *ft_lstnew_command(char **dup, t_tools *tools);
 t_command   *init_single_command(t_tools *tools, char **temp_args);
 void command_list_free(t_command *command_list);
+void redir_list_free(t_redirection *redir_list);
 void    free_double_arr(char **arr);
 
 

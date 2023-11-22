@@ -3,14 +3,14 @@
 void	add_redir(t_command *cmd, t_token *tkn)
 {
 	t_redirection *redir;
-	
+
 	redir = ft_calloc(1, sizeof(t_redirection));
 
 
 
 
 
-	redir->file_name = ft_calloc(ft_strlen(tkn->next->content), sizeof(char));
+	redir->file_name = ft_calloc(ft_strlen(tkn->next->content), sizeof(char *));
 	ft_memcpy(redir->file_name, tkn->next->content, ft_strlen(tkn->next->content) + 1);
 	//redir->file_name = tkn->next->content;
 	redir->type = tkn->type;

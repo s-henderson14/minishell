@@ -12,7 +12,7 @@ t_token *new_tokeniser(t_tools *shell)
 {
 	char	*tkn_string;
 	// t_token	**tkn_list;
-	
+
 	tkn_string = ft_strtrim(shell->input, " ");
 	if (!tkn_string)
 		return (NULL);
@@ -68,7 +68,7 @@ t_token *build_tkn_list(char *input, t_tools *shell)
 				start = i + 1;
 		}
 		else if (input[i] == '$' && !in_single_q)
-		{	
+		{
 			tkn = init_token(expand(ft_strndup(input + i + 1 ,word_len(input, i + 1)), shell->env_list), shell);
 			add_token_back(shell->token_list, tkn);
 			i = i + word_len(input, i);// - 1; //removed to fix error with command sequence (1)export var=a (2) export $var=test
@@ -76,17 +76,17 @@ t_token *build_tkn_list(char *input, t_tools *shell)
 		}
 		else if ((input[i] == ' ' || input[i] == '>' || input[i] == '<' || input[i] == '|')
 		&& !in_single_q && !in_double_q && start != -1)
-		{	
+		{
 			tkn = init_token(ft_strndup(input + start, i - start), shell);
 			add_token_back(shell->token_list, tkn);
 			if (input[i + 1] == '>' || input[i + 1] == '<')
-			{	
+			{
 				tkn = init_token(ft_strndup(input + i + 1, 2), shell);
 				add_token_back(shell->token_list, tkn);
 				i += 2;
 			}
 			else if (input[i] == '>' || input[i] == '<')
-			{	
+			{
 				tkn = init_token(ft_strndup(input + i, 1), shell);
 				add_token_back(shell->token_list, tkn);
 			}
@@ -97,32 +97,32 @@ t_token *build_tkn_list(char *input, t_tools *shell)
 		i++;
 	}
 	if (start != -1)
-	{	
+	{
 		tkn = init_token(ft_strdup(input + start), shell);
-		printf("token in built_tkn_list = %s\n", tkn->content);
+		//printf("token in built_tkn_list = %s\n", tkn->content);
 		add_token_back(shell->token_list, tkn);
 	}
 	return (shell->token_list);
 }
 
-t_token *init_token(char *content, t_tools *shell) 
-{    
+t_token *init_token(char *content, t_tools *shell)
+{
 	t_token *tkn;
-	int		i; 
-	
+	int		i;
+
 	i = 0;
 	tkn = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (is_redirection(content[i]))
-	{	
+	{
 		tkn->content = NULL;
 		assign_token_type(tkn, content, shell);
 	}
     else
-	{	
+	{
 		tkn->content = ft_strdup(content);
 		tkn->type = 2;
 	}
-	printf("token in init_token = %s\n", tkn->content);
+	//printf("token in init_token = %s\n", tkn->content);
     tkn->next = NULL;
 
     return (tkn);
