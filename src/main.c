@@ -87,5 +87,5 @@ int main(int argc, char **argv, char **env)
 	env_list_free(tools->env_list);
 	free(tools);
 	clear_history();
-	//return(g_sig);
+	return(g_sig);
 }
