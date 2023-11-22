@@ -1,121 +1,150 @@
 #include "../../include/minishell.h"
 
-t_token	**build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
+//t_token	*build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
+//t_token *build_tkn_list(char *input, t_tools *shell);
 
 t_token *init_token(char *content, t_tools *shell);
 
 char* 	ft_strndup(const char* s, size_t n);
 
 
-t_token **new_tokeniser(t_tools *shell)
+t_token *new_tokeniser(t_tools *shell)
 {
-	char	*tkn_string;
-	t_token	**tkn_list;
-	
-	tkn_string = ft_strtrim(shell->input, " ");
-	if (!tkn_string)
+	//char	*tkn_string;
+	t_machine	*lexer;
+	//tkn_string = ft_strtrim(shell->input, " ");
+	// if (!tkn_string)
+	// 	return (NULL);
+	lexer = ft_calloc(1, sizeof(t_machine));
+	shell->tkn_list = ft_calloc(1, sizeof(t_token));
+	if (shell->tkn_list == NULL)
 		return (NULL);
-	tkn_list = ft_calloc(1, sizeof(t_token *));
-	if (!tkn_list)
-		return (free(tkn_string), NULL);
-	tkn_list = build_tkn_list(tkn_string, &tkn_list, shell);
-	free(tkn_string);
-	return (tkn_list);
+		//return (free(tkn_string), NULL);
+	shell->tkn_list = build_tkn_list(lexer,shell);
+	// shell->tkn_list = build_tkn_list(tkn_string, shell);
+	//free(tkn_string);
+	return (shell->tkn_list);
 }
 
-t_token **build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell)
+t_token *build_tkn_list(t_machine *lexer, t_tools *shell)
 {
-	t_token	*tkn;
-	int		in_single_q;
-	int		in_double_q;
-	int		i;
-	int		start;
+	t_token		*tkn;
+	int			i;
 
 	i = 0;
-	start = -1;
-	in_single_q = 0;
-	in_double_q = 0;
-	while (input[i])
+	tkn = NULL;
+	init_lexer_state(lexer);
+	while (shell->input[i])
 	{
-		if (input[i] == '\'' && !in_single_q && !in_double_q)
-		{	
-			in_single_q = 1;
-			start = i + 1;
-		}
-		else if (input[i] == '\'' && in_single_q)
-		{	
-			in_single_q = 0;
-			tkn = init_token(ft_strndup(input + start, i - start), shell);
-			add_token_back(*tkn_list, tkn);
-			start = -1;
-		}
-		else if (input[i] == '"' && !in_single_q && !ft_strchr(input + start, '=')) // Handle double quotes
-		{
-			if (in_double_q && start != -1)
-			{
-				tkn = init_token(ft_strndup(input + start, i - start), shell);
-				add_token_back(*tkn_list, tkn);
-				start = -1;
-			}
-			in_double_q = !in_double_q;
-			if (in_double_q)
-				start = i + 1;
-		}
-		else if (input[i] == '$' && !in_single_q)
-		{	
-			tkn = init_token(expand(ft_strndup(input + i + 1 ,word_len(input, i + 1)), shell->env_list), shell);
-			add_token_back(*tkn_list, tkn);
-			i = i + word_len(input, i);// - 1; //removed to fix error with command sequence (1)export var=a (2) export $var=test
-			start = -1;
-		}
-		else if ((input[i] == ' ' || input[i] == '>' || input[i] == '<' || input[i] == '|')
-		&& !in_single_q && !in_double_q && start != -1)
-		{	
-			tkn = init_token(ft_strndup(input + start, i - start), shell);
-			add_token_back(*tkn_list, tkn);
-			if (input[i + 1] == '>' || input[i + 1] == '<')
-			{	
-				tkn = init_token(ft_strndup(input + i + 1, 2), shell);
-				add_token_back(*tkn_list, tkn);
-				i += 2;
-			}
-			else if (input[i] == '>' || input[i] == '<')
-			{	
-				tkn = init_token(ft_strndup(input + i, 1), shell);
-				add_token_back(*tkn_list, tkn);
-			}
-			start = -1;
-		}
-		else if (!in_single_q && !in_double_q && start == -1 && input[i] != ' ')
-			start = i;
+		check_single_quote(lexer, shell, &i);
+		close_single_quote(lexer, tkn, shell, &i);
+		handle_double_quote(lexer, tkn, shell, &i);
+		handle_expansion(lexer, tkn, shell, &i);
+		if (tkn_delimiter_found(lexer, tkn, shell, &i))
+			redir_tokens(lexer, tkn, shell, &i);
+		if (!lexer->insingleq && !lexer->indoubleq && lexer->start == -1 && shell->input[i] != ' ')
+			lexer->start = i;
 		i++;
 	}
-	if (start != -1)
-	{	
-		tkn = init_token(ft_strdup(input + start), shell);
-		add_token_back(*tkn_list, tkn);
-	}
-	return (*tkn_list);
+	add_last_token(lexer, tkn, shell);
+	return (shell->tkn_list);
 }
 
-t_token *init_token(char *content, t_tools *shell) 
-{    
+// t_token *build_tkn_list(t_tools *shell)
+// {
+// 	t_token	*tkn;
+// 	int		in_single_q;
+// 	int		in_double_q;
+// 	int		i;
+// 	int		start;
+
+// 	i = 0;
+// 	start = -1;
+// 	in_single_q = 0;
+// 	in_double_q = 0;
+// 	while (shell->input[i])
+// 	{
+// 		if (shell->input[i] == '\'' && !in_single_q && !in_double_q)
+// 		{	
+// 			in_single_q = 1;
+// 			start = i + 1;
+// 		}
+// 		else if (shell->input[i] == '\'' && in_single_q)
+// 		{	
+// 			in_single_q = 0;
+// 			tkn = init_token(ft_strndup(shell->input + start, i - start), shell);
+// 			add_token_back(shell->tkn_list, tkn);
+// 			start = -1;
+// 		}
+// 		else if (shell->input[i] == '"' && !in_single_q && !ft_strchr(shell->input + start, '=')) // Handle double quotes
+// 		{
+// 			if (in_double_q && start != -1)
+// 			{
+// 				tkn = init_token(ft_strndup(shell->input + start, i - start), shell);
+// 				add_token_back(shell->tkn_list, tkn);
+// 				start = -1;
+// 			}
+// 			in_double_q = !in_double_q;
+// 			if (in_double_q)
+// 				start = i + 1;
+// 		}
+// 		else if (shell->input[i] == '$' && !in_single_q)
+// 		{
+// 			tkn = init_token(expand(ft_strndup(shell->input + i + 1 ,word_len(shell->input, i + 1)), shell->env_list), shell);
+// 			add_token_back(shell->tkn_list, tkn);
+// 			i = i + word_len(shell->input, i);// - 1; //removed to fix error with command sequence (1)export var=a (2) export $var=test
+// 			start = -1;
+// 		}
+// 		else if ((shell->input[i] == ' ' || shell->input[i] == '>' || shell->input[i] == '<' || shell->input[i] == '|')
+// 		&& !in_single_q && !in_double_q && start != -1)
+// 		{
+// 			tkn = init_token(ft_strndup(shell->input + start, i - start), shell);
+// 			add_token_back(shell->tkn_list, tkn);
+// 			if (shell->input[i + 1] == '>' || shell->input[i + 1] == '<')
+// 			{
+// 				tkn = init_token(ft_strndup(shell->input + i + 1, 2), shell);
+// 				add_token_back(shell->tkn_list, tkn);
+// 				i += 2;
+// 			}
+// 			else if (shell->input[i] == '>' || shell->input[i] == '<')
+// 			{
+// 				tkn = init_token(ft_strndup(shell->input + i, 1), shell);
+// 				add_token_back(shell->tkn_list, tkn);
+// 			}
+// 			start = -1;
+// 		}
+// 		else if (!in_single_q && !in_double_q && start == -1 && shell->input[i] != ' ')
+// 			start = i;
+// 		i++;
+// 	}
+// 	if (start != -1)
+// 	{
+// 		tkn = init_token(ft_strdup(shell->input + start), shell);
+// 		add_token_back(shell->tkn_list, tkn);
+// 	}
+// 	return (shell->tkn_list);
+// }
+
+t_token *init_token(char *content, t_tools *shell)
+{
 	t_token *tkn;
-	int		i; 
-	
+	int		i;
+
 	i = 0;
 	tkn = (t_token *)ft_calloc(1, sizeof(t_token));
 	if (is_redirection(content[i]))
-	{	
+	{
 		tkn->content = NULL;
 		assign_token_type(tkn, content, shell);
 	}
     else
-	{	
+	{
 		tkn->content = ft_strdup(content);
 		tkn->type = 2;
 	}
+	//printf("token in init_token = %s\n", tkn->content);
     tkn->next = NULL;
+
     return (tkn);
 }
 

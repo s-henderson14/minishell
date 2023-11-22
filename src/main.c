@@ -28,6 +28,7 @@ static t_tools *init_tools(int argc, char **argv, char **env)
 	tools->number_of_redir = 0;
 	tools->env = array_dup(env); //MALLOC
 	tools->env_list = init_env_linked_list(env);
+	tools->tkn_list = NULL;
 
 	//printf("%s \n %s \n", tools->env_list->key, tools->env_list->next->key);
 	//init_command_structure(argc, argv, tools);

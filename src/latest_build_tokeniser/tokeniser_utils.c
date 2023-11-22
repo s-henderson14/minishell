@@ -66,3 +66,99 @@ char	*convert_tkn_id(int tkn_id)
 		symbol = "<<";
 	return (symbol);	
 }
+
+void	init_lexer_state(t_machine *lexer)
+{
+	lexer->insingleq = 0;
+	lexer->indoubleq = 0;
+	lexer->start = -1;
+}
+
+void	check_single_quote(t_machine *lexer, t_tools *shell, int *index)
+{
+	if (shell->input[*index] == '\'' && !lexer->insingleq && !lexer->indoubleq)
+	{	
+		lexer->insingleq = 1;
+		lexer->start = *index + 1;
+	}
+}
+
+void	close_single_quote(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
+{
+	if (shell->input[*index] == '\'' && lexer->insingleq)
+	{	
+		lexer->insingleq = 0;
+		tkn = init_token(ft_strndup(shell->input + lexer->start, *index - lexer->start), shell);
+		add_token_back(shell->tkn_list, tkn);
+		lexer->start = -1;
+	}
+}
+
+void	handle_double_quote(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
+{
+	if (shell->input[*index] == '"' && !lexer->insingleq && !ft_strchr(shell->input + lexer->start, '='))
+	{	
+		if (lexer->indoubleq && lexer->start != -1)
+		{	
+			tkn = init_token(ft_strndup(shell->input + lexer->start, *index - lexer->start), shell);
+			add_token_back(shell->tkn_list, tkn);
+			lexer->start = -1;
+		}
+		toggle_double_quote(lexer, &index);
+	}
+}
+
+void	toggle_double_quote(t_machine *lexer, int **index)
+{
+	lexer->indoubleq = !lexer->indoubleq;
+	if (lexer->indoubleq)
+		lexer->start = (**index) + 1;	
+}
+
+void	handle_expansion(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
+{
+	if (shell->input[*index] == '$' && !lexer->insingleq)
+	{
+		tkn = init_token(expand(ft_strndup(shell->input + *index + 1 ,word_len(shell->input, *index + 1)), shell->env_list), shell);
+		add_token_back(shell->tkn_list, tkn);
+		*index = *index + word_len(shell->input, *index);
+		lexer->start = -1;
+	}
+}
+
+void	redir_tokens(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
+{
+	if (shell->input[*index + 1] == '>' || shell->input[*index + 1] == '<')
+	{	
+		tkn = init_token(ft_strndup(shell->input + *index + 1, 2), shell);
+		add_token_back(shell->tkn_list, tkn);
+		*index += 2;
+	}
+	else if (shell->input[*index] == '>' || shell->input[*index] == '<')
+	{	
+		tkn = init_token(ft_strndup(shell->input + *index, 1), shell);
+		add_token_back(shell->tkn_list, tkn);
+	}
+	lexer->start = -1;
+}
+
+void	add_last_token(t_machine *lexer, t_token *tkn, t_tools *shell)
+{
+	if (lexer->start != -1)
+	{	
+		tkn = init_token(ft_strdup(shell->input + lexer->start), shell);
+		add_token_back(shell->tkn_list, tkn);
+	}
+}
+
+int	tkn_delimiter_found(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
+{
+	if ((shell->input[*index] == ' ' || shell->input[*index] == '>' || shell->input[*index] == '<' || shell->input[*index] == '|')
+		&& !lexer->insingleq && !lexer->indoubleq && lexer->start != -1)
+	{
+		tkn = init_token(ft_strndup(shell->input + lexer->start, *index - lexer->start), shell);
+		add_token_back(shell->tkn_list, tkn);
+		return (1);
+	}
+	return (0);
+}

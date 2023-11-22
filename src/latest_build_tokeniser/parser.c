@@ -167,15 +167,14 @@
 
 t_command	**parser(t_tools *shell)
 {
-    t_token		**tkn_list;
     t_command	**cmd;
 
 	cmd = NULL;
-	tkn_list = new_tokeniser(shell);
+	shell->tkn_list = new_tokeniser(shell);
 	if (shell->number_of_pipes == 0)
-		cmd = create_simple_cmd(tkn_list, shell);
+		cmd = create_simple_cmd(shell);
 	else if (shell->number_of_pipes > 0)
-		cmd = create_adv_cmd(tkn_list, shell);
+		cmd = create_adv_cmd(shell);
 	return (cmd);
 }
 
