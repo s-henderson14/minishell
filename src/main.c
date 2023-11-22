@@ -86,6 +86,6 @@ int main(int argc, char **argv, char **env)
 	free_double_arr(tools->env);
 	env_list_free(tools->env_list);
 	free(tools);
-	rl_clear_history();
+	clear_history();
 	//return(g_sig);
 }
