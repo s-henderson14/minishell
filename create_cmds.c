@@ -15,6 +15,7 @@ t_command	**create_simple_cmd(t_tools *shell)
 	{
 		if (tkn->type > 2 && tkn->next->type == 2)
 		{
+			printf("token content before add_redir= %s\n", tkn->next->content);
 			add_redir(cmd, tkn);
 			tkn = tkn->next;
 		}
