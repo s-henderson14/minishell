@@ -10,29 +10,24 @@ char* 	ft_strndup(const char* s, size_t n);
 
 t_token *new_tokeniser(t_tools *shell)
 {
-	//char	*tkn_string;
 	t_machine	*lexer;
-	//tkn_string = ft_strtrim(shell->input, " ");
-	// if (!tkn_string)
-	// 	return (NULL);
+	
 	lexer = ft_calloc(1, sizeof(t_machine));
-	shell->tkn_list = ft_calloc(1, sizeof(t_token));
-	if (shell->tkn_list == NULL)
-		return (NULL);
-		//return (free(tkn_string), NULL);
-	shell->tkn_list = build_tkn_list(lexer,shell);
-	// shell->tkn_list = build_tkn_list(tkn_string, shell);
-	//free(tkn_string);
+	build_tkn_list(lexer,shell);
 	return (shell->tkn_list);
 }
 
-t_token *build_tkn_list(t_machine *lexer, t_tools *shell)
+// t_token *build_tkn_list(t_machine *lexer, t_tools *shell)
+void	build_tkn_list(t_machine *lexer, t_tools *shell)
 {
 	t_token		*tkn;
 	int			i;
 
 	i = 0;
-	tkn = NULL;
+	tkn = ft_calloc(1, sizeof(t_token));
+	shell->tkn_list = ft_calloc(1, sizeof(t_token));
+		if (!shell->tkn_list)
+			return ;
 	init_lexer_state(lexer);
 	while (shell->input[i])
 	{
@@ -47,7 +42,6 @@ t_token *build_tkn_list(t_machine *lexer, t_tools *shell)
 		i++;
 	}
 	add_last_token(lexer, tkn, shell);
-	return (shell->tkn_list);
 }
 
 // t_token *build_tkn_list(t_tools *shell)

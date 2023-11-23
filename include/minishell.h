@@ -89,7 +89,7 @@ t_command   **parser(t_tools *shell);
 
 t_token 	*new_tokeniser(t_tools *shell);
 
-t_token		*build_tkn_list(t_machine *lexer, t_tools *shell);
+void		build_tkn_list(t_machine *lexer, t_tools *shell);
 
 // t_token		*build_tkn_list(char *input, t_tools *shell);
 

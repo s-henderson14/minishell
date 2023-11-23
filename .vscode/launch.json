@@ -9,7 +9,7 @@
       "stopAtEntry": false,
       "externalConsole": false,
       "cwd": "/home/sean/code/42/core/minishell_build_21_11_23",
-      "program": "/home/sean/code/42/core/minishell_build_21_11_23/minishell"
+      "program": "/home/sean/code/42/core/minishell_build_21_11_23/minishell",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
