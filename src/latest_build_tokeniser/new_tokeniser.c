@@ -1,8 +1,5 @@
 #include "../../include/minishell.h"
 
-//t_token	*build_tkn_list(char *input, t_token ***tkn_list, t_tools *shell);
-//t_token *build_tkn_list(char *input, t_tools *shell);
-
 t_token *init_token(char *content, t_tools *shell);
 
 char* 	ft_strndup(const char* s, size_t n);

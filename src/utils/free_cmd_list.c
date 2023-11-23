@@ -18,18 +18,18 @@ void env_list_free(t_env_node *env_list)
     }
 }
 
-void tkn_list_free(t_token **tkn_list)
+void tkn_list_free(t_token *tkn_list)
 {
     t_token *temp;
 
-    if (*tkn_list == NULL)
+    if (tkn_list == NULL)
         return ;
-    temp = *tkn_list;
+    temp = tkn_list;
     while (temp != NULL)
     {
-        temp = (*tkn_list)->next;
-        tkn_node_free(*tkn_list);
-        *tkn_list = temp;
+        temp = (tkn_list)->next;
+        tkn_node_free(tkn_list);
+        tkn_list = temp;
     }
 }
 
@@ -64,7 +64,8 @@ void	clean_redirection(t_redirection *node)
 		free(node);
 		node = nxt;
 	}
-	free(node);
+	if (node != NULL)
+		free(node);
 }
 
 void clean_cmd_list(t_command **cmd_list)

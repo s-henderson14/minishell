@@ -66,7 +66,7 @@ typedef struct s_tools
 	char *input;
 	char **env;
 	struct s_env_node *env_list;
-	t_token *tkn_list;		
+	t_token *tkn_list;
 	t_command *command_list;
 	int number_of_pipes; //this +1 will give us number of command we have in command_list
 	int number_of_redir;
@@ -131,9 +131,9 @@ char        *get_literal_token(char *input);
 
 void        assign_token_type(t_token *tkn, char *str, t_tools *shell);
 
-void		add_token_front(t_token *tkn_list, t_token *new_tkn);
+void        add_token_front(t_token *tkn_lst, t_token *new_tkn);
 
-void		add_token_back(t_token *tkn_list, t_token *new_tkn);
+void        add_token_back(t_token *tkn_lst, t_token *new_tkn);
 
 //**CREATE COMMANDS**//
 
@@ -291,7 +291,7 @@ void env_node_add_back(t_env_node *new_node, t_env_node *env_list);
 void env_node_free(t_env_node *node);
 void tkn_node_free(t_token *node);
 void env_list_free(t_env_node *env_list);
-void tkn_list_free(t_token **env_list);
+void tkn_list_free(t_token *env_list);
 
 //env_utils_2.c
 void print_value(char *key, t_tools *tools);
@@ -305,12 +305,16 @@ int error_exit(char *s, int exit_status);
 char *protect(char *arg);
 char **argv_duplicate_without_program_name(char **argv, int argc);
 char **array_dup(char **env);
+void	clean_split(char **arr);
+void	clean_redirection(t_redirection *node);
+void clean_cmd_list(t_command **cmd_list);
 
 //utils_list.c
 void    ft_lstadd_back_command(t_command *command_list, t_command *command);
 t_command   *ft_lstnew_command(char **dup, t_tools *tools);
 t_command   *init_single_command(t_tools *tools, char **temp_args);
 void command_list_free(t_command *command_list);
+void redir_list_free(t_redirection *redir_list);
 void    free_double_arr(char **arr);
 
 
