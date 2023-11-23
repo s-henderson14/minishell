@@ -13,12 +13,12 @@
 USER			:=	$(shell whoami)
 
 #codam setting
-export RL_LIB	:= -L/Users/$(USER)/.brew/opt/readline/lib
-export RL_INC	:= -I/Users/$(USER)/.brew/opt/readline/include
+# export RL_LIB	:= -L/Users/$(USER)/.brew/opt/readline/lib
+# export RL_INC	:= -I/Users/$(USER)/.brew/opt/readline/include
 
 #GUL home setting
-# export RL_LIB	:= -L/opt/homebrew/opt/readline/lib
-# export RL_INC	:= -I/opt/homebrew/opt/readline/include
+export RL_LIB	:= -L/opt/homebrew/opt/readline/lib
+export RL_INC	:= -I/opt/homebrew/opt/readline/include
 
 
 #SEAN home setting

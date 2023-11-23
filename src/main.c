@@ -62,7 +62,7 @@ static void shell_loop(t_tools *tools) // return int for errors
 			 // printf("command args = %s %d %s %d %s\n", tools->command_list->args[0], tools->command_list->redirection->type,
 			// 	  tools->command_list->redirection->next->file_name, tools->command_list->redirection->next->type, tools->command_list->redirection->next->file_name);
 			execute(tools);
-			tkn_list_free(tools->token_list);
+			tkn_list_free(tools->tkn_list);
 			//command_list_free(tools->command_list);
 			clean_cmd_list(&tools->command_list);
 			tools->command_list = NULL;
