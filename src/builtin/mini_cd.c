@@ -51,12 +51,12 @@ void	set_pwd_update_oldpwd(char *new_path, t_env_node *env_list)
 	if (chdir(new_path) == -1)
 	{
 		free(current_pwd);
-		free(new_path);
+		//free(new_path);
 		error_exit("mini_cd: No such a file or directory\n", 1);
 	}
 	change_value_of_env_key(new_path, "PWD", env_list);
 	change_value_of_env_key(current_pwd, "OLDPWD", env_list);
-	free(current_pwd);
+	//free(current_pwd);
 	//free(new_path);
 }
 

@@ -26,7 +26,7 @@ export RL_INC	:= -I/opt/homebrew/opt/readline/include
 # export CPPFLAGS="-I/usr/local/opt/readline/include"
 
 NAME	:= minishell
-CFLAGS	:= -g -Wall -Wextra -Werror #-fsanitize=address
+CFLAGS	:= -g -Wall -Wextra -Werror -fsanitize=address
 LIBS	:= -lreadline
 LIBFT	:= libft/libft.a
 HEADERS := -I libft -I include
