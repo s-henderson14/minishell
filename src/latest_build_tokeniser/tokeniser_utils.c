@@ -77,7 +77,7 @@ void	init_lexer_state(t_machine *lexer)
 void	check_single_quote(t_machine *lexer, t_tools *shell, int *index)
 {
 	if (shell->input[*index] == '\'' && !lexer->insingleq && !lexer->indoubleq)
-	{	
+	{
 		lexer->insingleq = 1;
 		lexer->start = *index + 1;
 	}
@@ -86,9 +86,10 @@ void	check_single_quote(t_machine *lexer, t_tools *shell, int *index)
 void	close_single_quote(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
 {
 	if (shell->input[*index] == '\'' && lexer->insingleq)
-	{	
+	{
 		lexer->insingleq = 0;
 		tkn = init_token(ft_strndup(shell->input + lexer->start, *index - lexer->start), shell);
+		printf("close_single_quote tkn = %s\n", tkn->content);
 		add_token_back(shell->tkn_list, tkn);
 		lexer->start = -1;
 	}
@@ -97,10 +98,11 @@ void	close_single_quote(t_machine *lexer, t_token *tkn, t_tools *shell, int *ind
 void	handle_double_quote(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
 {
 	if (shell->input[*index] == '"' && !lexer->insingleq && !ft_strchr(shell->input + lexer->start, '='))
-	{	
+	{
 		if (lexer->indoubleq && lexer->start != -1)
-		{	
+		{
 			tkn = init_token(ft_strndup(shell->input + lexer->start, *index - lexer->start), shell);
+			printf("handle_double_quote tkn = %s\n", tkn->content);
 			add_token_back(shell->tkn_list, tkn);
 			lexer->start = -1;
 		}
@@ -112,7 +114,7 @@ void	toggle_double_quote(t_machine *lexer, int **index)
 {
 	lexer->indoubleq = !lexer->indoubleq;
 	if (lexer->indoubleq)
-		lexer->start = (**index) + 1;	
+		lexer->start = (**index) + 1;
 }
 
 void	handle_expansion(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
@@ -120,8 +122,12 @@ void	handle_expansion(t_machine *lexer, t_token *tkn, t_tools *shell, int *index
 	if (shell->input[*index] == '$' && !lexer->insingleq)
 	{
 		tkn = init_token(expand(ft_strndup(shell->input + *index + 1 ,word_len(shell->input, *index + 1)), shell->env_list), shell);
+		printf("handle_expansion tkn = %s\n", tkn->content);
 		add_token_back(shell->tkn_list, tkn);
-		*index = *index + word_len(shell->input, *index);
+		*index = *index + word_len(shell->input, *index); //might exceed len(input)??
+		//YES, because a line above index is assigned to something, then in built_tokeen_list
+		//it increases with i++;
+
 		lexer->start = -1;
 	}
 }
@@ -129,13 +135,14 @@ void	handle_expansion(t_machine *lexer, t_token *tkn, t_tools *shell, int *index
 void	redir_tokens(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
 {
 	if (shell->input[*index + 1] == '>' || shell->input[*index + 1] == '<')
-	{	
+	{
 		tkn = init_token(ft_strndup(shell->input + *index + 1, 2), shell);
+		printf("redir tokens tkn = %s\n", tkn->content);
 		add_token_back(shell->tkn_list, tkn);
 		*index += 2;
 	}
 	else if (shell->input[*index] == '>' || shell->input[*index] == '<')
-	{	
+	{
 		tkn = init_token(ft_strndup(shell->input + *index, 1), shell);
 		add_token_back(shell->tkn_list, tkn);
 	}
@@ -145,9 +152,11 @@ void	redir_tokens(t_machine *lexer, t_token *tkn, t_tools *shell, int *index)
 void	add_last_token(t_machine *lexer, t_token *tkn, t_tools *shell)
 {
 	if (lexer->start != -1)
-	{	
+	{
 		tkn = init_token(ft_strdup(shell->input + lexer->start), shell);
+		printf("add_last_token tkn = %s\n", tkn->content);
 		add_token_back(shell->tkn_list, tkn);
+		printf("add_last_token 2 tkn = %s\n", tkn->content);
 	}
 }
 
@@ -157,7 +166,9 @@ int	tkn_delimiter_found(t_machine *lexer, t_token *tkn, t_tools *shell, int *ind
 		&& !lexer->insingleq && !lexer->indoubleq && lexer->start != -1)
 	{
 		tkn = init_token(ft_strndup(shell->input + lexer->start, *index - lexer->start), shell);
+		printf("tkn_delimiter_found tkn = %s\n", tkn->content);
 		add_token_back(shell->tkn_list, tkn);
+		printf("tkn_delimiter_found 2 tkn = %s\n", tkn->content);
 		return (1);
 	}
 	return (0);
